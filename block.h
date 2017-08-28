@@ -1,5 +1,5 @@
 /**
-  \brief    This is an abstract class representing one tetromino.
+  \brief    This is an abstract(not yet?) class representing one tetromino.
   **/
 
 #ifndef BLOCK_H
@@ -15,8 +15,14 @@ public:
     Block(QWidget *parent);
     ~Block();
     void move(int x, int y);    /// \brief mvoes the tyetromino by the x and y
-private:
-    QVector<QSharedPointer<QLabel> > squares;
+protected:
+    QVector<QSharedPointer<QLabel> > squares; /// \brief squares are parts of each tetromino
+};
+
+class I: public Block
+{
+public:
+    I();
 };
 
 #endif // BLOCK_H

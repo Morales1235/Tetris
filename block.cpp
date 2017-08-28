@@ -16,5 +16,10 @@ Block::~Block()
 
 void Block::move(int x, int y)
 {
+    for (auto i: squares) i->move(x, y);
+}
+
+I::I()
+{
 
 }
