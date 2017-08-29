@@ -11,12 +11,26 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background.scaled(ui->backgroundLabel->size(), Qt::KeepAspectRatio));
 
+    currentBlock = new Block();
 
-    I I1(this, QPoint(90, 10));
-    I1.display();
 }
 
 Widget::~Widget()
 {
     delete ui;
+    //delete currentBlock;
+}
+void Widget::keyPressEvent(QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Right) ;
+}
+
+void Widget::setCurrentBlock(Block * block)
+{
+    currentBlock = block;
+}
+
+void Widget::on_pushButton_clicked()
+{
+    currentBlock->move(0, 40);
 }

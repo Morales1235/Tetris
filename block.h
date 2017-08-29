@@ -12,15 +12,18 @@ class Block
 {
 public:
     Block();
+    Block(const Block &other);
     ~Block();
     void move(int & x, int & y);    /// \brief mvoes the tyetromino by the x and y
+    void move(int x, int y);        /// \brief mvoes the tetromino by the x and y
     void move(QPoint & point);    /// \brief mvoes the tetromino by the QPoint
+    void setPos(QPoint & leftTop);
 protected:
     QVector<QLabel*> squares;
     void squaresInit(QWidget * parent);
+    QPoint pos;
+    int matrixI[4][4] = {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 private:
-    int m_x;        /// \param m_x x coordinate of block
-    int m_y;        /// \param m_y y coordinate of block
 };
 
 class I: public Block
@@ -28,7 +31,9 @@ class I: public Block
 public:
     I(QWidget * parent, QPoint & position);
     I(QWidget * parent, QPoint position);
+    //methods
     void display();
+    //variables
 };
 
 #endif // BLOCK_H

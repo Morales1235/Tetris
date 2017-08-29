@@ -4,6 +4,11 @@ Block::Block()
 {
 }
 
+Block::Block(const Block &other)
+{
+
+}
+
 Block::~Block()
 {
     squares.clear();
@@ -11,22 +16,51 @@ Block::~Block()
 
 void Block::move(int & x, int & y)
 {
-    m_x += x;
-    m_y += y;
-    for (auto i: squares) i->move(x, y);
+    pos += QPoint(x, y);
+    for (auto i: squares) i->move(pos);
+}
+
+void Block::move(int x, int y)
+{
+    pos += QPoint(x, y);
+    int i = 0;
+    for (int m = 0; m < 4; m++)
+    {
+        for (int n = 0; n < 4; n++)
+        {
+            if (matrixI[m][n])
+            {
+                squares[i]->move(pos + QPoint(n, m) * 40);
+                i++;
+            }
+        }
+    }
 }
 
 void Block::move(QPoint & point)
 {
-    for (auto s: squares) s->move(point);
+    pos += point;
+    int i = 0;
+    for (int m = 0; m < 4; m++)
+    {
+        for (int n = 0; n < 4; n++)
+        {
+            if (matrixI[m][n])
+            {
+                squares[i]->move(pos + QPoint(n, m) * 40);
+                i++;
+            }
+        }
+    }
 }
+
 
 void Block::squaresInit(QWidget *parent)
 {
     for (int i = 0; i < 4; i++)
     {
         squares.push_back(new QLabel(parent));
-        squares.last()->resize(QSize(40, 40));
+        squares[i]->resize(QSize(40, 40));
     }
 }
 
