@@ -22,7 +22,16 @@ Widget::~Widget()
 }
 void Widget::keyPressEvent(QKeyEvent * event)
 {
-    if (event->key() == Qt::Key_Right) ;
+    switch (event->key()) {
+    case 0x41:
+        currentBlock->move<int>(-40, 0);
+        break;
+    case 0x44:
+        currentBlock->move<int>(40, 0);
+        break;
+    default:
+        break;
+    }
 }
 
 void Widget::setCurrentBlock(Block * block)

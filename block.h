@@ -32,15 +32,12 @@ public:
         }
     }
     void move(QPoint & point);    /// \brief mvoes the tetromino by the QPoint
-    void setPos(QPoint & leftTop);
-    std::array<std::array<bool, 3>, 3> matrix = {{{{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}}};
 protected:
-    QVector<QLabel*> squares;
-    void squaresInit(QWidget * parent);
-    QPoint pos;
-    //bool matrix[4][4] = {{0, 0, 0, 0}, {1, 1, 1, 1}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-    virtual std::array<std::array<bool, 3>, 3> g_matrix();
-private:
+    QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
+    void squaresInit(QWidget * parent); /// \brief adds squares to QVector and sets it size
+    QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
+    virtual std::array<std::array<bool, 3>, 3> g_matrix(); /// \brief returns matrix representing tetromino
+    std::array<std::array<bool, 3>, 3> matrix = {{{{0, 0, 0}}, {{0, 0, 0}}, {{0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
 };
 
 
@@ -51,12 +48,11 @@ public:
     I(QWidget * parent, QPoint & position);
     I(QWidget * parent, QPoint position);
     //methods
-    void display();
+    void display(); /// \brief adds graphics to tetromino
     //variables
+    std::array<std::array<bool, 3>, 3> matrix = {{{{1, 1, 0}}, {{0, 1, 1}}, {{0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
 protected:
-    std::array<std::array<bool, 3>, 3> g_matrix();
-private:
-    std::array<std::array<bool, 3>, 3> matrix = {{{{1, 1, 0}}, {{0, 1, 1}}, {{0, 0, 0}}}};
+    std::array<std::array<bool, 3>, 3> g_matrix();          /// \brief returns matrix representing tetromino
 };
 
 
