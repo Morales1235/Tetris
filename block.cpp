@@ -49,25 +49,18 @@ std::array<std::array<bool, 3>, 3> Block::g_matrix()
     return matrix;
 }
 
-I::I(QWidget * parent, QPoint & position)
+Z::Z(QWidget * parent, QPoint & position)
 {
     squaresInit(parent);
     move(position);
 }
 
-I::I(QWidget * parent, QPoint position)
-{
-    squaresInit(parent);
-    move(position);
-}
-
-
-void I::display()
+void Z::display()
 {
     for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(s->size(), Qt::KeepAspectRatio));
 }
 
-std::array<std::array<bool, 3>, 3> I::g_matrix()
+std::array<std::array<bool, 3>, 3> Z::g_matrix()
 {
     return this->matrix;
 }

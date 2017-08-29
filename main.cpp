@@ -2,16 +2,19 @@
 #include <QApplication>
 #include <iostream>
 
+QPoint next;
+QPoint startPoint = QPoint(130, 30);
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Widget w;
 
 
-    I I1(dynamic_cast<QWidget *>(&w), QPoint(130, -10));
-    I1.display();
+    Z * z1 = new Z(dynamic_cast<QWidget *>(&w), startPoint);
+    z1->display();
     //w.setCurrentBlock(dynamic_cast<I*>(&w));
-    w.setCurrentBlock(&I1);
+    w.setCurrentBlock(z1);
 
     w.show();
 

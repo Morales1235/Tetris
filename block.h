@@ -7,6 +7,7 @@
 
 #include <QLabel>
 #include <QVector>
+#include <iostream>
 
 class Block
 {
@@ -42,11 +43,10 @@ protected:
 
 
 
-class I: public Block
+class Z: public Block
 {
 public:
-    I(QWidget * parent, QPoint & position);
-    I(QWidget * parent, QPoint position);
+    Z(QWidget * parent, QPoint & position);
     //methods
     void display(); /// \brief adds graphics to tetromino
     //variables
