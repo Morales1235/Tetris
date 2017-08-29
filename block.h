@@ -12,17 +12,23 @@ class Block
 {
 public:
     Block();
-    Block(QWidget *parent);
     ~Block();
-    void move(int x, int y);    /// \brief mvoes the tyetromino by the x and y
+    void move(int & x, int & y);    /// \brief mvoes the tyetromino by the x and y
+    void move(QPoint & point);    /// \brief mvoes the tetromino by the QPoint
 protected:
-    QVector<QSharedPointer<QLabel> > squares; /// \brief squares are parts of each tetromino
+    QVector<QLabel*> squares;
+    void squaresInit(QWidget * parent);
+private:
+    int m_x;        /// \param m_x x coordinate of block
+    int m_y;        /// \param m_y y coordinate of block
 };
 
 class I: public Block
 {
 public:
-    I();
+    I(QWidget * parent, QPoint & position);
+    I(QWidget * parent, QPoint position);
+    void display();
 };
 
 #endif // BLOCK_H

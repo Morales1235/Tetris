@@ -10,6 +10,10 @@ Widget::Widget(QWidget *parent) :
     //setting the background image
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background.scaled(ui->backgroundLabel->size(), Qt::KeepAspectRatio));
+
+
+    I I1(this, QPoint(90, 10));
+    I1.display();
 }
 
 Widget::~Widget()

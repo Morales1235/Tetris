@@ -1,6 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include "block.h"
 #include <QWidget>
 
 namespace Ui {
