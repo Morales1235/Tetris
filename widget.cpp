@@ -32,5 +32,5 @@ void Widget::setCurrentBlock(Block * block)
 
 void Widget::on_pushButton_clicked()
 {
-    currentBlock->move(0, 40);
+    currentBlock->move<int>(0, 40);
 }

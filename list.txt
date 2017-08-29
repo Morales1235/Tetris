@@ -1,9 +1,0 @@
-block.cpp
-block.h
-main.cpp
-moc_widget.cpp
-tetris.pro
-ui_widget.h
-widget.cpp
-widget.h
-widget.ui
