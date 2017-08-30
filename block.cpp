@@ -14,9 +14,6 @@ Block::~Block()
     squares.clear();
 }
 
-//template<class T>
-//void Block::move(T x, T y);
-
 void Block::move(QPoint & point)
 {
     pos += point;
@@ -34,6 +31,16 @@ void Block::move(QPoint & point)
     }
 }
 
+void Block::setPosition(QPoint &point)
+{
+    pos = QPoint(0, 0);
+    move(point);
+}
+
+QPoint Block::g_pos()
+{
+    return pos;
+}
 
 void Block::squaresInit(QWidget *parent)
 {
@@ -44,23 +51,39 @@ void Block::squaresInit(QWidget *parent)
     }
 }
 
-std::array<std::array<bool, 3>, 3> Block::g_matrix()
+std::array<std::array<bool, 4>, 4> Block::g_matrix()
 {
     return matrix;
+}
+
+I::I(QWidget *parent, QPoint &position)
+{
+    squaresInit(parent);
+    setPosition(position);
+}
+
+void I::display()
+{
+    for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(s->size(), Qt::KeepAspectRatio));
+}
+
+std::array<std::array<bool, 4>, 4> I::g_matrix()
+{
+    return this->matrix;
 }
 
 Z::Z(QWidget * parent, QPoint & position)
 {
     squaresInit(parent);
-    move(position);
+    setPosition(position);
 }
 
 void Z::display()
 {
-    for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(s->size(), Qt::KeepAspectRatio));
+    for (auto s: squares) s->setPixmap(QPixmap("./graphics/red.jpg").scaled(s->size(), Qt::KeepAspectRatio));
 }
 
-std::array<std::array<bool, 3>, 3> Z::g_matrix()
+std::array<std::array<bool, 4>, 4> Z::g_matrix()
 {
     return this->matrix;
 }
