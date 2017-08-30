@@ -57,7 +57,7 @@ void Block::move(QPoint & point)
         {
             if (g_matrix()[m][n])
             {
-                squares[i]->move(pos + QPoint(n, m) * 40);
+                squares[i]->move(pos + QPoint(n, m) * blockSize.width());
                 i++;
             }
         }
@@ -80,8 +80,13 @@ void Block::squaresInit(QWidget *parent)
     for (int i = 0; i < 4; i++)
     {
         squares.push_back(new QLabel(parent));
-        squares[i]->resize(QSize(40, 40));
+        squares[i]->resize(blockSize);
     }
+}
+
+bool Block::leftBorder()
+{
+    return ((pos.x() + (left * blockSize.width()) == 10));
 }
 
 myMatrix Block::g_matrix()
@@ -92,9 +97,9 @@ myMatrix Block::g_matrix()
 void Block::transponse()
 {
     myMatrix newMatrix;
-    for (int i = 0; i < matrix.size(); i++)
+    for (unsigned int i = 0; i < matrix.size(); i++)
     {
-        for (int j = 0; j < matrix[0].size(); j++)
+        for (unsigned int j = 0; j < matrix[0].size(); j++)
         {
             newMatrix[i][j] = matrix[j][i];
         }

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <typeinfo>
 
+extern QSize blockSize;
 
 typedef std::array<std::array<bool, 5>, 5> myMatrix;
 
@@ -24,6 +25,7 @@ public:
     template<class T>
     void move(T x, T y)     /// \brief mvoes the tetromino by the x and y
     {
+        bool flag;
         pos += QPoint(int(x), int(y));
         int i = 0;
         for (unsigned int m = 0; m < g_matrix().size(); m++)
@@ -32,10 +34,12 @@ public:
             {
                 if (g_matrix()[m][n])
                 {
-                    squares[i]->move(pos + QPoint(n, m) * 40);
-                    width = n + 1;
-                    height = m + 1;
-                    std::cout << "Width: " << width << ". Height: " << height << std::endl;
+                    squares[i]->move(pos + QPoint(n, m) * blockSize.width());
+                    if (left == 0 && flag == 0) {
+                        left = n;
+                        flag = true;}
+                    else right = n;
+                    std::cout << "Left:  " << left << ". Right: " << right << std::endl;
                     i++;
                 }
             }
@@ -55,7 +59,8 @@ public:
     void transponse();      /// \brief transposing the matrix of tetromino
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
     void verticalReflection();        /// \brief Reflects the matrix by vertical axis
-    int g_shape();
+    int g_shape();                  /// \return the number of the shape(matrix)
+    bool leftBorder();              /// \brief checks if tetromino touched left border of playground
     //members
 protected:
     //methods
@@ -64,8 +69,8 @@ protected:
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
     QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
-    int width;              /// \param width is the width of tetromino
-    int height;             /// \param height is the height of tetromino
+    int left = 0;              /// \param width is the width of tetromino
+    int right = 0;             /// \param height is the height of tetromino
     int shape;              /// \param fro choosing which matrix represents shape
 
     //!Matrixes used to represent each tetromino
