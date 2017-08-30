@@ -8,13 +8,16 @@
 #include <QLabel>
 #include <QVector>
 #include <iostream>
+#include <typeinfo>
 
-typedef std::array<std::array<bool, 4>, 4> myMatrix;
+
+typedef std::array<std::array<bool, 5>, 5> myMatrix;
 
 class Block
 {
 public:
     Block();
+    Block(QWidget * parent, QPoint & position, QPixmap color, int shape);
     Block(const Block &other);
     ~Block();
     //methods
@@ -47,20 +50,65 @@ public:
     }
     void setPosition(QPoint & point);   /// \brief moves the tetromino to the point
     QPoint g_pos();                     /// \return the position of tetromino
-    virtual void change_matrix(myMatrix newMatrix) = 0;
-    virtual myMatrix g_matrix(); /// \brief returns matrix representing tetromino
+    void change_matrix(myMatrix newMatrix);  /// \brief change the matrix representing tetromino
+    myMatrix g_matrix(); /// \brief returns matrix representing tetromino
+    void transponse();      /// \brief transposing the matrix of tetromino
+    void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
     //members
 protected:
     //methods
     void squaresInit(QWidget * parent); /// \brief adds squares to QVector and sets it size
     //members
-    myMatrix matrix = {{{{0, 0, 0, 0}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
+    myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
     QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
     int width;              /// \param width is the width of tetromino
     int height;             /// \param height is the height of tetromino
-};
 
+    //!Matrixes used to represent each tetromino
+    myMatrix matrix_I = {{{{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{1, 1, 1, 1, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}}}};
+
+    myMatrix matrix_J = {{{{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{0, 1, 1, 1, 0}},
+                          {{0, 0, 0, 1, 0}},
+                          {{0, 0, 0, 0, 0}}}};
+
+    myMatrix matrix_L = {{{{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{0, 1, 1, 1, 0}},
+                          {{0, 1, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}}}};
+
+    myMatrix matrix_O = {{{{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{0, 1, 1, 0, 0}},
+                          {{0, 1, 1, 0, 0}},
+                          {{0, 0, 0, 0, 0}}}};
+
+    myMatrix matrix_S = {{{{0, 0, 0, 0, 0}},
+                          {{0, 0, 1, 1, 0}},
+                          {{0, 1, 1, 0, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}}}};
+
+    myMatrix matrix_T = {{{{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{0, 1, 1, 1, 0}},
+                          {{0, 0, 1, 0, 0}},
+                          {{0, 0, 0, 0, 0}}}};
+
+    myMatrix matrix_Z = {{{{0, 0, 0, 0, 0}},
+                          {{0, 1, 1, 0, 0}},
+                          {{0, 0, 1, 1, 0}},
+                          {{0, 0, 0, 0, 0}},
+                          {{0, 0, 0, 0, 0}}}};
+};
+/*
 class I: public Block
 {
 public:
@@ -83,8 +131,9 @@ public:
     myMatrix matrix = {{{{0, 0, 0, 0}}, {{1, 1, 0, 0}}, {{0, 1, 1, 0}}, {{0, 0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
 protected:
     myMatrix g_matrix();          /// \brief returns matrix representing tetromino
-    void change_matrix(myMatrix newMatrix);
+    friend void change_matrix(Block block, myMatrix newMatrix);
 };
 
-
+void change_matrix(Block block, myMatrix newMatrix);
+*/
 #endif // BLOCK_H

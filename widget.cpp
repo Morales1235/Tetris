@@ -1,6 +1,5 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include "matrix_transformations.cpp"
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -12,14 +11,12 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background.scaled(ui->backgroundLabel->size(), Qt::KeepAspectRatio));
 
-    //currentBlock = new Block();
 
 }
 
 Widget::~Widget()
 {
     delete ui;
-    //delete currentBlock;
 }
 
 void Widget::keyPressEvent(QKeyEvent * event)
@@ -32,8 +29,8 @@ void Widget::keyPressEvent(QKeyEvent * event)
         currentBlock->move<int>(40, 0);
         break;
     case 0x51:      //key Q
-        currentBlock->change_matrix(transponse(currentBlock->g_matrix()));
-        currentBlock->change_matrix(horizontalReflection(currentBlock->g_matrix()));
+        currentBlock->transponse();
+        currentBlock->horizontalReflection();
         currentBlock->move(0,0);
         break;
     default:

@@ -4,6 +4,20 @@ Block::Block()
 {
 }
 
+Block::Block(QWidget *parent, QPoint &position, QPixmap color, int shape)
+{
+    switch (shape) {
+    case 1:
+        change_matrix(matrix_Z);
+        break;
+    default:
+        break;
+    }
+    squaresInit(parent);
+    setPosition(position);
+    for (auto s: squares) s->setPixmap(color);
+}
+
 Block::Block(const Block &other)
 {
 
@@ -56,7 +70,38 @@ myMatrix Block::g_matrix()
     return matrix;
 }
 
-/*void Block::change_matrix(myMatrix newMatrix)
+void Block::transponse()
+{
+    int m = matrix.size();
+    int n = matrix[0].size();
+    myMatrix newMatrix;
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            newMatrix[i][j] = matrix[j][i];
+        }
+    }
+    change_matrix(newMatrix);
+}
+
+void Block::horizontalReflection()     /// \brief reflection of the matrix by horizontal axes
+{
+    int m = matrix.size();
+    int n = matrix[0].size();
+    bool temp = 0;
+    for (int i = 0; i < m/2; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            temp = matrix[i][j];
+            matrix[i][j] = matrix[m - (1 + i)][j];
+            matrix[m - (1 + i)][j] = temp;
+        }
+    }
+}
+
+void Block::change_matrix(myMatrix newMatrix)
 {
     for (int i = 0; i < 4; i++)
     {
@@ -65,8 +110,8 @@ myMatrix Block::g_matrix()
             matrix[i][j] = newMatrix[i][j];
         }
     }
-}*/
-
+}
+/*
 I::I(QWidget *parent, QPoint &position)
 {
     squaresInit(parent);
@@ -99,13 +144,13 @@ myMatrix Z::g_matrix()
     return this->matrix;
 }
 
-void Z::change_matrix(myMatrix newMatrix)
+void change_matrix(Block block, myMatrix newMatrix)
 {
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
         {
-            matrix[i][j] = newMatrix[i][j];
+            block.matrix[i][j] = newMatrix[i][j];
         }
     }
-}
+}*/
