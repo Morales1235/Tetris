@@ -4,10 +4,29 @@ Block::Block()
 {
 }
 
-Block::Block(QWidget *parent, QPoint &position, QPixmap color, int shape)
+Block::Block(QWidget *parent, QPoint &position, QPixmap color, int shape):
+shape(shape)
 {
     switch (shape) {
     case 1:
+        change_matrix(matrix_I);
+        break;
+    case 2:
+        change_matrix(matrix_J);
+        break;
+    case 3:
+        change_matrix(matrix_L);
+        break;
+    case 4:
+        change_matrix(matrix_O);
+        break;
+    case 5:
+        change_matrix(matrix_S);
+        break;
+    case 6:
+        change_matrix(matrix_T);
+        break;
+    case 7:
         change_matrix(matrix_Z);
         break;
     default:
@@ -83,7 +102,7 @@ void Block::transponse()
     change_matrix(newMatrix);
 }
 
-void Block::horizontalReflection()     /// \brief reflection of the matrix by horizontal axes
+void Block::horizontalReflection()
 {
     bool temp = 0;
     int m = matrix.size();
@@ -113,6 +132,11 @@ void Block::verticalReflection()
             matrix[j][n - (1 + i)] = temp;
         }
     }
+}
+
+int Block::g_shape()
+{
+    return shape;
 }
 
 void Block::change_matrix(myMatrix newMatrix)

@@ -55,6 +55,7 @@ public:
     void transponse();      /// \brief transposing the matrix of tetromino
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
     void verticalReflection();        /// \brief Reflects the matrix by vertical axis
+    int g_shape();
     //members
 protected:
     //methods
@@ -65,8 +66,12 @@ protected:
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
     int width;              /// \param width is the width of tetromino
     int height;             /// \param height is the height of tetromino
+    int shape;              /// \param fro choosing which matrix represents shape
 
     //!Matrixes used to represent each tetromino
+    //! Which matrix must be the same, because of definition of objects... blah
+    //! They are 5x5 to fit all matrixes - biggest (I) has 4
+    //! But it also gives 3x3 tetrominos posibility to rotate around its middle square
     myMatrix matrix_I = {{{{0, 0, 0, 0, 0}},
                           {{0, 0, 0, 0, 0}},
                           {{1, 1, 1, 1, 0}},

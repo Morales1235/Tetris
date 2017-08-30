@@ -29,14 +29,16 @@ void Widget::keyPressEvent(QKeyEvent * event)
         currentBlock->move<int>(40, 0);
         break;
     case 0x45:      //key E
+        if (currentBlock->g_shape() != 4) { //! Fourth block is O, it should't be rotating in 5x5 matrix
         currentBlock->transponse();
-        currentBlock->verticalReflection();
-        currentBlock->move(0, 0);
+        if (currentBlock->g_shape() != 1) currentBlock->verticalReflection(); //! Don't know why I block is breaking every second rotate. Transponse is enough for that block
+        currentBlock->move(0, 0);}
         break;
     case 0x51:      //key Q
+        if (currentBlock->g_shape() != 4) {
         currentBlock->transponse();
-        currentBlock->horizontalReflection();
-        currentBlock->move(0,0);
+        if (currentBlock->g_shape() != 1) currentBlock->horizontalReflection();
+        currentBlock->move(0,0);}
         break;
     default:
         break;

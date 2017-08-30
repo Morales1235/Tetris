@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     Widget w;
 
-    Block * Z = new Block(dynamic_cast<QWidget *>(&w), startPoint, colors["light_blue"], 1);
+    Block * Z = new Block(dynamic_cast<QWidget *>(&w), startPoint, colors["light_blue"], 4);
     w.setCurrentBlock(Z);
 
     w.show();
