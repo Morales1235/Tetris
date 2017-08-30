@@ -9,6 +9,8 @@
 #include <QVector>
 #include <iostream>
 
+typedef std::array<std::array<bool, 4>, 4> myMatrix;
+
 class Block
 {
 public:
@@ -45,15 +47,16 @@ public:
     }
     void setPosition(QPoint & point);   /// \brief moves the tetromino to the point
     QPoint g_pos();                     /// \return the position of tetromino
+    virtual void change_matrix(myMatrix newMatrix) = 0;
+    virtual myMatrix g_matrix(); /// \brief returns matrix representing tetromino
     //members
 protected:
     //methods
     void squaresInit(QWidget * parent); /// \brief adds squares to QVector and sets it size
-    virtual std::array<std::array<bool, 4>, 4> g_matrix(); /// \brief returns matrix representing tetromino
     //members
+    myMatrix matrix = {{{{0, 0, 0, 0}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
     QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
-    std::array<std::array<bool, 4>, 4> matrix = {{{{0, 0, 0, 0}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
     int width;              /// \param width is the width of tetromino
     int height;             /// \param height is the height of tetromino
 };
@@ -65,9 +68,9 @@ public:
     //methods
     void display(); /// \brief adds graphics to tetromino
     //variables
-    std::array<std::array<bool, 4>, 4> matrix = {{{{0, 0, 0, 0}}, {{1, 1, 1, 1}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
+    myMatrix matrix = {{{{0, 0, 0, 0}}, {{1, 1, 1, 1}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
 protected:
-    std::array<std::array<bool, 4>, 4> g_matrix();          /// \brief returns matrix representing tetromino
+    myMatrix g_matrix();          /// \return matrix representing tetromino
 };
 
 class Z: public Block
@@ -77,9 +80,10 @@ public:
     //methods
     void display(); /// \brief adds graphics to tetromino
     //variables
-    std::array<std::array<bool, 4>, 4> matrix = {{{{0, 0, 0, 0}}, {{1, 1, 0, 0}}, {{0, 1, 1, 0}}, {{0, 0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
+    myMatrix matrix = {{{{0, 0, 0, 0}}, {{1, 1, 0, 0}}, {{0, 1, 1, 0}}, {{0, 0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
 protected:
-    std::array<std::array<bool, 4>, 4> g_matrix();          /// \brief returns matrix representing tetromino
+    myMatrix g_matrix();          /// \brief returns matrix representing tetromino
+    void change_matrix(myMatrix newMatrix);
 };
 
 

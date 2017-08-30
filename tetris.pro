@@ -26,7 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         widget.cpp \
-    block.cpp
+    block.cpp \
+    matrix_transformations.cpp
 
 HEADERS  += widget.h \
     block.h \

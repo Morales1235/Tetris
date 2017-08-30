@@ -51,10 +51,21 @@ void Block::squaresInit(QWidget *parent)
     }
 }
 
-std::array<std::array<bool, 4>, 4> Block::g_matrix()
+myMatrix Block::g_matrix()
 {
     return matrix;
 }
+
+/*void Block::change_matrix(myMatrix newMatrix)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            matrix[i][j] = newMatrix[i][j];
+        }
+    }
+}*/
 
 I::I(QWidget *parent, QPoint &position)
 {
@@ -67,7 +78,7 @@ void I::display()
     for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(s->size(), Qt::KeepAspectRatio));
 }
 
-std::array<std::array<bool, 4>, 4> I::g_matrix()
+myMatrix I::g_matrix()
 {
     return this->matrix;
 }
@@ -83,7 +94,18 @@ void Z::display()
     for (auto s: squares) s->setPixmap(QPixmap("./graphics/red.jpg").scaled(s->size(), Qt::KeepAspectRatio));
 }
 
-std::array<std::array<bool, 4>, 4> Z::g_matrix()
+myMatrix Z::g_matrix()
 {
     return this->matrix;
+}
+
+void Z::change_matrix(myMatrix newMatrix)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            matrix[i][j] = newMatrix[i][j];
+        }
+    }
 }

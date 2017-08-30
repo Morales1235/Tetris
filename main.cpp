@@ -3,7 +3,7 @@
 #include <iostream>
 
 QPoint next;
-QPoint startPoint = QPoint(130, 30);
+QPoint startPoint = QPoint(130, -10);
 
 int main(int argc, char *argv[])
 {
