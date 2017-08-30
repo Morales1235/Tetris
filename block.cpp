@@ -72,12 +72,10 @@ myMatrix Block::g_matrix()
 
 void Block::transponse()
 {
-    int m = matrix.size();
-    int n = matrix[0].size();
     myMatrix newMatrix;
-    for (int i = 0; i < m; i++)
+    for (int i = 0; i < matrix.size(); i++)
     {
-        for (int j = 0; j < n; j++)
+        for (int j = 0; j < matrix[0].size(); j++)
         {
             newMatrix[i][j] = matrix[j][i];
         }
@@ -87,9 +85,9 @@ void Block::transponse()
 
 void Block::horizontalReflection()     /// \brief reflection of the matrix by horizontal axes
 {
+    bool temp = 0;
     int m = matrix.size();
     int n = matrix[0].size();
-    bool temp = 0;
     for (int i = 0; i < m/2; i++)
     {
         for (int j = 0; j < n; j++)
@@ -97,6 +95,22 @@ void Block::horizontalReflection()     /// \brief reflection of the matrix by ho
             temp = matrix[i][j];
             matrix[i][j] = matrix[m - (1 + i)][j];
             matrix[m - (1 + i)][j] = temp;
+        }
+    }
+}
+
+void Block::verticalReflection()
+{
+    bool temp = 0;
+    int m = matrix.size();
+    int n = matrix[0].size();
+    for (int i = 0; i < n/2; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            temp = matrix[j][i];
+            matrix[j][i] = matrix[j][n - (1 + i)];
+            matrix[j][n - (1 + i)] = temp;
         }
     }
 }

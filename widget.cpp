@@ -28,6 +28,11 @@ void Widget::keyPressEvent(QKeyEvent * event)
     case 0x44:      //key D
         currentBlock->move<int>(40, 0);
         break;
+    case 0x45:      //key E
+        currentBlock->transponse();
+        currentBlock->verticalReflection();
+        currentBlock->move(0, 0);
+        break;
     case 0x51:      //key Q
         currentBlock->transponse();
         currentBlock->horizontalReflection();

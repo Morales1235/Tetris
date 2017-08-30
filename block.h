@@ -54,6 +54,7 @@ public:
     myMatrix g_matrix(); /// \brief returns matrix representing tetromino
     void transponse();      /// \brief transposing the matrix of tetromino
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
+    void verticalReflection();        /// \brief Reflects the matrix by vertical axis
     //members
 protected:
     //methods
