@@ -9,25 +9,25 @@ shape(shape)
 {
     switch (shape) {
     case 1:
-        change_matrix(matrix_I);
+        matrix = matrix_I;
         break;
     case 2:
-        change_matrix(matrix_J);
+        matrix = matrix_J;
         break;
     case 3:
-        change_matrix(matrix_L);
+        matrix = matrix_L;
         break;
     case 4:
-        change_matrix(matrix_O);
+        matrix = matrix_O;
         break;
     case 5:
-        change_matrix(matrix_S);
+        matrix = matrix_S;
         break;
     case 6:
-        change_matrix(matrix_T);
+        matrix = matrix_T;
         break;
     case 7:
-        change_matrix(matrix_Z);
+        matrix = matrix_Z;
         break;
     default:
         break;
@@ -93,21 +93,6 @@ void Block::squaresInit(QWidget *parent)
     }
 }
 
-bool Block::leftBorder()
-{
-    return (pos.x() + (left * blockSize.width()) == 10);
-}
-
-bool Block::rightBorder()
-{
-    return (pos.x() + ((right + 1) * blockSize.width()) == 410);
-}
-
-bool Block::isAway()
-{
-    return ((pos.x() + (left * blockSize.width()) < 10) || (pos.x() + ((right + 1) * blockSize.width()) > 410));
-}
-
 myMatrix Block::g_matrix()
 {
     return matrix;
@@ -123,7 +108,8 @@ void Block::transponse()
             newMatrix[i][j] = matrix[j][i];
         }
     }
-    change_matrix(newMatrix);
+    //change_matrix(newMatrix);
+    matrix = newMatrix;
     move(0, 0);
 }
 
@@ -166,7 +152,22 @@ int Block::g_shape()
     return shape;
 }
 
-void Block::change_matrix(myMatrix newMatrix)
+bool Block::leftBorder()
+{
+    return (pos.x() + (left * blockSize.width()) == 10);
+}
+
+bool Block::rightBorder()
+{
+    return (pos.x() + ((right + 1) * blockSize.width()) == 410);
+}
+
+bool Block::isAway()
+{
+    return ((pos.x() + (left * blockSize.width()) < 10) || (pos.x() + ((right + 1) * blockSize.width()) > 410));
+}
+
+myMatrix Block::operator= (const myMatrix & newMatrix)
 {
     for (int i = 0; i < 4; i++)
     {
@@ -176,46 +177,5 @@ void Block::change_matrix(myMatrix newMatrix)
         }
     }
 }
-/*
-I::I(QWidget *parent, QPoint &position)
-{
-    squaresInit(parent);
-    setPosition(position);
-}
 
-void I::display()
-{
-    for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(s->size(), Qt::KeepAspectRatio));
-}
 
-myMatrix I::g_matrix()
-{
-    return this->matrix;
-}
-
-Z::Z(QWidget * parent, QPoint & position)
-{
-    squaresInit(parent);
-    setPosition(position);
-}
-
-void Z::display()
-{
-    for (auto s: squares) s->setPixmap(QPixmap("./graphics/red.jpg").scaled(s->size(), Qt::KeepAspectRatio));
-}
-
-myMatrix Z::g_matrix()
-{
-    return this->matrix;
-}
-
-void change_matrix(Block block, myMatrix newMatrix)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            block.matrix[i][j] = newMatrix[i][j];
-        }
-    }
-}*/

@@ -21,6 +21,7 @@ public:
     Block(QWidget * parent, QPoint & position, QPixmap color, int shape);
     Block(const Block &other);
     ~Block();
+
     //methods
     template<class T>
     void move(T x, T y)     /// \brief mvoes the tetromino by the x and y
@@ -57,7 +58,6 @@ public:
     }
     void setPosition(QPoint & point);   /// \brief moves the tetromino to the point
     QPoint g_pos();                     /// \return the position of tetromino
-    void change_matrix(myMatrix newMatrix);  /// \brief change the matrix representing tetromino
     myMatrix g_matrix(); /// \brief returns matrix representing tetromino
     void transponse();      /// \brief transposing the matrix of tetromino
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
@@ -66,10 +66,15 @@ public:
     bool leftBorder();              /// \brief checks if tetromino touched left border of playground
     bool rightBorder();              /// \brief checks if tetromino touched right border of playground
     bool isAway();                  /// \brief checks if tetromino not only touch, but is away of playground (sides)
+
+    myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
+
     //members
+
 protected:
     //methods
     void squaresInit(QWidget * parent); /// \brief adds squares to QVector and sets it size
+
     //members
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
     QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
@@ -126,32 +131,5 @@ protected:
                           {{0, 0, 0, 0, 0}},
                           {{0, 0, 0, 0, 0}}}};
 };
-/*
-class I: public Block
-{
-public:
-    I(QWidget * parent, QPoint & position);
-    //methods
-    void display(); /// \brief adds graphics to tetromino
-    //variables
-    myMatrix matrix = {{{{0, 0, 0, 0}}, {{1, 1, 1, 1}}, {{0, 0, 0, 0}}, {{0, 0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
-protected:
-    myMatrix g_matrix();          /// \return matrix representing tetromino
-};
 
-class Z: public Block
-{
-public:
-    Z(QWidget * parent, QPoint & position);
-    //methods
-    void display(); /// \brief adds graphics to tetromino
-    //variables
-    myMatrix matrix = {{{{0, 0, 0, 0}}, {{1, 1, 0, 0}}, {{0, 1, 1, 0}}, {{0, 0, 0, 0}}}};  /// \param matrix represents the shape of tetromino
-protected:
-    myMatrix g_matrix();          /// \brief returns matrix representing tetromino
-    friend void change_matrix(Block block, myMatrix newMatrix);
-};
-
-void change_matrix(Block block, myMatrix newMatrix);
-*/
 #endif // BLOCK_H
