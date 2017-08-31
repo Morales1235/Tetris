@@ -51,6 +51,10 @@ void Block::move(QPoint & point)
 {
     pos += point;
     int i = 0;
+    left = 3;
+    right = 0;
+    top = 3;
+    bottom = 0;
     for (unsigned int m = 0; m < g_matrix().size(); m++)
     {
         for (unsigned int n = 0; n < g_matrix()[m].size(); n++)
@@ -60,6 +64,8 @@ void Block::move(QPoint & point)
                 squares[i]->move(pos + QPoint(n, m) * blockSize.width());
                 if (n < left) left = n;
                 else if (n > right) right = n;
+                if (m < top) top = m;
+                else if (bottom < m) bottom = m;
                 std::cout <<" pos: " << left << ", " << right << std::endl;
                 i++;
             }
@@ -89,12 +95,17 @@ void Block::squaresInit(QWidget *parent)
 
 bool Block::leftBorder()
 {
-    return ((pos.x() + (left * blockSize.width()) <= 10));
+    return (pos.x() + (left * blockSize.width()) == 10);
 }
 
 bool Block::rightBorder()
 {
-    return ((pos.x() + ((right + 1) * blockSize.width()) >= 400));
+    return (pos.x() + ((right + 1) * blockSize.width()) == 410);
+}
+
+bool Block::isAway()
+{
+    return ((pos.x() + (left * blockSize.width()) < 10) || (pos.x() + ((right + 1) * blockSize.width()) > 410));
 }
 
 myMatrix Block::g_matrix()
@@ -113,6 +124,7 @@ void Block::transponse()
         }
     }
     change_matrix(newMatrix);
+    move(0, 0);
 }
 
 void Block::horizontalReflection()
@@ -129,6 +141,7 @@ void Block::horizontalReflection()
             matrix[m - (1 + i)][j] = temp;
         }
     }
+    move(0, 0);
 }
 
 void Block::verticalReflection()
@@ -145,6 +158,7 @@ void Block::verticalReflection()
             matrix[j][n - (1 + i)] = temp;
         }
     }
+    move(0, 0);
 }
 
 int Block::g_shape()

@@ -29,6 +29,8 @@ public:
         int i = 0;
         left = 3;
         right = 0;
+        top = 3;
+        bottom = 0;
         for (unsigned int m = 0; m < g_matrix().size(); m++)
         {
             for (unsigned int n = 0; n < g_matrix()[m].size(); n++)
@@ -38,7 +40,9 @@ public:
                     squares[i]->move(pos + QPoint(n, m) * blockSize.width());
                     if (n < left) left = n;
                     else if (right < n) right = n;
-                    std::cout <<" pos: " << left << ", " << right << std::endl;
+                    if (m < top) top = m;
+                    else if (bottom < m) bottom = m;
+                    std::cout <<" pos: " << (pos.x() + 10) << ", " << (pos.y() + 10 + bottom * 40) << std::endl;
                     i++;
                 }
             }
@@ -61,6 +65,7 @@ public:
     int g_shape();                  /// \return the number of the shape(matrix)
     bool leftBorder();              /// \brief checks if tetromino touched left border of playground
     bool rightBorder();              /// \brief checks if tetromino touched right border of playground
+    bool isAway();                  /// \brief checks if tetromino not only touch, but is away of playground (sides)
     //members
 protected:
     //methods
@@ -69,9 +74,11 @@ protected:
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
     QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
-    int left = 0;              /// \param width is the width of tetromino
-    int right = 0;             /// \param height is the height of tetromino
-    int shape;              /// \param fro choosing which matrix represents shape
+    int left = 3;              /// \param left is left block in matrix of tetromino
+    int right = 0;             /// \param height is right block in matrix of tetromino
+    int shape;              /// \param shape choosing which matrix represents shape
+    int top = 3;                    /// \param top is top block in matrix of tetromino
+    int bottom = 0;                 /// \param bottom is bottom block in matrix of tetromino
 
     //!Matrixes used to represent each tetromino
     //! Which matrix must be the same, because of definition of objects... blah
