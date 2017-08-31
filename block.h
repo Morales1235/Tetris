@@ -28,6 +28,7 @@ public:
         bool flag;
         pos += QPoint(int(x), int(y));
         int i = 0;
+        left = 3;
         for (unsigned int m = 0; m < g_matrix().size(); m++)
         {
             for (unsigned int n = 0; n < g_matrix()[m].size(); n++)
@@ -35,11 +36,11 @@ public:
                 if (g_matrix()[m][n])
                 {
                     squares[i]->move(pos + QPoint(n, m) * blockSize.width());
-                    if (left == 0 && flag == 0) {
+                    if (n < left) {
                         left = n;
                         flag = true;}
-                    else right = n;
-                    std::cout << "Left:  " << left << ". Right: " << right << std::endl;
+                    else if (right < n) right = n;
+                    std::cout <<" pos: " << left << ", " << right << std::endl;
                     i++;
                 }
             }

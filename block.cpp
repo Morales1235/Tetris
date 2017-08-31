@@ -49,6 +49,7 @@ Block::~Block()
 
 void Block::move(QPoint & point)
 {
+    bool flag;
     pos += point;
     int i = 0;
     for (unsigned int m = 0; m < g_matrix().size(); m++)
@@ -58,6 +59,11 @@ void Block::move(QPoint & point)
             if (g_matrix()[m][n])
             {
                 squares[i]->move(pos + QPoint(n, m) * blockSize.width());
+                if (n < left) {
+                    left = n;
+                    flag = true;}
+                else if (n > right) right = n;
+                std::cout <<" pos: " << left << ", " << right << std::endl;
                 i++;
             }
         }
@@ -86,7 +92,7 @@ void Block::squaresInit(QWidget *parent)
 
 bool Block::leftBorder()
 {
-    return ((pos.x() + (left * blockSize.width()) == 10));
+    return ((pos.x() + (left * blockSize.width()) <= 10));
 }
 
 myMatrix Block::g_matrix()

@@ -22,11 +22,9 @@ Widget::~Widget()
 
 void Widget::keyPressEvent(QKeyEvent * event)
 {
-    if (!currentBlock->touchBorder())
-    {
         switch (event->key()) {
         case 0x41:      //key A
-            currentBlock->move<int>(-blockSize.width(), 0);
+            if (!currentBlock->leftBorder()) currentBlock->move<int>(-blockSize.width(), 0);
             break;
         case 0x44:      //key D
             currentBlock->move<int>(blockSize.width(), 0);
@@ -45,7 +43,6 @@ void Widget::keyPressEvent(QKeyEvent * event)
             break;
         default:
             break;
-        }
     }
 }
 
