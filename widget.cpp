@@ -12,13 +12,14 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background);
 
-
 }
 
 Widget::~Widget()
 {
     delete ui;
 }
+
+
 
 void Widget::keyPressEvent(QKeyEvent * event)
 {

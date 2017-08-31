@@ -4,37 +4,43 @@ Block::Block()
 {
 }
 
-Block::Block(QWidget *parent, QPoint &position, QPixmap color, int shape):
+Block::Block(QWidget *parent, QPoint &position, int shape):
 shape(shape)
 {
+    squaresInit(parent);
     switch (shape) {
     case 1:
         matrix = matrix_I;
+        for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
         break;
     case 2:
         matrix = matrix_J;
+        for (auto s: squares) s->setPixmap(QPixmap("./graphics/dark_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
         break;
     case 3:
         matrix = matrix_L;
+        for (auto s: squares) s->setPixmap(QPixmap("./graphics/orange.jpg").scaled(blockSize, Qt::KeepAspectRatio));
         break;
     case 4:
         matrix = matrix_O;
+        for (auto s: squares) s->setPixmap(QPixmap("./graphics/yellow.jpg").scaled(blockSize, Qt::KeepAspectRatio));
         break;
     case 5:
         matrix = matrix_S;
+        for (auto s: squares) s->setPixmap(QPixmap("./graphics/green.jpg").scaled(blockSize, Qt::KeepAspectRatio));
         break;
     case 6:
         matrix = matrix_T;
+        for (auto s: squares) s->setPixmap(QPixmap("./graphics/purple.jpg").scaled(blockSize, Qt::KeepAspectRatio));
         break;
     case 7:
         matrix = matrix_Z;
+        for (auto s: squares) s->setPixmap(QPixmap("./graphics/red.jpg").scaled(blockSize, Qt::KeepAspectRatio));
         break;
     default:
         break;
     }
-    squaresInit(parent);
     setPosition(position);
-    for (auto s: squares) s->setPixmap(color);
 }
 
 Block::Block(const Block &other)
@@ -66,11 +72,13 @@ void Block::move(QPoint & point)
                 else if (n > right) right = n;
                 if (m < top) top = m;
                 else if (bottom < m) bottom = m;
-                std::cout <<" pos: " << left << ", " << right << std::endl;
                 i++;
+                std::cout << i << " ";
             }
         }
+        std:: cout << std::endl;
     }
+    std::cout <<" pos: " << (pos.x() + 10) << ", " << (pos.y() + 10 + bottom * 40) << std::endl;
 }
 
 void Block::setPosition(QPoint &point)
@@ -86,7 +94,7 @@ QPoint Block::g_pos()
 
 void Block::squaresInit(QWidget *parent)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < blocks; i++)
     {
         squares.push_back(new QLabel(parent));
         squares[i]->resize(blockSize);
@@ -169,13 +177,38 @@ bool Block::isAway()
 
 myMatrix Block::operator= (const myMatrix & newMatrix)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < matrix.size(); i++)
     {
-        for (int j = 0; j < 4; j++)
+        for (int j = 0; j < matrix[0].size(); j++)
         {
             matrix[i][j] = newMatrix[i][j];
         }
     }
 }
 
+Floor::Floor(QWidget * parent):
+    parentWidget(parent)
+{
+    for (auto m: matrix) m.fill(0);
+    leftCorner = new QPoint(10, 30);
+    setPosition(*leftCorner);
+    squaresInit(parentWidget);
+    //std::cout << g_matrix();
+}
+
+void Floor::addBlock(Block block)
+{
+    int m = block.g_matrix().size();
+    int n = block.g_matrix()[0].size();
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (block.g_matrix()[i][j])
+                matrix[(block.g_pos().x()/40) + i][(block.g_pos().y()/40) + j] = 1;
+        }
+    }
+    squaresInit(parentWidget);
+    move(0, 0);
+}
 

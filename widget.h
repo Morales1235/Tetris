@@ -5,6 +5,7 @@
 #include "block.h"
 #include <QWidget>
 #include <QKeyEvent>
+#include <QTimer>
 
 namespace Ui {
 class Widget;
@@ -22,6 +23,8 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void movingDown();      /// \brief executing to move down tetromino
+    void touchFloor();      /// \brief executen when block touches the floor
 
 private:
     Ui::Widget *ui;

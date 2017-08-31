@@ -12,13 +12,17 @@
 
 extern QSize blockSize;
 
-typedef std::array<std::array<bool, 5>, 5> myMatrix;
+typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to represent each tetromino
+                                                            //! Which matrix must be the same, because of definition of objects... blah
+                                                            //! They are 5x5 to fit all matrixes - biggest (I) has 4
+                                                            //! But it also gives 3x3 tetrominos posibility to rotate around its middle square
+typedef std::array<std::array<bool, 10>, 14> floorMatrix;   //!Matrix of floor has the same size as playground
 
 class Block
 {
 public:
     Block();
-    Block(QWidget * parent, QPoint & position, QPixmap color, int shape);
+    Block(QWidget * parent, QPoint & position, int shape);
     Block(const Block &other);
     ~Block();
 
@@ -43,11 +47,11 @@ public:
                     else if (right < n) right = n;
                     if (m < top) top = m;
                     else if (bottom < m) bottom = m;
-                    std::cout <<" pos: " << (pos.x() + 10) << ", " << (pos.y() + 10 + bottom * 40) << std::endl;
                     i++;
                 }
             }
         }
+        std::cout <<" pos: " << (pos.x() + 10) << ", " << (pos.y() + 10 + bottom * 40) << std::endl;
     }
     void move(QPoint & point);    /// \brief mvoes the tetromino by the QPoint
     template<class T>
@@ -84,11 +88,9 @@ protected:
     int shape;              /// \param shape choosing which matrix represents shape
     int top = 3;                    /// \param top is top block in matrix of tetromino
     int bottom = 0;                 /// \param bottom is bottom block in matrix of tetromino
+    int blocks = 4;                 /// \param blocks is number of blocks in tetromino
 
-    //!Matrixes used to represent each tetromino
-    //! Which matrix must be the same, because of definition of objects... blah
-    //! They are 5x5 to fit all matrixes - biggest (I) has 4
-    //! But it also gives 3x3 tetrominos posibility to rotate around its middle square
+
     myMatrix matrix_I = {{{{0, 0, 0, 0, 0}},
                           {{0, 0, 0, 0, 0}},
                           {{1, 1, 1, 1, 0}},
@@ -131,5 +133,21 @@ protected:
                           {{0, 0, 0, 0, 0}},
                           {{0, 0, 0, 0, 0}}}};
 };
+
+class Floor: public Block   /** \details Class Floor represents fallen block
+                              * fallen block should add to floor, which is a big block of tetrominos
+                              *
+                              **/
+{
+public:
+    Floor(QWidget * parent);
+    void addBlock(Block block);
+private:
+    floorMatrix matrix;
+    QPoint * leftCorner;        /// \param leftCorner is point of left corner of matrix - playground
+    int blocks = 0;
+    QWidget * parentWidget;
+};
+
 
 #endif // BLOCK_H
