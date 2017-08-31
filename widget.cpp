@@ -27,7 +27,7 @@ void Widget::keyPressEvent(QKeyEvent * event)
             if (!currentBlock->leftBorder()) currentBlock->move<int>(-blockSize.width(), 0);
             break;
         case 0x44:      //key D
-            currentBlock->move<int>(blockSize.width(), 0);
+            if (!currentBlock->rightBorder()) currentBlock->move<int>(blockSize.width(), 0);
             break;
         case 0x45:      //key E
             if (currentBlock->g_shape() != 4) { //! Fourth block is O, it should't be rotating in 5x5 matrix

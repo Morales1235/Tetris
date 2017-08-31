@@ -25,10 +25,10 @@ public:
     template<class T>
     void move(T x, T y)     /// \brief mvoes the tetromino by the x and y
     {
-        bool flag;
         pos += QPoint(int(x), int(y));
         int i = 0;
         left = 3;
+        right = 0;
         for (unsigned int m = 0; m < g_matrix().size(); m++)
         {
             for (unsigned int n = 0; n < g_matrix()[m].size(); n++)
@@ -36,9 +36,7 @@ public:
                 if (g_matrix()[m][n])
                 {
                     squares[i]->move(pos + QPoint(n, m) * blockSize.width());
-                    if (n < left) {
-                        left = n;
-                        flag = true;}
+                    if (n < left) left = n;
                     else if (right < n) right = n;
                     std::cout <<" pos: " << left << ", " << right << std::endl;
                     i++;
@@ -62,6 +60,7 @@ public:
     void verticalReflection();        /// \brief Reflects the matrix by vertical axis
     int g_shape();                  /// \return the number of the shape(matrix)
     bool leftBorder();              /// \brief checks if tetromino touched left border of playground
+    bool rightBorder();              /// \brief checks if tetromino touched right border of playground
     //members
 protected:
     //methods
