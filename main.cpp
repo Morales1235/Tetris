@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 QPoint nextBlockPoint;
-QPoint startPoint = QPoint(130, -50);
+QPoint startPoint = QPoint(130, -10);
 QSize blockSize = QSize(40, 40);
 
 int loss(int min, int max)
