@@ -15,9 +15,9 @@ Widget::Widget(QWidget *parent) :
     for (int i = 0; i < floorMatrix.size(); i++)
         floorMatrix[i].fill(0);
 
+    moveInterval = 1200;
     movingTimer = new QTimer(this);
     connect(movingTimer, SIGNAL(timeout()), this, SLOT(movingDown()));
-    movingTimer->start(1200);
 
 }
 
@@ -32,10 +32,10 @@ void Widget::keyPressEvent(QKeyEvent * event)
 {
         switch (event->key()) {
         case 0x41:      //key A
-            if (!currentBlock->leftBorder() && possibleMove(0, -1)) currentBlock->move<int>(-blockSize.width(), 0);
+            if (possibleMove(0, -1)) currentBlock->move<int>(-blockSize.width(), 0);
             break;
         case 0x44:      //key D
-            if (!currentBlock->rightBorder() && possibleMove(0, 1)) currentBlock->move<int>(blockSize.width(), 0);
+            if (possibleMove(0, 1)) currentBlock->move<int>(blockSize.width(), 0);
             break;
         case 0x45:      //key E
             if (currentBlock->g_shape() != 4) { //! Fourth block is O, it should't be rotating in 5x5 matrix
@@ -82,13 +82,20 @@ void Widget::on_pushButton_clicked()
     currentBlock->move<int>(0, 40);
 }
 
+void Widget::startGame()
+{
+    setCurrentBlock(new Block(this, startPoint));
+    movingTimer->start(moveInterval);
+}
+
 void Widget::movingDown()
 {
     if (possibleMove(1, 0)) currentBlock->move(0, blockSize.height());
+    else if (currentBlock->g_pos().y() == -10) gameOver();
     else
     {
         addBlock();
-        setCurrentBlock(new Block(this, startPoint, loss(1, 7)));
+        setCurrentBlock(new Block(this, startPoint));
     }
 }
 
@@ -96,29 +103,27 @@ void Widget::touchFloor()
 {
 
 }
-/*
-void Widget::initLayout()
-{
-    for (int i = 0; i < 13; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            floorLayout->addWidget(new QLabel(ui->backgroundLabel), i, j);
-        }
-    }
-}
-*/
+
 
 bool Widget::possibleMove(int di, int dj)
 {
+    int _i, _j;
     bool temp = true;
     for (unsigned int i = 0; i < currentBlock->g_matrix().size(); i++)
     {
         for (unsigned int j = 0; j < currentBlock->g_matrix()[i].size(); j++)
         {
-            if (currentBlock->g_matrix()[i][j] && floorMatrix[(currentBlock->g_pos().y() - 30)/blockSize.height() + i + 1 + di][(currentBlock->g_pos().x() - 10) / blockSize.width() + j + dj])
+            _j = (currentBlock->g_pos().x() - 10) / blockSize.width() + j + dj;
+            _i = (currentBlock->g_pos().y() - 30) / blockSize.height() + i + di + 1;
+            std::cout << "Checking for: " << _i << ", " << _j << std::endl;
+            if ((currentBlock->g_matrix()[i][j]) && (_i >= floorMatrix.size() || _j >= floorMatrix[_i].size() || _j < 0))   //! Checks if tetromino wants move outside the playground
+            {
                 temp = false;
-                // adding to floor: floorMatrix[(block->g_pos().y() - 30)/blockSize.height() + i, (block->g_pos().x() - 10) / blockSize.width() + j] = 1;
+                std::cout << "set false for: " << _i << ", " << _j << std::endl;
+                //break;
+            }
+            else if (currentBlock->g_matrix()[i][j] && floorMatrix[_i][_j])     //! Checks if tetromino will be on the other tetromino
+                temp = false;
         }
     }
     return temp;
@@ -132,22 +137,33 @@ void Widget::addBlock()
         {
             if (currentBlock->g_matrix()[i][j])
             {
-                floorMatrix[(currentBlock->g_pos().y() - 30)/blockSize.height() + 1 + i][(currentBlock->g_pos().x() - 10) / blockSize.width() + j] = 1;
+                floorMatrix[(currentBlock->g_pos().y() - 30)/blockSize.height()+ i+ 1][(currentBlock->g_pos().x() - 10) / blockSize.width() + j] = 1;
             }
         }
     }
 }
 
+void Widget::gameOver()
+{
+    movingTimer->stop();
+    QMessageBox::information(this, "Game over", "You finished the game with: ", QDialogButtonBox::Close);
+}
+
 void Widget::on_addButton_clicked()
 {
     if (possibleMove(0, 0)) addBlock();
-    for (int i = 0; i < 14; i++)
+    for (int i = 0; i < floorMatrix.size(); i++)
     {
-        for (int j = 0; j < 10; j++)
+        for (int j = 0; j < floorMatrix[i].size(); j++)
         {
             std::cout << floorMatrix[i][j] << " ";
         }
         std::cout << std::endl;
     }
-    setCurrentBlock(new Block(this, startPoint, loss(1, 7)));
+    setCurrentBlock(new Block(this, startPoint));
+}
+
+void Widget::on_startButton_clicked()
+{
+    startGame();
 }

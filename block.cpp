@@ -4,11 +4,10 @@ Block::Block()
 {
 }
 
-Block::Block(QWidget *parent, QPoint &position, int shape):
-shape(shape)
+Block::Block(QWidget *parent, QPoint &position)
 {
     squaresInit(parent);
-    switch (shape) {
+    switch (loss(1, 7)) {
     case 1:
         matrix = matrix_I;
         for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
@@ -78,7 +77,7 @@ void Block::move(QPoint & point)
         }
         std:: cout << std::endl;
     }
-    std::cout <<" pos: " << (pos.x() + 10) << ", " << (pos.y() + 10 + bottom * 40) << std::endl;
+    //std::cout <<" pos: " << (pos.x()) << ", " << (pos.y() + bottom * 40) << std::endl;
 }
 
 void Block::setPosition(QPoint &point)

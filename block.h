@@ -12,6 +12,7 @@
 #include <QGridLayout>
 
 extern QSize blockSize;
+extern int loss(int min, int max);
 
 typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to represent each tetromino
                                                             //! Which matrix must be the same, because of definition of objects... blah
@@ -23,7 +24,7 @@ class Block
 {
 public:
     Block();
-    Block(QWidget * parent, QPoint & position, int shape);
+    Block(QWidget * parent, QPoint & position);
     Block(const Block &other);
     ~Block();
 
