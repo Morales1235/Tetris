@@ -9,6 +9,7 @@
 #include <QVector>
 #include <iostream>
 #include <typeinfo>
+#include <QGridLayout>
 
 extern QSize blockSize;
 
@@ -16,7 +17,7 @@ typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to 
                                                             //! Which matrix must be the same, because of definition of objects... blah
                                                             //! They are 5x5 to fit all matrixes - biggest (I) has 4
                                                             //! But it also gives 3x3 tetrominos posibility to rotate around its middle square
-typedef std::array<std::array<bool, 10>, 14> floorMatrix;   //!Matrix of floor has the same size as playground
+//typedef std::array<std::array<bool, 10>, 14> floorMatrix;   //!Matrix of floor has the same size as playground
 
 class Block
 {
@@ -134,20 +135,23 @@ protected:
                           {{0, 0, 0, 0, 0}}}};
 };
 
+/*
 class Floor: public Block   /** \details Class Floor represents fallen block
                               * fallen block should add to floor, which is a big block of tetrominos
                               *
-                              **/
+                              **
 {
 public:
-    Floor(QWidget * parent);
-    void addBlock(Block block);
+    Floor(QWidget * parent, QGridLayout * layout);
+    void addBlock(Block * block);
+    floorMatrix g_matrix();
 private:
     floorMatrix matrix;
     QPoint * leftCorner;        /// \param leftCorner is point of left corner of matrix - playground
     int blocks = 0;
     QWidget * parentWidget;
+    QGridLayout * floorLayout;
 };
-
+*/
 
 #endif // BLOCK_H

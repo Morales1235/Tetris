@@ -7,6 +7,9 @@
 #include <QKeyEvent>
 #include <QTimer>
 
+extern QPoint startPoint;
+extern int loss(int min, int max);
+
 namespace Ui {
 class Widget;
 }
@@ -25,10 +28,18 @@ private slots:
     void on_pushButton_clicked();
     void movingDown();      /// \brief executing to move down tetromino
     void touchFloor();      /// \brief executen when block touches the floor
+    bool possibleMove(Block * block,int di, int dj);
+    void addBlock(Block * block);
+    //void initLayout();
+
+    void on_addButton_clicked();
 
 private:
     Ui::Widget *ui;
     Block * currentBlock; /// \param currentBlock is Block which is in the game
+    QTimer * movingTimer; /// \brief timer to moving down interval
+    std::array<std::array<bool, 10>, 14> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
+    //QGridLayout * floorLayout;
 };
 
 #endif // WIDGET_H

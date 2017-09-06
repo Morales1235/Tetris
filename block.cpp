@@ -40,6 +40,7 @@ shape(shape)
     default:
         break;
     }
+    for (auto s: squares) s->show();
     setPosition(position);
 }
 
@@ -73,7 +74,6 @@ void Block::move(QPoint & point)
                 if (m < top) top = m;
                 else if (bottom < m) bottom = m;
                 i++;
-                std::cout << i << " ";
             }
         }
         std:: cout << std::endl;
@@ -186,29 +186,62 @@ myMatrix Block::operator= (const myMatrix & newMatrix)
     }
 }
 
-Floor::Floor(QWidget * parent):
-    parentWidget(parent)
+/*
+//////////////////////////////////////////////////////////////////////////
+
+Floor::Floor(QWidget * parent, QGridLayout * layout):
+    parentWidget(parent), floorLayout(layout)
 {
-    for (auto m: matrix) m.fill(0);
+    for (int i = 0; i < matrix.size(); i ++)
+    {
+        for (int j = 0; j < matrix[i].size(); j++)
+            matrix[i].fill(0);
+    }
     leftCorner = new QPoint(10, 30);
     setPosition(*leftCorner);
-    squaresInit(parentWidget);
+    //squaresInit(parentWidget);
     //std::cout << g_matrix();
 }
 
-void Floor::addBlock(Block block)
+void Floor::addBlock(Block *block)
 {
-    int m = block.g_matrix().size();
-    int n = block.g_matrix()[0].size();
+    int m = block->g_matrix().size();
+    int n = block->g_matrix()[0].size();
     for (int i = 0; i < m; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            if (block.g_matrix()[i][j])
-                matrix[(block.g_pos().x()/40) + i][(block.g_pos().y()/40) + j] = 1;
+            if (block->g_matrix()[i][j])
+            {
+                squares.push_back(new QLabel(this->parentWidget));
+                squares.last()->resize(blockSize);
+                squares.last()->setPixmap(QPixmap("./graphics/dark_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
+                matrix[(block->g_pos().y()/40) + i][(block->g_pos().x()/40) + j] = 1;
+                floorLayout->removeWidget(dynamic_cast<QWidget *>(floorLayout->itemAtPosition(block->g_pos().y()/40 + i, block->g_pos().x()/40 + j)));
+                floorLayout->addWidget(squares.last(), block->g_pos().y()/40 + i, block->g_pos().x()/40 + j);
+                blocks++;
+            }
         }
+    }
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        for (int j = 0; j < matrix[i].size(); j++)
+        {
+            std::cout << g_matrix()[i][j] << " ";
+            if (!g_matrix()[i][j])
+            {
+                floorLayout->addWidget(squares.first() , block->g_pos().y()/40 + i, block->g_pos().x()/40 + j);
+            }
+        }
+        std::cout << std::endl;
     }
     squaresInit(parentWidget);
     move(0, 0);
 }
+
+floorMatrix Floor::g_matrix()
+{
+    return matrix;
+}
+*/
 

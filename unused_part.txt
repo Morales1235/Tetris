@@ -1,0 +1,107 @@
+/*
+Wanted to make subclass floor, which takes matrix from a block and draw it as its own
+Choose that way to avoid not making new object every time a tetromino fall on the bottom
+Changed my mind, because something went wrong and couldn't find way why floor is not displaying
+Decided to stay every tetromino on screen, in that game it shouldn't 
+
+//header:
+
+
+class Floor: public Block   /** \details Class Floor represents fallen block
+                              * fallen block should add to floor, which is a big block of tetrominos
+                              *
+                              **/
+{
+public:
+    Floor(QWidget * parent);
+    floorMatrix g_matrix();
+    void move(int x, int y);
+    void addBlock(Block * block);
+private:
+    floorMatrix matrix;
+    QPoint * leftCorner;        /// \param leftCorner is point of left corner of matrix - playground
+    int blocks = 0;
+    QWidget * parentWidget;
+};
+
+//source:
+
+Floor::Floor(QWidget * parent):
+    parentWidget(parent)
+{
+    for (int i = 0; i < matrix.size(); i ++)
+    {
+        for (int j = 0; j < matrix[i].size(); j++)
+            matrix[i].fill(0);
+    }
+    leftCorner = new QPoint(10, 30);
+    setPosition(*leftCorner);
+    //squaresInit(parentWidget);
+    std::cout << "Size of matrix: " << matrix.size() << std::endl;
+    //std::cout << g_matrix();
+}
+
+floorMatrix Floor::g_matrix()
+{
+    return matrix;
+}
+
+void Floor::move(int x, int y)
+{
+    pos += QPoint(x, y);
+    int m = 0;//blocks - 4;
+    left = 9;
+    right = 0;
+    top = 13;
+    bottom = 0;
+    for (unsigned int i = 0; i < g_matrix().size(); i++)
+    {
+        for (unsigned int j = 0; j < g_matrix()[i].size(); j++)
+        {
+            if (g_matrix()[i][j])
+            {
+                squares[m]->move(pos + QPoint(j, i) * blockSize.width());
+                /*if (j < left) left = j;
+                else if (j > right) right = j;
+                if (i < top) top = i;
+                else if (bottom < i) bottom = i;
+                std::cout << i << " ";*/
+                m++;
+            }
+        }
+        //std:: cout << std::endl;
+    }
+    std::cout <<" pos: " << (pos.x() + 10) << ", " << (pos.y() + 10 + bottom * 40) << std::endl;
+}
+
+void Floor::addBlock(Block * block)
+{
+    //int temp = blocks;
+    //blocks += block->g_blocks();
+    //for (int i = 0; i < block->g_blocks(); i++) squares.push_back(new QLabel(parentWidget));
+    for (int i = 0; i < block->g_matrix().size(); i++)
+    {
+        for (int j = 0; j < block->g_matrix()[i].size(); j++)
+        {
+            if (block->g_matrix()[i][j])
+            {
+                matrix[(block->g_pos().y()/blockSize.height()) + i][(block->g_pos().x()/blockSize.width()) + j] = 1;
+                squares.push_back(new QLabel(parentWidget));
+                //squares[blocks]->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
+                squares[blocks]->move(QPoint((block->g_pos().x() + (j * blockSize.width())), (block->g_pos().y() + (i * blockSize.height()))));
+                squares[blocks]->setPixmap(QPixmap("./graphics/red.jpg").scaled(blockSize, Qt::KeepAspectRatio));
+                squares[blocks]->raise();
+                blocks++;
+            }
+        }
+    }
+    for (int i = 0; i < g_matrix().size(); i++)
+    {
+        for (int j = 0; j < g_matrix()[i].size(); j++)
+            std::cout << g_matrix()[i][j] << " ";
+        std:: cout << std::endl;
+    }
+    //move(0, 0);
+}
+
+

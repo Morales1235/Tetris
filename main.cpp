@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     //Block * Z = new Block(dynamic_cast<QWidget *>(&w), startPoint, colors["light_blue"], loss(1, 7));
     w.setCurrentBlock(new Block(dynamic_cast<QWidget *>(&w), startPoint, loss(1, 7)));
 
-    Floor my_floor(dynamic_cast<QWidget *>(&w));
+    //Floor my_floor(dynamic_cast<QWidget *>(&w));
 
     w.show();
 
