@@ -180,6 +180,11 @@ bool Block::isAway()
     return ((pos.x() + (left * blockSize.width()) < 10) || (pos.x() + ((right + 1) * blockSize.width()) > 410));
 }
 
+void Block::removeSquares()
+{
+    for (auto s: squares) s->clear();
+}
+
 Block Block::operator =(const Block & other)
 {
     //delete parent;

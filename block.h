@@ -73,6 +73,7 @@ public:
     bool leftBorder();              /// \brief checks if tetromino touched left border of playground
     bool rightBorder();              /// \brief checks if tetromino touched right border of playground
     bool isAway();                  /// \brief checks if tetromino not only touch, but is away of playground (sides)
+    void removeSquares();
 
     Block operator =(const Block &other);            /// \brief assigment operator for block
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino

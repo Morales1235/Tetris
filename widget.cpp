@@ -15,7 +15,8 @@ Widget::Widget(QWidget *parent) :
     for (int i = 0; i < floorMatrix.size(); i++)
         floorMatrix[i].fill(0);
 
-    tetrominos = new QVector<Block>(30);
+    //tetrominos = new QVector<std::shared_ptr<Block> > (30);
+    tetrominos = new QVector<Block *> (30);
 
     moveInterval = 1200;
     movingTimer = new QTimer(this);
@@ -25,10 +26,6 @@ Widget::Widget(QWidget *parent) :
 
 Widget::~Widget()
 {
-    //delete currentBlock;
-    //delete nextBlock;
-    delete movingTimer;
-    delete tetrominos;
     delete ui;
 }
 
@@ -80,16 +77,19 @@ void Widget::keyPressEvent(QKeyEvent * event)
 
 void Widget::setCurrentBlock()
 {
-    currentBlock = std::move(nextBlock);
+    /*
+    currentBlock = std::move(tetrominos->last());
     currentBlock->setPosition(startPoint);
-    nextBlock = std::move(std::unique_ptr<Block> (new Block(this, nextBlockPoint)));  //new Block(this, nextBlockPoint);
+    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));  //new Block(this, nextBlockPoint);
+    tetrominos->push_back(nextBlock);
+    */
 
-/*
-    *currentBlock = tetrominos->last();
+
+    currentBlock = tetrominos->last();
     currentBlock->setPosition(startPoint);
     nextBlock = new Block(this, nextBlockPoint);
-    tetrominos->push_back(*nextBlock);
-*/
+    tetrominos->push_back(nextBlock);
+
 }
 
 void Widget::on_pushButton_clicked()
@@ -99,18 +99,30 @@ void Widget::on_pushButton_clicked()
 
 void Widget::startGame()
 {
-    nextBlock = std::move(std::unique_ptr<Block> (new Block(this, nextBlockPoint)));    //new Block(this, nextBlockPoint);
-    setCurrentBlock();
-    movingTimer->start(moveInterval);
-
-
-/*
+    /*
     tetrominos->clear();
-    nextBlock = new Block(this, nextBlockPoint);
-    tetrominos->push_back(*nextBlock);
+    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));    //new Block(this, nextBlockPoint);
+    tetrominos->push_back(nextBlock);
     setCurrentBlock();
     movingTimer->start(moveInterval);
-*/
+    */
+
+    if (!firstGame)
+    {
+        for (int i = 0; i < tetrominos->size(); i++)
+        {
+            tetrominos->at(i)->removeSquares();
+        }
+    }
+
+    firstGame = false;
+
+    tetrominos->clear();
+    nextBlock= new Block(this, nextBlockPoint);
+    tetrominos->push_back(nextBlock);
+    setCurrentBlock();
+    movingTimer->start(moveInterval);
+
 }
 
 void Widget::movingDown()
