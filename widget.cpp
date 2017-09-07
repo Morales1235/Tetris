@@ -15,9 +15,6 @@ Widget::Widget(QWidget *parent) :
     for (int i = 0; i < floorMatrix.size(); i++)
         floorMatrix[i].fill(0);
 
-    //tetrominos = new QVector<std::shared_ptr<Block> > (30);
-    tetrominos = new QVector<Block *> (30);
-
     moveInterval = 1200;
     movingTimer = new QTimer(this);
     connect(movingTimer, SIGNAL(timeout()), this, SLOT(movingDown()));
@@ -77,18 +74,11 @@ void Widget::keyPressEvent(QKeyEvent * event)
 
 void Widget::setCurrentBlock()
 {
-    /*
-    currentBlock = std::move(tetrominos->last());
-    currentBlock->setPosition(startPoint);
-    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));  //new Block(this, nextBlockPoint);
-    tetrominos->push_back(nextBlock);
-    */
 
-
-    currentBlock = tetrominos->last();
+    currentBlock = std::move(tetrominos.last());
     currentBlock->setPosition(startPoint);
-    nextBlock = new Block(this, nextBlockPoint);
-    tetrominos->push_back(nextBlock);
+    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
+    tetrominos.push_back(nextBlock);
 
 }
 
@@ -99,27 +89,9 @@ void Widget::on_pushButton_clicked()
 
 void Widget::startGame()
 {
-    /*
-    tetrominos->clear();
-    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));    //new Block(this, nextBlockPoint);
-    tetrominos->push_back(nextBlock);
-    setCurrentBlock();
-    movingTimer->start(moveInterval);
-    */
-
-    if (!firstGame)
-    {
-        for (int i = 0; i < tetrominos->size(); i++)
-        {
-            tetrominos->at(i)->removeSquares();
-        }
-    }
-
-    firstGame = false;
-
-    tetrominos->clear();
-    nextBlock= new Block(this, nextBlockPoint);
-    tetrominos->push_back(nextBlock);
+    tetrominos.clear();
+    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
+    tetrominos.push_back(nextBlock);
     setCurrentBlock();
     movingTimer->start(moveInterval);
 
@@ -145,25 +117,18 @@ void Widget::touchFloor()
 bool Widget::possibleMove(int di, int dj)
 {
     int _i, _j;
-    bool temp = true;
     for (unsigned int i = 0; i < currentBlock->g_matrix().size(); i++)
     {
         for (unsigned int j = 0; j < currentBlock->g_matrix()[i].size(); j++)
         {
             _j = (currentBlock->g_pos().x() - 10) / blockSize.width() + j + dj;
             _i = (currentBlock->g_pos().y() - 30) / blockSize.height() + i + di + 1;
-            std::cout << "Checking for: " << _i << ", " << _j << std::endl;
             if ((currentBlock->g_matrix()[i][j]) && (_i >= floorMatrix.size() || _j >= floorMatrix[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
-            {
-                temp = false;
-                std::cout << "set false for: " << _i << ", " << _j << std::endl;
-                //break;
-            }
+                return false;
             else if (currentBlock->g_matrix()[i][j] && floorMatrix[_i][_j])     //!Checks if tetromino will be on the other tetromino
-                temp = false;
+                return false;
         }
     }
-    return temp;
 }
 
 void Widget::addBlock()

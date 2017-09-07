@@ -19,7 +19,6 @@ typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to 
                                                             //!Which matrix must be the same, because of definition of objects... blah
                                                             //!They are 5x5 to fit all matrixes - biggest (I) has 4
                                                             //!But it also gives 3x3 tetrominos posibility to rotate around its middle square
-//typedef std::array<std::array<bool, 10>, 14> floorMatrix;   //!Matrix of floor has the same size as playground
 
 class Block
 {
@@ -54,7 +53,6 @@ public:
                 }
             }
         }
-        std::cout <<" pos: " << (pos.x() + 10) << ", " << (pos.y() + 10 + bottom * 40) << std::endl;
     }
     void move(QPoint & point);    /// \brief mvoes the tetromino by the QPoint
     template<class T>
@@ -79,6 +77,7 @@ public:
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
 
     //members
+    QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
 protected:
     //methods
@@ -87,7 +86,6 @@ protected:
     //members
     QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
-    QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
     int left = 3;              /// \param left is left block in matrix of tetromino
     int right = 0;             /// \param height is right block in matrix of tetromino

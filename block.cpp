@@ -61,29 +61,7 @@ Block::~Block()
 
 void Block::move(QPoint & point)
 {
-    pos += point;
-    int i = 0;
-    left = 3;
-    right = 0;
-    top = 3;
-    bottom = 0;
-    for (unsigned int m = 0; m < g_matrix().size(); m++)
-    {
-        for (unsigned int n = 0; n < g_matrix()[m].size(); n++)
-        {
-            if (g_matrix()[m][n])
-            {
-                squares[i]->move(pos + QPoint(n, m) * blockSize.width());
-                if (n < left) left = n;
-                else if (n > right) right = n;
-                if (m < top) top = m;
-                else if (bottom < m) bottom = m;
-                i++;
-            }
-        }
-        std:: cout << std::endl;
-    }
-    //std::cout <<" pos: " << (pos.x()) << ", " << (pos.y() + bottom * 40) << std::endl;
+    move(point.x(), point.y());
 }
 
 void Block::setPosition(QPoint &point)
@@ -101,7 +79,7 @@ void Block::squaresInit(QWidget *parent)
 {
     for (int i = 0; i < blocks; i++)
     {
-        squares.push_back(new QLabel(parent));
+        squares.push_back(std::shared_ptr<QLabel> (new QLabel(parent)));
         squares[i]->resize(blockSize);
     }
 }
@@ -121,7 +99,6 @@ void Block::transponse()
             newMatrix[i][j] = matrix[j][i];
         }
     }
-    //change_matrix(newMatrix);
     matrix = newMatrix;
     move(0, 0);
 }

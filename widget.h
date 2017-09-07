@@ -41,16 +41,12 @@ private slots:
 
 private:
     Ui::Widget *ui;
-    Block * currentBlock; /// \param currentBlock is Block which is in the game
-    //std::shared_ptr<Block> currentBlock;
-    Block * nextBlock;
-    //std::shared_ptr<Block> nextBlock;
+    std::shared_ptr<Block> currentBlock; /// \param currentBlock a block currently in playground
+    std::shared_ptr<Block> nextBlock;   /// \param nextBlock pointer to block displaying as next Block
     QTimer * movingTimer; /// \brief timer to moving down interval
     std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
     int moveInterval;                                   /// \param moveInterval interval of moving down
-    //QVector<std::shared_ptr<Block> > * tetrominos;
-    QVector<Block *> * tetrominos;
-    bool firstGame = true;
+    QVector<std::shared_ptr<Block> > tetrominos;
 };
 
 #endif // WIDGET_H
