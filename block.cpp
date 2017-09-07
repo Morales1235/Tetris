@@ -4,7 +4,8 @@ Block::Block()
 {
 }
 
-Block::Block(QWidget *parent, QPoint &position)
+Block::Block(QWidget *parent, QPoint &position):
+    parent(parent)
 {
     squaresInit(parent);
     switch (loss(1, 7)) {
@@ -43,9 +44,14 @@ Block::Block(QWidget *parent, QPoint &position)
     setPosition(position);
 }
 
-Block::Block(const Block &other)
+Block::Block(const Block &other):    //!parent are the same for all block
+                                    //!blocks also exist all the time
+                                    //! so shallow copy of parent is enough (and the only possibility)
+matrix(other.matrix), pos(other.pos), left(other.left), right(other.right), shape(other.shape), top(other.top), bottom(other.bottom), blocks(other.blocks)
 {
-
+    parent = new QWidget;
+    parent = other.parent;
+    squaresInit(parent);
 }
 
 Block::~Block()
@@ -172,6 +178,24 @@ bool Block::rightBorder()
 bool Block::isAway()
 {
     return ((pos.x() + (left * blockSize.width()) < 10) || (pos.x() + ((right + 1) * blockSize.width()) > 410));
+}
+
+Block Block::operator =(const Block & other)
+{
+    //delete parent;
+    parent = new QWidget;
+    parent = other.parent;
+    matrix = other.matrix;
+    squares.clear();
+    squaresInit(parent);
+    pos = other.pos;
+    left = other.left;
+    right = other.right;
+    shape = other.shape;
+    top = other.top;
+    bottom = other.bottom;
+    blocks = other.blocks;
+    return * this;
 }
 
 myMatrix Block::operator= (const myMatrix & newMatrix)

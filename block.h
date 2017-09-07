@@ -10,14 +10,15 @@
 #include <iostream>
 #include <typeinfo>
 #include <QGridLayout>
+#include <memory>
 
 extern QSize blockSize;
 extern int loss(int min, int max);
 
 typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to represent each tetromino
-                                                            //! Which matrix must be the same, because of definition of objects... blah
-                                                            //! They are 5x5 to fit all matrixes - biggest (I) has 4
-                                                            //! But it also gives 3x3 tetrominos posibility to rotate around its middle square
+                                                            //!Which matrix must be the same, because of definition of objects... blah
+                                                            //!They are 5x5 to fit all matrixes - biggest (I) has 4
+                                                            //!But it also gives 3x3 tetrominos posibility to rotate around its middle square
 //typedef std::array<std::array<bool, 10>, 14> floorMatrix;   //!Matrix of floor has the same size as playground
 
 class Block
@@ -73,6 +74,7 @@ public:
     bool rightBorder();              /// \brief checks if tetromino touched right border of playground
     bool isAway();                  /// \brief checks if tetromino not only touch, but is away of playground (sides)
 
+    Block operator =(const Block &other);            /// \brief assigment operator for block
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
 
     //members
@@ -82,6 +84,7 @@ protected:
     void squaresInit(QWidget * parent); /// \brief adds squares to QVector and sets it size
 
     //members
+    QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
     QVector<QLabel*> squares;       /// \param squares represents every square in tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino

@@ -10,6 +10,7 @@
 #include <QDialogButtonBox>
 
 extern QPoint startPoint;
+extern QPoint nextBlockPoint;
 
 namespace Ui {
 class Widget;
@@ -23,7 +24,7 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
     void keyPressEvent(QKeyEvent * event);
-    void setCurrentBlock(Block * block); /// \brief sets which of blocks is current in the game
+    void setCurrentBlock(); /// \brief sets which of blocks is current in the game
 
 private slots:
     void on_pushButton_clicked();
@@ -40,11 +41,14 @@ private slots:
 
 private:
     Ui::Widget *ui;
-    Block * currentBlock; /// \param currentBlock is Block which is in the game
+    //Block * currentBlock; /// \param currentBlock is Block which is in the game
+    std::unique_ptr<Block> currentBlock;
+    //Block * nextBlock;
+    std::unique_ptr<Block> nextBlock;
     QTimer * movingTimer; /// \brief timer to moving down interval
     std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
-    int moveInterval;
-    //QGridLayout * floorLayout;
+    int moveInterval;                                   /// \param moveInterval interval of moving down
+    QVector<std::unique_ptr<Block> > * tetrominos;
 };
 
 #endif // WIDGET_H

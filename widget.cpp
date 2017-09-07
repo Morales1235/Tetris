@@ -15,6 +15,8 @@ Widget::Widget(QWidget *parent) :
     for (int i = 0; i < floorMatrix.size(); i++)
         floorMatrix[i].fill(0);
 
+    tetrominos = new QVector<Block>(30);
+
     moveInterval = 1200;
     movingTimer = new QTimer(this);
     connect(movingTimer, SIGNAL(timeout()), this, SLOT(movingDown()));
@@ -23,6 +25,10 @@ Widget::Widget(QWidget *parent) :
 
 Widget::~Widget()
 {
+    //delete currentBlock;
+    //delete nextBlock;
+    delete movingTimer;
+    delete tetrominos;
     delete ui;
 }
 
@@ -38,7 +44,7 @@ void Widget::keyPressEvent(QKeyEvent * event)
             if (possibleMove(0, 1)) currentBlock->move<int>(blockSize.width(), 0);
             break;
         case 0x45:      //key E
-            if (currentBlock->g_shape() != 4) { //! Fourth block is O, it should't be rotating in 5x5 matrix
+            if (currentBlock->g_shape() != 4) { //!Fourth block is O, it should't be rotating in 5x5 matrix
                 currentBlock->transponse();
                 if (currentBlock->isAway() || !possibleMove(0, 0))
                 {
@@ -47,7 +53,7 @@ void Widget::keyPressEvent(QKeyEvent * event)
                 }
                 if (currentBlock->g_shape() != 1)
                 {
-                    currentBlock->verticalReflection(); //! Don't know why I block is breaking every second rotate. Transponse is enough for that block
+                    currentBlock->verticalReflection(); //!Don't know why I block is breaking every second rotate. Transponse is enough for that block
                     if (!possibleMove(0, 0)) currentBlock->verticalReflection();
                 }
             }
@@ -72,9 +78,18 @@ void Widget::keyPressEvent(QKeyEvent * event)
     }
 }
 
-void Widget::setCurrentBlock(Block * block)
+void Widget::setCurrentBlock()
 {
-    currentBlock = block;
+    currentBlock = std::move(nextBlock);
+    currentBlock->setPosition(startPoint);
+    nextBlock = std::move(std::unique_ptr<Block> (new Block(this, nextBlockPoint)));  //new Block(this, nextBlockPoint);
+
+/*
+    *currentBlock = tetrominos->last();
+    currentBlock->setPosition(startPoint);
+    nextBlock = new Block(this, nextBlockPoint);
+    tetrominos->push_back(*nextBlock);
+*/
 }
 
 void Widget::on_pushButton_clicked()
@@ -84,8 +99,18 @@ void Widget::on_pushButton_clicked()
 
 void Widget::startGame()
 {
-    setCurrentBlock(new Block(this, startPoint));
+    nextBlock = std::move(std::unique_ptr<Block> (new Block(this, nextBlockPoint)));    //new Block(this, nextBlockPoint);
+    setCurrentBlock();
     movingTimer->start(moveInterval);
+
+
+/*
+    tetrominos->clear();
+    nextBlock = new Block(this, nextBlockPoint);
+    tetrominos->push_back(*nextBlock);
+    setCurrentBlock();
+    movingTimer->start(moveInterval);
+*/
 }
 
 void Widget::movingDown()
@@ -95,7 +120,7 @@ void Widget::movingDown()
     else
     {
         addBlock();
-        setCurrentBlock(new Block(this, startPoint));
+        setCurrentBlock();
     }
 }
 
@@ -116,13 +141,13 @@ bool Widget::possibleMove(int di, int dj)
             _j = (currentBlock->g_pos().x() - 10) / blockSize.width() + j + dj;
             _i = (currentBlock->g_pos().y() - 30) / blockSize.height() + i + di + 1;
             std::cout << "Checking for: " << _i << ", " << _j << std::endl;
-            if ((currentBlock->g_matrix()[i][j]) && (_i >= floorMatrix.size() || _j >= floorMatrix[_i].size() || _j < 0))   //! Checks if tetromino wants move outside the playground
+            if ((currentBlock->g_matrix()[i][j]) && (_i >= floorMatrix.size() || _j >= floorMatrix[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
             {
                 temp = false;
                 std::cout << "set false for: " << _i << ", " << _j << std::endl;
                 //break;
             }
-            else if (currentBlock->g_matrix()[i][j] && floorMatrix[_i][_j])     //! Checks if tetromino will be on the other tetromino
+            else if (currentBlock->g_matrix()[i][j] && floorMatrix[_i][_j])     //!Checks if tetromino will be on the other tetromino
                 temp = false;
         }
     }
@@ -160,7 +185,7 @@ void Widget::on_addButton_clicked()
         }
         std::cout << std::endl;
     }
-    setCurrentBlock(new Block(this, startPoint));
+    setCurrentBlock();
 }
 
 void Widget::on_startButton_clicked()
