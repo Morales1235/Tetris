@@ -15,9 +15,9 @@ Widget::Widget(QWidget *parent) :
     for (int i = 0; i < floorMatrix.size(); i++)
         floorMatrix[i].fill(0);
 
-    moveInterval = 1200;
-    movingTimer = new QTimer(this);
-    connect(movingTimer, SIGNAL(timeout()), this, SLOT(movingDown()));
+
+    movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
+    connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDown()));
 
 }
 
@@ -74,12 +74,16 @@ void Widget::keyPressEvent(QKeyEvent * event)
 
 void Widget::setCurrentBlock()
 {
-
+    /*
     currentBlock = std::move(tetrominos.last());
     currentBlock->setPosition(startPoint);
     nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
     tetrominos.push_back(nextBlock);
-
+    */
+    ///Without qvector of tetrominos
+    currentBlock = std::move(nextBlock);
+    currentBlock->setPosition(startPoint);
+    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
 }
 
 void Widget::on_pushButton_clicked()
@@ -89,12 +93,17 @@ void Widget::on_pushButton_clicked()
 
 void Widget::startGame()
 {
+    /*
     tetrominos.clear();
     nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
     tetrominos.push_back(nextBlock);
     setCurrentBlock();
     movingTimer->start(moveInterval);
-
+    */
+    /////Without vector: tetrominos:
+    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
+    setCurrentBlock();
+    movingTimer->start(*moveInterval);
 }
 
 void Widget::movingDown()
@@ -162,6 +171,7 @@ void Widget::on_addButton_clicked()
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl;
     setCurrentBlock();
 }
 
