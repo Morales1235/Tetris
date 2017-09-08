@@ -13,7 +13,6 @@
 #include <memory>
 
 extern QSize blockSize;
-extern int loss(int min, int max);
 
 typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to represent each tetromino
                                                             //!Which matrix must be the same, because of definition of objects... blah
@@ -24,7 +23,7 @@ class Block
 {
 public:
     Block();
-    Block(QWidget * parent, QPoint & position);
+    Block(QWidget * parent, QPoint & position, int shape);
     Block(const Block &other);
     ~Block();
 
@@ -38,11 +37,11 @@ public:
         right = 0;
         top = 3;
         bottom = 0;
-        for (unsigned int m = 0; m < g_matrix().size(); m++)
+        for (unsigned int m = 0; m < getMatrix().size(); m++)
         {
-            for (unsigned int n = 0; n < g_matrix()[m].size(); n++)
+            for (unsigned int n = 0; n < getMatrix()[m].size(); n++)
             {
-                if (g_matrix()[m][n])
+                if (getMatrix()[m][n])
                 {
                     squares[i]->move(pos + QPoint(n, m) * blockSize.width());
                     if (n < left) left = n;
@@ -62,22 +61,18 @@ public:
         move(x, y);
     }
     void setPosition(QPoint & point);   /// \brief moves the tetromino to the point
-    QPoint g_pos();                     /// \return the position of tetromino
-    myMatrix g_matrix(); /// \brief returns matrix representing tetromino
+    QPoint getPos();                     /// \return the position of tetromino
+    myMatrix getMatrix(); /// \brief returns matrix representing tetromino
     void transponse();      /// \brief transposing the matrix of tetromino
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
     void verticalReflection();        /// \brief Reflects the matrix by vertical axis
-    int g_shape();                  /// \return the number of the shape(matrix)
-    bool leftBorder();              /// \brief checks if tetromino touched left border of playground
-    bool rightBorder();              /// \brief checks if tetromino touched right border of playground
-    bool isAway();                  /// \brief checks if tetromino not only touch, but is away of playground (sides)
+    int getShape();                  /// \return the number of the shape(matrix)
     void removeSquares();
 
     Block operator =(const Block &other);            /// \brief assigment operator for block
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
 
     //members
-    QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
 protected:
     //methods
@@ -93,6 +88,7 @@ protected:
     int top = 3;                    /// \param top is top block in matrix of tetromino
     int bottom = 0;                 /// \param bottom is bottom block in matrix of tetromino
     int blocks = 4;                 /// \param blocks is number of blocks in tetromino
+    QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
 
     myMatrix matrix_I = {{{{0, 0, 0, 0, 0}},
@@ -147,7 +143,7 @@ class Floor: public Block   /** \details Class Floor represents fallen block
 public:
     Floor(QWidget * parent, QGridLayout * layout);
     void addBlock(Block * block);
-    floorMatrix g_matrix();
+    floorMatrix getMatrix();
 private:
     floorMatrix matrix;
     QPoint * leftCorner;        /// \param leftCorner is point of left corner of matrix - playground

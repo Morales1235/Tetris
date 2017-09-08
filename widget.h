@@ -11,6 +11,7 @@
 
 extern QPoint startPoint;
 extern QPoint nextBlockPoint;
+extern int loss(int, int);
 
 namespace Ui {
 class Widget;
@@ -31,7 +32,7 @@ private slots:
     void startGame();       /// \brief starts the game
     void movingDown();      /// \brief executing to move down tetromino
     void touchFloor();      /// \brief executen when block touches the floor
-    bool possibleMove(int di, int dj);  /// \brief checks if is possible move on matrix by di dj
+    bool isPossibleMove(int di, int dj);  /// \brief checks if is possible move on matrix by di dj
     void addBlock();                /// \brief adds current tetromino to matrix of floor
     void gameOver();                /// \brief execute when playground os full of blocks
 
@@ -41,8 +42,8 @@ private slots:
 
 private:
     Ui::Widget *ui;
-    std::shared_ptr<Block> currentBlock; /// \param currentBlock a block currently in playground
-    std::shared_ptr<Block> nextBlock;   /// \param nextBlock pointer to block displaying as next Block
+    std::unique_ptr<Block> currentBlock = nullptr; /// \param currentBlock a block currently in playground
+    std::unique_ptr<Block> nextBlock = nullptr;   /// \param nextBlock pointer to block displaying as next Block
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval
     std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
     std::unique_ptr<int> moveInterval = std::unique_ptr<int>(new int(1200));                                   /// \param moveInterval interval of moving down

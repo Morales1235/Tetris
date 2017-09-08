@@ -4,11 +4,11 @@ Block::Block()
 {
 }
 
-Block::Block(QWidget *parent, QPoint &position):
-    parent(parent)
+Block::Block(QWidget *parent, QPoint &position, int shape):
+    parent(parent), shape(shape)
 {
     squaresInit(parent);
-    switch (loss(1, 7)) {
+    switch (shape) {
     case 1:
         matrix = matrix_I;
         for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
@@ -70,7 +70,7 @@ void Block::setPosition(QPoint &point)
     move(point);
 }
 
-QPoint Block::g_pos()
+QPoint Block::getPos()
 {
     return pos;
 }
@@ -84,7 +84,7 @@ void Block::squaresInit(QWidget *parent)
     }
 }
 
-myMatrix Block::g_matrix()
+myMatrix Block::getMatrix()
 {
     return matrix;
 }
@@ -137,25 +137,11 @@ void Block::verticalReflection()
     move(0, 0);
 }
 
-int Block::g_shape()
+int Block::getShape()
 {
     return shape;
 }
 
-bool Block::leftBorder()
-{
-    return (pos.x() + (left * blockSize.width()) == 10);
-}
-
-bool Block::rightBorder()
-{
-    return (pos.x() + ((right + 1) * blockSize.width()) == 410);
-}
-
-bool Block::isAway()
-{
-    return ((pos.x() + (left * blockSize.width()) < 10) || (pos.x() + ((right + 1) * blockSize.width()) > 410));
-}
 
 void Block::removeSquares()
 {
@@ -205,25 +191,25 @@ Floor::Floor(QWidget * parent, QGridLayout * layout):
     leftCorner = new QPoint(10, 30);
     setPosition(*leftCorner);
     //squaresInit(parentWidget);
-    //std::cout << g_matrix();
+    //std::cout << getMatrix();
 }
 
 void Floor::addBlock(Block *block)
 {
-    int m = block->g_matrix().size();
-    int n = block->g_matrix()[0].size();
+    int m = block->getMatrix().size();
+    int n = block->getMatrix()[0].size();
     for (int i = 0; i < m; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            if (block->g_matrix()[i][j])
+            if (block->getMatrix()[i][j])
             {
                 squares.push_back(new QLabel(this->parentWidget));
                 squares.last()->resize(blockSize);
                 squares.last()->setPixmap(QPixmap("./graphics/dark_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-                matrix[(block->g_pos().y()/40) + i][(block->g_pos().x()/40) + j] = 1;
-                floorLayout->removeWidget(dynamic_cast<QWidget *>(floorLayout->itemAtPosition(block->g_pos().y()/40 + i, block->g_pos().x()/40 + j)));
-                floorLayout->addWidget(squares.last(), block->g_pos().y()/40 + i, block->g_pos().x()/40 + j);
+                matrix[(block->getPos().y()/40) + i][(block->getPos().x()/40) + j] = 1;
+                floorLayout->removeWidget(dynamic_cast<QWidget *>(floorLayout->itemAtPosition(block->getPos().y()/40 + i, block->getPos().x()/40 + j)));
+                floorLayout->addWidget(squares.last(), block->getPos().y()/40 + i, block->getPos().x()/40 + j);
                 blocks++;
             }
         }
@@ -232,10 +218,10 @@ void Floor::addBlock(Block *block)
     {
         for (int j = 0; j < matrix[i].size(); j++)
         {
-            std::cout << g_matrix()[i][j] << " ";
-            if (!g_matrix()[i][j])
+            std::cout << getMatrix()[i][j] << " ";
+            if (!getMatrix()[i][j])
             {
-                floorLayout->addWidget(squares.first() , block->g_pos().y()/40 + i, block->g_pos().x()/40 + j);
+                floorLayout->addWidget(squares.first() , block->getPos().y()/40 + i, block->getPos().x()/40 + j);
             }
         }
         std::cout << std::endl;
@@ -244,7 +230,7 @@ void Floor::addBlock(Block *block)
     move(0, 0);
 }
 
-floorMatrix Floor::g_matrix()
+floorMatrix Floor::getMatrix()
 {
     return matrix;
 }
