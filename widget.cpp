@@ -12,8 +12,8 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background);
 
-    for (int i = 0; i < floorMatrix.size(); i++)
-        floorMatrix[i].fill(0);
+    //for (int i = 0; i < floorMatrix.size(); i++)
+    //    floorMatrix[i].fill(0);
 
 
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
@@ -133,12 +133,12 @@ bool Widget::isPossibleMove(int di, int dj)
         {
             _j = (currentBlock->getPos().x() - 10) / blockSize.width() + j + dj;
             _i = (currentBlock->getPos().y() - 30) / blockSize.height() + i + di + 1;
-            if ((currentBlock->getMatrix()[i][j]) && (_i >= floorMatrix.size() || _j >= floorMatrix[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
+            if ((currentBlock->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
             {
                 check = false;
                 break;
             }
-            else if (currentBlock->getMatrix()[i][j] && floorMatrix[_i][_j])     //!Checks if tetromino will be on the other tetromino
+            else if (currentBlock->getMatrix()[i][j] && myFloor->getMatrix()[_i][_j])     //!Checks if tetromino will be on the other tetromino
             {
                 check = false;
                 break;
@@ -156,7 +156,7 @@ void Widget::addBlockToFloor()
         {
             if (currentBlock->getMatrix()[i][j])
             {
-                floorMatrix[(currentBlock->getPos().y() - 30)/blockSize.height()+ i+ 1][(currentBlock->getPos().x() - 10) / blockSize.width() + j] = 1; //!Position of block and i means in what point on floor matrix is tetromino
+                myFloor->addItemToMatrix((currentBlock->getPos().y() - 30)/blockSize.height()+ i+ 1, (currentBlock->getPos().x() - 10) / blockSize.width() + j); //!Position of block and i means in what point on floor matrix is tetromino
             }
         }
     }
@@ -171,11 +171,11 @@ void Widget::gameOver()
 void Widget::on_addButton_clicked()
 {
     if (isPossibleMove(0, 0)) addBlockToFloor();
-    for (int i = 0; i < floorMatrix.size(); i++)
+    for (int i = 0; i < myFloor->getMatrix().size(); i++)
     {
-        for (int j = 0; j < floorMatrix[i].size(); j++)
+        for (int j = 0; j < myFloor->getMatrix()[i].size(); j++)
         {
-            std::cout << floorMatrix[i][j] << " ";
+            std::cout << myFloor->getMatrix()[i][j] << " ";
         }
         std::cout << std::endl;
     }

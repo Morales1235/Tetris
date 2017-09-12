@@ -26,10 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         widget.cpp \
-    block.cpp
+    block.cpp \
+    floor.cpp
 
 HEADERS  += widget.h \
     block.h \
-    ui_widget.h
+    ui_widget.h \
+    floor.h
 
 FORMS    += widget.ui

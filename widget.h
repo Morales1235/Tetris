@@ -3,6 +3,7 @@
 
 //#include "matrix_transformations.cpp"
 #include "block.h"
+#include "floor.h"
 #include <QWidget>
 #include <QKeyEvent>
 #include <QTimer>
@@ -45,8 +46,9 @@ private:
     std::unique_ptr<Block> currentBlock = nullptr; /// \param currentBlock a block currently in playground
     std::unique_ptr<Block> nextBlock = nullptr;   /// \param nextBlock pointer to block displaying as next Block
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval
-    std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
+    //std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
     std::unique_ptr<int> moveInterval = std::unique_ptr<int>(new int(1200));    /// \param moveInterval interval of moving down
+    std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor);
     QVector<std::shared_ptr<Block> > tetrominos;
 };
 
