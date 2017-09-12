@@ -33,7 +33,7 @@ private slots:
     void movingDown();      /// \brief executing to move down tetromino
     void touchFloor();      /// \brief executen when block touches the floor
     bool isPossibleMove(int di, int dj);  /// \brief checks if is possible move on matrix by di dj
-    void addBlock();                /// \brief adds current tetromino to matrix of floor
+    void addBlockToFloor();                /// \brief adds current tetromino to matrix of floor
     void gameOver();                /// \brief execute when playground os full of blocks
 
     void on_addButton_clicked();
@@ -46,7 +46,7 @@ private:
     std::unique_ptr<Block> nextBlock = nullptr;   /// \param nextBlock pointer to block displaying as next Block
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval
     std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
-    std::unique_ptr<int> moveInterval = std::unique_ptr<int>(new int(1200));                                   /// \param moveInterval interval of moving down
+    std::unique_ptr<int> moveInterval = std::unique_ptr<int>(new int(1200));    /// \param moveInterval interval of moving down
     QVector<std::shared_ptr<Block> > tetrominos;
 };
 

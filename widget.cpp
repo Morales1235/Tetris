@@ -38,14 +38,14 @@ void Widget::keyPressEvent(QKeyEvent * event)
             if (isPossibleMove(0, 1)) currentBlock->move<int>(blockSize.width(), 0);
             break;
         case 0x45:      //key E
-            if (currentBlock->getShape() != 4) { //!Fourth block is O, it should't be rotating in 5x5 matrix
+            if (currentBlock->getShapeNumber() != 4) { //!Fourth block is O, it should't be rotating in 5x5 matrix
                 currentBlock->transponse();
                 if (!isPossibleMove(0, 0))
                 {
                     currentBlock->transponse();
                     break;
                 }
-                if (currentBlock->getShape() != 1)
+                if (currentBlock->getShapeNumber() != 1)
                 {
                     currentBlock->verticalReflection(); //!Don't know why I block is breaking every second rotate. Transponse is enough for that block
                     if (!isPossibleMove(0, 0)) currentBlock->verticalReflection();
@@ -53,14 +53,14 @@ void Widget::keyPressEvent(QKeyEvent * event)
             }
             break;
         case 0x51:      //key Q
-            if (currentBlock->getShape() != 4) {
+            if (currentBlock->getShapeNumber() != 4) {
                 currentBlock->transponse();
                 if (!isPossibleMove(0, 0))
                 {
                     currentBlock->transponse();
                     break;
                 }
-                if (currentBlock->getShape() != 1)
+                if (currentBlock->getShapeNumber() != 1)
                 {
                     currentBlock->horizontalReflection();
                     if (!isPossibleMove(0, 0)) currentBlock->horizontalReflection();
@@ -112,7 +112,7 @@ void Widget::movingDown()
     else if (currentBlock->getPos().y() == -10) gameOver();
     else
     {
-        addBlock();
+        addBlockToFloor();
         setCurrentBlock();
     }
 }
@@ -148,7 +148,7 @@ bool Widget::isPossibleMove(int di, int dj)
     return check;
 }
 
-void Widget::addBlock()
+void Widget::addBlockToFloor()
 {
     for (unsigned int i = 0; i < currentBlock->getMatrix().size(); i++)
     {
@@ -156,7 +156,7 @@ void Widget::addBlock()
         {
             if (currentBlock->getMatrix()[i][j])
             {
-                floorMatrix[(currentBlock->getPos().y() - 30)/blockSize.height()+ i+ 1][(currentBlock->getPos().x() - 10) / blockSize.width() + j] = 1;
+                floorMatrix[(currentBlock->getPos().y() - 30)/blockSize.height()+ i+ 1][(currentBlock->getPos().x() - 10) / blockSize.width() + j] = 1; //!Position of block and i means in what point on floor matrix is tetromino
             }
         }
     }
@@ -170,7 +170,7 @@ void Widget::gameOver()
 
 void Widget::on_addButton_clicked()
 {
-    if (isPossibleMove(0, 0)) addBlock();
+    if (isPossibleMove(0, 0)) addBlockToFloor();
     for (int i = 0; i < floorMatrix.size(); i++)
     {
         for (int j = 0; j < floorMatrix[i].size(); j++)

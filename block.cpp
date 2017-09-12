@@ -4,11 +4,11 @@ Block::Block()
 {
 }
 
-Block::Block(QWidget *parent, QPoint &position, int shape):
-    parent(parent), shape(shape)
+Block::Block(QWidget *parent, QPoint &position, int shapeNumber):
+    parent(parent), shapeNumber(shapeNumber)
 {
     squaresInit(parent);
-    switch (shape) {
+    switch (shapeNumber) {
     case 1:
         matrix = matrix_I;
         for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
@@ -47,7 +47,7 @@ Block::Block(QWidget *parent, QPoint &position, int shape):
 Block::Block(const Block &other):    //!parent are the same for all block
                                     //!blocks also exist all the time
                                     //! so shallow copy of parent is enough (and the only possibility)
-matrix(other.matrix), pos(other.pos), left(other.left), right(other.right), shape(other.shape), top(other.top), bottom(other.bottom), blocks(other.blocks)
+matrix(other.matrix), pos(other.pos), left(other.left), right(other.right), shapeNumber(other.shapeNumber), top(other.top), bottom(other.bottom), blocks(other.blocks)
 {
     parent = new QWidget;
     parent = other.parent;
@@ -79,7 +79,8 @@ void Block::squaresInit(QWidget *parent)
 {
     for (int i = 0; i < blocks; i++)
     {
-        squares.push_back(std::shared_ptr<QLabel> (new QLabel(parent)));
+        try {squares.push_back(std::shared_ptr<QLabel> (new QLabel(parent)));}
+        catch (std::bad_alloc & e) {std::cout << e.what() << " in squaresInit" << std::endl;}
         squares[i]->resize(blockSize);
     }
 }
@@ -137,9 +138,9 @@ void Block::verticalReflection()
     move(0, 0);
 }
 
-int Block::getShape()
+int Block::getShapeNumber()
 {
-    return shape;
+    return shapeNumber;
 }
 
 
@@ -159,7 +160,7 @@ Block Block::operator =(const Block & other)
     pos = other.pos;
     left = other.left;
     right = other.right;
-    shape = other.shape;
+    shapeNumber = other.shapeNumber;
     top = other.top;
     bottom = other.bottom;
     blocks = other.blocks;

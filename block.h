@@ -9,7 +9,6 @@
 #include <QVector>
 #include <iostream>
 #include <typeinfo>
-#include <QGridLayout>
 #include <memory>
 
 extern QSize blockSize;
@@ -23,7 +22,7 @@ class Block
 {
 public:
     Block();
-    Block(QWidget * parent, QPoint & position, int shape);
+    Block(QWidget * parent, QPoint & position, int shapeNumber);
     Block(const Block &other);
     ~Block();
 
@@ -53,7 +52,7 @@ public:
             }
         }
     }
-    void move(QPoint & point);    /// \brief mvoes the tetromino by the QPoint
+    void move(QPoint & point);    /// \brief mvoes the tetromino by the point
     template<class T>
     void setPosition(T x, T y)      /// \brief sets position of tetromino
     {
@@ -66,7 +65,7 @@ public:
     void transponse();      /// \brief transposing the matrix of tetromino
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
     void verticalReflection();        /// \brief Reflects the matrix by vertical axis
-    int getShape();                  /// \return the number of the shape(matrix)
+    int getShapeNumber();                  /// \return the number of the shape(matrix)
     void removeSquares();
 
     Block operator =(const Block &other);            /// \brief assigment operator for block
@@ -80,11 +79,11 @@ protected:
 
     //members
     QWidget * parent;
-    myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shape of tetromino
+    myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
     int left = 3;              /// \param left is left block in matrix of tetromino
     int right = 0;             /// \param height is right block in matrix of tetromino
-    int shape;              /// \param shape choosing which matrix represents shape
+    int shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
     int top = 3;                    /// \param top is top block in matrix of tetromino
     int bottom = 0;                 /// \param bottom is bottom block in matrix of tetromino
     int blocks = 4;                 /// \param blocks is number of blocks in tetromino
