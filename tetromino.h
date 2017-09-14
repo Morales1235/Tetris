@@ -137,23 +137,4 @@ protected:
 
 
 
-/*
-class Floor: public Block   /** \details Class Floor represents fallen block
-                              * fallen block should add to floor, which is a big block of tetrominos
-                              *
-                              **
-{
-public:
-    Floor(QWidget * parent, QGridLayout * layout);
-    void addBlock(Block * block);
-    floorMatrix getMatrix();
-private:
-    floorMatrix matrix;
-    QPoint * leftCorner;        /// \param leftCorner is point of left corner of matrix - playground
-    int blocks = 0;
-    QWidget * parentWidget;
-    QGridLayout * floorLayout;
-};
-*/
-
 #endif // TETROMINO_H

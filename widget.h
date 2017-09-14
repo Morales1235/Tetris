@@ -40,6 +40,8 @@ public:
     */
 
 private slots:
+    void rotateRight();
+    void rotateLeft();
     void on_pushButton_clicked();
     void startGame();       /// \brief starts the game
     void movingDown();      /// \brief executing to move down tetromino
@@ -58,7 +60,7 @@ private:
     std::unique_ptr<Tetromino> nextTetromino = nullptr;   /// \param nextTetromino pointer to tetromino displaying as next tetromino
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval
     //std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
-    std::unique_ptr<int> moveInterval = std::unique_ptr<int>(new int(1200));    /// \param moveInterval interval of moving down
+    int moveInterval;    /// \param moveInterval interval of moving down
     std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor(this));
     QVector<std::shared_ptr<Tetromino> > tetrominos;
 };

@@ -31,41 +31,24 @@ Widget::~Widget()
 void Widget::keyPressEvent(QKeyEvent * event)
 {
         switch (event->key()) {
-        case 0x41:      //key A
+        case Qt::Key_A:
             if (isPossibleMove(0, -1)) currentTetromino->move<int>(-blockSize.width(), 0);
             break;
-        case 0x44:      //key D
+        case Qt::Key_D:
             if (isPossibleMove(0, 1)) currentTetromino->move<int>(blockSize.width(), 0);
             break;
-        case 0x45:      //key E
+        case Qt::Key_E:
             if (currentTetromino->getShapeNumber() != 4) { //!Fourth tetromino is O, it should't be rotating in 5x5 matrix
-                currentTetromino->transponse();
-                if (!isPossibleMove(0, 0))
-                {
-                    currentTetromino->transponse();
-                    break;
-                }
-                if (currentTetromino->getShapeNumber() != 1)
-                {
-                    currentTetromino->verticalReflection(); //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
-                    if (!isPossibleMove(0, 0)) currentTetromino->verticalReflection();
-                }
+                rotateRight();
             }
             break;
-        case 0x51:      //key Q
+        case Qt::Key_Q:
             if (currentTetromino->getShapeNumber() != 4) {
-                currentTetromino->transponse();
-                if (!isPossibleMove(0, 0))
-                {
-                    currentTetromino->transponse();
-                    break;
-                }
-                if (currentTetromino->getShapeNumber() != 1)
-                {
-                    currentTetromino->horizontalReflection();
-                    if (!isPossibleMove(0, 0)) currentTetromino->horizontalReflection();
-                }
+                rotateLeft();
             }
+            break;
+        case Qt::Key_S:
+            moveInterval = 500;
             break;
         default:
             break;
@@ -86,6 +69,36 @@ void Widget::setCurrentTetromino()
     nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
 }
 
+void Widget::rotateRight()
+{
+    currentTetromino->transponse();
+    if (!isPossibleMove(0, 0))
+    {
+        currentTetromino->transponse();
+        return;
+    }
+    if (currentTetromino->getShapeNumber() != 1)
+    {
+        currentTetromino->verticalReflection(); //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
+        if (!isPossibleMove(0, 0)) currentTetromino->verticalReflection();
+    }
+}
+
+void Widget::rotateLeft()
+{
+    currentTetromino->transponse();
+    if (!isPossibleMove(0, 0))
+    {
+        currentTetromino->transponse();
+        return;
+    }
+    if (currentTetromino->getShapeNumber() != 1)
+    {
+        currentTetromino->horizontalReflection();
+        if (!isPossibleMove(0, 0)) currentTetromino->horizontalReflection();
+    }
+}
+
 void Widget::on_pushButton_clicked()
 {
     currentTetromino->move<int>(0, 40);
@@ -101,16 +114,17 @@ void Widget::startGame()
     movingTimer->start(moveInterval);
     */
     /////Without vector: tetrominos:
+    int moveInterval = 1000;
     myFloor->resetMatrix();
     nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
     setCurrentTetromino();
-    movingTimer->start(*moveInterval);
+    movingTimer->start(moveInterval);
 }
 
 void Widget::movingDown()
 {
-    if (isPossibleMove(1, 0)) currentTetromino->move(0, blockSize.height());
-    else if (currentTetromino->getPos().y() == -10) gameOver();
+    if (!isPossibleMove(0, 0)) gameOver();
+    else if (isPossibleMove(1, 0)) currentTetromino->move(0, blockSize.height());
     else
     {
         addTetrominoToFloor();
@@ -126,27 +140,20 @@ void Widget::touchFloor()
 
 bool Widget::isPossibleMove(int di, int dj)
 {
-    bool check = true;
     int _i, _j;
     for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
     {
         for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
         {
-            _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + di + 1;
+            _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + di + 1;  //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
             _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j + dj;
             if ((currentTetromino->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
-            {
-                check = false;
-                break;
-            }
+                return false;
             else if (currentTetromino->getMatrix()[i][j] && myFloor->getMatrix()[_i][_j])     //!Checks if tetromino will be on the other tetromino
-            {
-                check = false;
-                break;
-            }
+                return false;
         }
     }
-    return check;
+    return true;
 }
 
 void Widget::addTetrominoToFloor()
@@ -158,7 +165,7 @@ void Widget::addTetrominoToFloor()
         {
             if (currentTetromino->getMatrix()[i][j])
             {
-                _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + 1;
+                _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + 1; //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
                 _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j;
                 myFloor->addItemToMatrix(_i, _j); //!Position of block and 'i' means in what point on floor matrix is tetromino
                 myFloor->setBlockColor(currentTetromino->getPixmap(), _i, _j);
