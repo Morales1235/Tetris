@@ -1,10 +1,10 @@
-#include "widget.h"
 #include <QApplication>
 #include <iostream>
 #include <unordered_map>
 #include <cstdlib>
+#include "widget.h"
 
-QPoint nextBlockPoint = QPoint(450, 100);
+QPoint nextPoint = QPoint(400, 100);
 QPoint startPoint = QPoint(130, -10);
 QSize blockSize = QSize(40, 40);
 

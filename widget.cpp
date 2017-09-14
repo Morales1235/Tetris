@@ -32,38 +32,38 @@ void Widget::keyPressEvent(QKeyEvent * event)
 {
         switch (event->key()) {
         case 0x41:      //key A
-            if (isPossibleMove(0, -1)) currentBlock->move<int>(-blockSize.width(), 0);
+            if (isPossibleMove(0, -1)) currentTetromino->move<int>(-blockSize.width(), 0);
             break;
         case 0x44:      //key D
-            if (isPossibleMove(0, 1)) currentBlock->move<int>(blockSize.width(), 0);
+            if (isPossibleMove(0, 1)) currentTetromino->move<int>(blockSize.width(), 0);
             break;
         case 0x45:      //key E
-            if (currentBlock->getShapeNumber() != 4) { //!Fourth block is O, it should't be rotating in 5x5 matrix
-                currentBlock->transponse();
+            if (currentTetromino->getShapeNumber() != 4) { //!Fourth tetromino is O, it should't be rotating in 5x5 matrix
+                currentTetromino->transponse();
                 if (!isPossibleMove(0, 0))
                 {
-                    currentBlock->transponse();
+                    currentTetromino->transponse();
                     break;
                 }
-                if (currentBlock->getShapeNumber() != 1)
+                if (currentTetromino->getShapeNumber() != 1)
                 {
-                    currentBlock->verticalReflection(); //!Don't know why I block is breaking every second rotate. Transponse is enough for that block
-                    if (!isPossibleMove(0, 0)) currentBlock->verticalReflection();
+                    currentTetromino->verticalReflection(); //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
+                    if (!isPossibleMove(0, 0)) currentTetromino->verticalReflection();
                 }
             }
             break;
         case 0x51:      //key Q
-            if (currentBlock->getShapeNumber() != 4) {
-                currentBlock->transponse();
+            if (currentTetromino->getShapeNumber() != 4) {
+                currentTetromino->transponse();
                 if (!isPossibleMove(0, 0))
                 {
-                    currentBlock->transponse();
+                    currentTetromino->transponse();
                     break;
                 }
-                if (currentBlock->getShapeNumber() != 1)
+                if (currentTetromino->getShapeNumber() != 1)
                 {
-                    currentBlock->horizontalReflection();
-                    if (!isPossibleMove(0, 0)) currentBlock->horizontalReflection();
+                    currentTetromino->horizontalReflection();
+                    if (!isPossibleMove(0, 0)) currentTetromino->horizontalReflection();
                 }
             }
             break;
@@ -72,7 +72,7 @@ void Widget::keyPressEvent(QKeyEvent * event)
     }
 }
 
-void Widget::setCurrentBlock()
+void Widget::setCurrentTetromino()
 {
     /*
     currentBlock = std::move(tetrominos.last());
@@ -81,14 +81,14 @@ void Widget::setCurrentBlock()
     tetrominos.push_back(nextBlock);
     */
     ///Without qvector of tetrominos
-    currentBlock = std::move(nextBlock);
-    currentBlock->setPosition(startPoint);
-    nextBlock = std::move(std::unique_ptr<Block> (new Block(this, nextBlockPoint, loss(1, 7))));
+    currentTetromino = std::move(nextTetromino);
+    currentTetromino->setPosition(startPoint);
+    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
 }
 
 void Widget::on_pushButton_clicked()
 {
-    currentBlock->move<int>(0, 40);
+    currentTetromino->move<int>(0, 40);
 }
 
 void Widget::startGame()
@@ -101,19 +101,20 @@ void Widget::startGame()
     movingTimer->start(moveInterval);
     */
     /////Without vector: tetrominos:
-    nextBlock = std::move(std::unique_ptr<Block> (new Block(this, nextBlockPoint, loss(1, 7))));
-    setCurrentBlock();
+    myFloor->resetMatrix();
+    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
+    setCurrentTetromino();
     movingTimer->start(*moveInterval);
 }
 
 void Widget::movingDown()
 {
-    if (isPossibleMove(1, 0)) currentBlock->move(0, blockSize.height());
-    else if (currentBlock->getPos().y() == -10) gameOver();
+    if (isPossibleMove(1, 0)) currentTetromino->move(0, blockSize.height());
+    else if (currentTetromino->getPos().y() == -10) gameOver();
     else
     {
-        addBlockToFloor();
-        setCurrentBlock();
+        addTetrominoToFloor();
+        setCurrentTetromino();
     }
 }
 
@@ -127,18 +128,18 @@ bool Widget::isPossibleMove(int di, int dj)
 {
     bool check = true;
     int _i, _j;
-    for (unsigned int i = 0; i < currentBlock->getMatrix().size(); i++)
+    for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
     {
-        for (unsigned int j = 0; j < currentBlock->getMatrix()[i].size(); j++)
+        for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
         {
-            _j = (currentBlock->getPos().x() - 10) / blockSize.width() + j + dj;
-            _i = (currentBlock->getPos().y() - 30) / blockSize.height() + i + di + 1;
-            if ((currentBlock->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
+            _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j + dj;
+            _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + di + 1;
+            if ((currentTetromino->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
             {
                 check = false;
                 break;
             }
-            else if (currentBlock->getMatrix()[i][j] && myFloor->getMatrix()[_i][_j])     //!Checks if tetromino will be on the other tetromino
+            else if (currentTetromino->getMatrix()[i][j] && myFloor->getMatrix()[_i][_j])     //!Checks if tetromino will be on the other tetromino
             {
                 check = false;
                 break;
@@ -148,15 +149,15 @@ bool Widget::isPossibleMove(int di, int dj)
     return check;
 }
 
-void Widget::addBlockToFloor()
+void Widget::addTetrominoToFloor()
 {
-    for (unsigned int i = 0; i < currentBlock->getMatrix().size(); i++)
+    for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
     {
-        for (unsigned int j = 0; j < currentBlock->getMatrix()[i].size(); j++)
+        for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
         {
-            if (currentBlock->getMatrix()[i][j])
+            if (currentTetromino->getMatrix()[i][j])
             {
-                myFloor->addItemToMatrix((currentBlock->getPos().y() - 30)/blockSize.height()+ i+ 1, (currentBlock->getPos().x() - 10) / blockSize.width() + j); //!Position of block and i means in what point on floor matrix is tetromino
+                myFloor->addItemToMatrix((currentTetromino->getPos().y() - 30)/blockSize.height()+ i+ 1, (currentTetromino->getPos().x() - 10) / blockSize.width() + j); //!Position of block and i means in what point on floor matrix is tetromino
             }
         }
     }
@@ -170,20 +171,22 @@ void Widget::gameOver()
 
 void Widget::on_addButton_clicked()
 {
-    if (isPossibleMove(0, 0)) addBlockToFloor();
+    if (isPossibleMove(0, 0)) addTetrominoToFloor();
     for (int i = 0; i < myFloor->getMatrix().size(); i++)
     {
         for (int j = 0; j < myFloor->getMatrix()[i].size(); j++)
         {
-            std::cout << myFloor->getMatrix()[i][j] << " ";
+            std::cout << bool(myFloor->getMatrix()[i][j]) << " ";
         }
         std::cout << std::endl;
     }
     std::cout << std::endl;
-    setCurrentBlock();
+    setCurrentTetromino();
 }
 
 void Widget::on_startButton_clicked()
 {
     startGame();
 }
+
+

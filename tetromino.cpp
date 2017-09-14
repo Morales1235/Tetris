@@ -1,10 +1,11 @@
-#include "block.h"
+#include "tetromino.h"
 
-Block::Block()
+
+Tetromino::Tetromino()
 {
 }
 
-Block::Block(QWidget *parent, QPoint &position, int shapeNumber):
+Tetromino::Tetromino(QWidget *parent, QPoint &position, int shapeNumber):
     parent(parent), shapeNumber(shapeNumber)
 {
     squaresInit(parent);
@@ -44,9 +45,7 @@ Block::Block(QWidget *parent, QPoint &position, int shapeNumber):
     setPosition(position);
 }
 
-Block::Block(const Block &other):    //!parent are the same for all block
-                                    //!blocks also exist all the time
-                                    //! so shallow copy of parent is enough (and the only possibility)
+Tetromino::Tetromino(const Tetromino &other):    //!parent are the same for all tetrominos
 matrix(other.matrix), pos(other.pos), left(other.left), right(other.right), shapeNumber(other.shapeNumber), top(other.top), bottom(other.bottom), blocks(other.blocks)
 {
     parent = new QWidget;
@@ -54,28 +53,28 @@ matrix(other.matrix), pos(other.pos), left(other.left), right(other.right), shap
     squaresInit(parent);
 }
 
-Block::~Block()
+Tetromino::~Tetromino()
 {
     squares.clear();
 }
 
-void Block::move(QPoint & point)
+void Tetromino::move(QPoint & point)
 {
     move(point.x(), point.y());
 }
 
-void Block::setPosition(QPoint &point)
+void Tetromino::setPosition(QPoint &point)
 {
     pos = QPoint(0, 0);
     move(point);
 }
 
-QPoint Block::getPos()
+QPoint Tetromino::getPos()
 {
     return pos;
 }
 
-void Block::squaresInit(QWidget *parent)
+void Tetromino::squaresInit(QWidget *parent)
 {
     for (int i = 0; i < blocks; i++)
     {
@@ -85,12 +84,12 @@ void Block::squaresInit(QWidget *parent)
     }
 }
 
-myMatrix Block::getMatrix()
+myMatrix Tetromino::getMatrix()
 {
     return matrix;
 }
 
-void Block::transponse()
+void Tetromino::transponse()
 {
     myMatrix newMatrix;
     for (unsigned int i = 0; i < matrix.size(); i++)
@@ -104,7 +103,7 @@ void Block::transponse()
     move(0, 0);
 }
 
-void Block::horizontalReflection()
+void Tetromino::horizontalReflection()
 {
     bool temp = 0;
     int m = matrix.size();
@@ -121,7 +120,7 @@ void Block::horizontalReflection()
     move(0, 0);
 }
 
-void Block::verticalReflection()
+void Tetromino::verticalReflection()
 {
     bool temp = 0;
     int m = matrix.size();
@@ -138,18 +137,18 @@ void Block::verticalReflection()
     move(0, 0);
 }
 
-int Block::getShapeNumber()
+int Tetromino::getShapeNumber()
 {
     return shapeNumber;
 }
 
 
-void Block::removeSquares()
+void Tetromino::removeSquares()
 {
     for (auto s: squares) s->clear();
 }
 
-Block Block::operator =(const Block & other)
+Tetromino Tetromino::operator =(const Tetromino & other)
 {
     //delete parent;
     parent = new QWidget;
@@ -167,7 +166,7 @@ Block Block::operator =(const Block & other)
     return * this;
 }
 
-myMatrix Block::operator= (const myMatrix & newMatrix)
+myMatrix Tetromino::operator= (const myMatrix & newMatrix)
 {
     for (int i = 0; i < matrix.size(); i++)
     {
@@ -177,6 +176,7 @@ myMatrix Block::operator= (const myMatrix & newMatrix)
         }
     }
 }
+
 
 /*
 //////////////////////////////////////////////////////////////////////////

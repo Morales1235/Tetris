@@ -2,14 +2,15 @@
   \brief    This is an abstract(not yet?) class representing one tetromino.
   **/
 
-#ifndef BLOCK_H
-#define BLOCK_H
+#ifndef TETROMINO_H
+#define TETROMINO_H
 
 #include <QLabel>
 #include <QVector>
 #include <iostream>
 #include <typeinfo>
 #include <memory>
+#include <unordered_map>
 
 extern QSize blockSize;
 
@@ -18,13 +19,13 @@ typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to 
                                                             //!They are 5x5 to fit all matrixes - biggest (I) has 4
                                                             //!But it also gives 3x3 tetrominos posibility to rotate around its middle square
 
-class Block
+class Tetromino
 {
 public:
-    Block();
-    Block(QWidget * parent, QPoint & position, int shapeNumber);
-    Block(const Block &other);
-    ~Block();
+    Tetromino();
+    Tetromino(QWidget * parent, QPoint & position, int shapeNumber);
+    Tetromino(const Tetromino &other);
+    ~Tetromino();
 
     //methods
     template<class T>
@@ -68,7 +69,7 @@ public:
     int getShapeNumber();                  /// \return the number of the shape(matrix)
     void removeSquares();
 
-    Block operator =(const Block &other);            /// \brief assigment operator for block
+    Tetromino operator =(const Tetromino &other);            /// \brief assigment operator for block
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
 
     //members
@@ -133,6 +134,8 @@ protected:
                           {{0, 0, 0, 0, 0}}}};
 };
 
+
+
 /*
 class Floor: public Block   /** \details Class Floor represents fallen block
                               * fallen block should add to floor, which is a big block of tetrominos
@@ -152,4 +155,4 @@ private:
 };
 */
 
-#endif // BLOCK_H
+#endif // TETROMINO_H
