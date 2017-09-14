@@ -25,6 +25,7 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
     void keyPressEvent(QKeyEvent * event);
+    void keyReleaseEvent(QKeyEvent * event);
     void setCurrentTetromino(); /// \brief sets which of tetrominos is current in the game
 
     /*
@@ -45,6 +46,7 @@ private slots:
     void on_pushButton_clicked();
     void startGame();       /// \brief starts the game
     void movingDown();      /// \brief executing to move down tetromino
+    void hardDrop();        /// \brief tetromino fall to the floor
     void touchFloor();      /// \brief executen when tetromino touches the floor
     bool isPossibleMove(int di, int dj);  /// \brief checks if is possible move on matrix by di dj
     void addTetrominoToFloor();                /// \brief adds current tetromino to matrix of floor

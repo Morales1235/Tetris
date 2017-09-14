@@ -48,10 +48,20 @@ void Widget::keyPressEvent(QKeyEvent * event)
             }
             break;
         case Qt::Key_S:
-            moveInterval = 500;
+            movingDown();
+            break;
+        case Qt::Key_Z:
+            hardDrop();
             break;
         default:
             break;
+    }
+}
+
+void Widget::keyReleaseEvent(QKeyEvent *event)
+{
+    switch (event->key())
+    {
     }
 }
 
@@ -130,6 +140,12 @@ void Widget::movingDown()
         addTetrominoToFloor();
         setCurrentTetromino();
     }
+}
+
+void Widget::hardDrop()
+{
+    while (isPossibleMove(1, 0))
+        movingDown();
 }
 
 void Widget::touchFloor()
