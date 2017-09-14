@@ -8,6 +8,7 @@
 #include <memory>
 
 //extern std::unordered_map<std::string, QPixmap> colors;
+extern QSize blockSize;
 
 class Floor
 {
@@ -15,7 +16,7 @@ public:
     Floor(QWidget * parent);
     void resetMatrix();
     void addItemToMatrix(int i, int j);                /// \brief adds a simple one block to the matrix
-    void setBlockColor(QPixmap pixmap, int i, int j);  /// \brief sets pixmap for block
+    void setBlockColor(const QPixmap *pixmap, int i, int j);  /// \brief sets pixmap for block
     std::array<std::array<std::shared_ptr<QLabel>, 10>, 15> getMatrix();   /// \return the matrix of this floor
 
 private:

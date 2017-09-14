@@ -132,8 +132,8 @@ bool Widget::isPossibleMove(int di, int dj)
     {
         for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
         {
-            _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j + dj;
             _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + di + 1;
+            _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j + dj;
             if ((currentTetromino->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
             {
                 check = false;
@@ -151,13 +151,17 @@ bool Widget::isPossibleMove(int di, int dj)
 
 void Widget::addTetrominoToFloor()
 {
+    int _i, _j;
     for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
     {
         for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
         {
             if (currentTetromino->getMatrix()[i][j])
             {
-                myFloor->addItemToMatrix((currentTetromino->getPos().y() - 30)/blockSize.height()+ i+ 1, (currentTetromino->getPos().x() - 10) / blockSize.width() + j); //!Position of block and i means in what point on floor matrix is tetromino
+                _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + 1;
+                _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j;
+                myFloor->addItemToMatrix(_i, _j); //!Position of block and 'i' means in what point on floor matrix is tetromino
+                myFloor->setBlockColor(currentTetromino->getPixmap(), _i, _j);
             }
         }
     }
