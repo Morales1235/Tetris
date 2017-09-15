@@ -47,4 +47,34 @@ void Floor::resetMatrixRow(int i)
     matrix[i].fill(nullptr);
 }
 
+void Floor::moveDownBlocks(int endRow)
+{
+    moveDownPixmaps(endRow);
+    moveDownMatrix(endRow);
+}
+
+void Floor::moveDownMatrix(int endRow)
+{
+    for (int i = endRow; i > 0; i--)
+    {
+            for (int j = 0; j < matrix[i].size(); j++)
+                matrix[i][j] = matrix[i - 1][j];
+
+    }
+}
+
+void Floor::moveDownPixmaps(int endRow)
+{
+    for (int i = endRow - 1; i > 0; i--)
+    {
+
+        for (int j = 0; j < matrix[i].size(); j++)
+        {
+            if (matrix[i][j])
+                matrix[i][j]->move(j * blockSize.width() + 10, (i + 1) * blockSize.height() - 10);
+        }
+
+    }
+}
+
 

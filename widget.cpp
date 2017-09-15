@@ -67,13 +67,6 @@ void Widget::keyReleaseEvent(QKeyEvent *event)
 
 void Widget::setCurrentTetromino()
 {
-    /*
-    currentBlock = std::move(tetrominos.last());
-    currentBlock->setPosition(startPoint);
-    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
-    tetrominos.push_back(nextBlock);
-    */
-    ///Without qvector of tetrominos
     currentTetromino = std::move(nextTetromino);
     currentTetromino->setPosition(startPoint);
     setNextTetromino();
@@ -116,14 +109,6 @@ void Widget::rotateLeft()
 
 void Widget::startGame()
 {
-    /*
-    tetrominos.clear();
-    nextBlock = std::move(std::shared_ptr<Block> (new Block(this, nextBlockPoint)));
-    tetrominos.push_back(nextBlock);
-    setCurrentBlock();
-    movingTimer->start(moveInterval);
-    */
-    /////Without vector: tetrominos:
     int moveInterval = 1000;
     score = 0;
     myFloor->resetMatrix();
@@ -163,7 +148,7 @@ void Widget::removeFullRows()
         if (myFloor->isRowFull(i))
         {
             myFloor->resetMatrixRow(i);
-            //func in myfloor
+            myFloor->moveDownBlocks(i);
             addPointToScore();
         }
     }
@@ -224,3 +209,16 @@ void Widget::on_startButton_clicked()
 }
 
 
+
+void Widget::on_matrixButton_clicked()
+{
+    for (auto row: myFloor->getMatrix())
+    {
+        for (auto element: row)
+            if (element)
+                std::cout << 1 << " ";
+        else std::cout << 0 << " ";
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+}

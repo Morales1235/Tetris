@@ -56,6 +56,8 @@ private slots:
 
     void on_startButton_clicked();
 
+    void on_matrixButton_clicked();
+
 private:
     Ui::Widget *ui;
     std::unique_ptr<Tetromino> currentTetromino = nullptr; /// \param currentTetromino a tetromino currently in playground
@@ -65,7 +67,6 @@ private:
     int moveInterval;    /// \param moveInterval interval of moving down
     std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor(this));
     unsigned int score;    /// \param score how much points the player gained
-    QVector<std::shared_ptr<Tetromino> > tetrominos;
 };
 
 #endif // WIDGET_H

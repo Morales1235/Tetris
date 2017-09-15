@@ -46,7 +46,7 @@ Tetromino::Tetromino(QWidget *parent, QPoint &position, int shapeNumber):
 }
 
 Tetromino::Tetromino(const Tetromino &other):    //!parent are the same for all tetrominos
-matrix(other.matrix), pos(other.pos), left(other.left), right(other.right), shapeNumber(other.shapeNumber), top(other.top), bottom(other.bottom), blocks(other.blocks)
+matrix(other.matrix), pos(other.pos), shapeNumber(other.shapeNumber), blocks(other.blocks)
 {
     parent = new QWidget;
     parent = other.parent;
@@ -162,11 +162,7 @@ Tetromino Tetromino::operator =(const Tetromino & other)
     squares.clear();
     squaresInit(parent);
     pos = other.pos;
-    left = other.left;
-    right = other.right;
     shapeNumber = other.shapeNumber;
-    top = other.top;
-    bottom = other.bottom;
     blocks = other.blocks;
     return * this;
 }

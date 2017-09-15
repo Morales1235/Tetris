@@ -33,10 +33,6 @@ public:
     {
         pos += QPoint(int(x), int(y));
         int i = 0;
-        left = 3;
-        right = 0;
-        top = 3;
-        bottom = 0;
         for (unsigned int m = 0; m < getMatrix().size(); m++)
         {
             for (unsigned int n = 0; n < getMatrix()[m].size(); n++)
@@ -44,10 +40,6 @@ public:
                 if (getMatrix()[m][n])
                 {
                     squares[i]->move(pos + QPoint(n, m) * blockSize.width());
-                    if (n < left) left = n;
-                    else if (right < n) right = n;
-                    if (m < top) top = m;
-                    else if (bottom < m) bottom = m;
                     i++;
                 }
             }
@@ -83,11 +75,7 @@ protected:
     QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
-    int left = 3;              /// \param left is left block in matrix of tetromino
-    int right = 0;             /// \param height is right block in matrix of tetromino
     int shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
-    int top = 3;                    /// \param top is top block in matrix of tetromino
-    int bottom = 0;                 /// \param bottom is bottom block in matrix of tetromino
     int blocks = 4;                 /// \param blocks is number of blocks in tetromino
     QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
