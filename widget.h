@@ -41,13 +41,15 @@ public:
     */
 
 private slots:
+    void setNextTetromino();    /// \brief sets which tetromino will be next in game
     void rotateRight();
     void rotateLeft();
     void on_pushButton_clicked();
     void startGame();       /// \brief starts the game
-    void movingDown();      /// \brief executing to move down tetromino
+    void movingDownLogic();      /// \brief executing to move down tetromino
+    void moveTetrominoDown();   /// \brief moves current tetromino down
     void hardDrop();        /// \brief tetromino fall to the floor
-    void touchFloor();      /// \brief executen when tetromino touches the floor
+    void removeFullRows(); /// \brief checks if any row is filled
     bool isPossibleMove(int di, int dj);  /// \brief checks if is possible move on matrix by di dj
     void addTetrominoToFloor();                /// \brief adds current tetromino to matrix of floor
     void gameOver();                /// \brief execute when playground os full of tetrominos

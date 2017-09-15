@@ -17,7 +17,7 @@ Widget::Widget(QWidget *parent) :
 
 
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
-    connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDown()));
+    connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
 
 }
 
@@ -48,7 +48,7 @@ void Widget::keyPressEvent(QKeyEvent * event)
             }
             break;
         case Qt::Key_S:
-            movingDown();
+            movingDownLogic();
             break;
         case Qt::Key_Z:
             hardDrop();
@@ -76,6 +76,11 @@ void Widget::setCurrentTetromino()
     ///Without qvector of tetrominos
     currentTetromino = std::move(nextTetromino);
     currentTetromino->setPosition(startPoint);
+    setNextTetromino();
+}
+
+void Widget::setNextTetromino()
+{
     nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
 }
 
@@ -126,33 +131,44 @@ void Widget::startGame()
     /////Without vector: tetrominos:
     int moveInterval = 1000;
     myFloor->resetMatrix();
-    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
+    setNextTetromino();
     setCurrentTetromino();
     movingTimer->start(moveInterval);
 }
 
-void Widget::movingDown()
+void Widget::movingDownLogic()
 {
     if (!isPossibleMove(0, 0)) gameOver();
-    else if (isPossibleMove(1, 0)) currentTetromino->move(0, blockSize.height());
+    else if (isPossibleMove(1, 0)) moveTetrominoDown();
     else
     {
         addTetrominoToFloor();
+        removeFullRows();
         setCurrentTetromino();
     }
+}
+
+void Widget::moveTetrominoDown()
+{
+    currentTetromino->move(0, blockSize.height());
 }
 
 void Widget::hardDrop()
 {
     while (isPossibleMove(1, 0))
-        movingDown();
+        movingDownLogic();
 }
 
-void Widget::touchFloor()
+void Widget::removeFullRows()
 {
-
+    std::cout << myFloor->getMatrix().size() << std::endl;
+    int begin = (currentTetromino->getPos().y() - 30) / blockSize.height() + 1;
+    for (int i = begin; (i < (begin + 4)) && (i < myFloor->getMatrix().size()); i++)
+    {
+        if (myFloor->isRowFull(i))
+            myFloor->resetMatrixRow(i);
+    }
 }
-
 
 bool Widget::isPossibleMove(int di, int dj)
 {
@@ -183,7 +199,7 @@ void Widget::addTetrominoToFloor()
             {
                 _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + 1; //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
                 _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j;
-                myFloor->addItemToMatrix(_i, _j); //!Position of block and 'i' means in what point on floor matrix is tetromino
+                myFloor->addBlockToMatrix(_i, _j); //!Position of block and 'i' means in what point on floor matrix is tetromino
                 myFloor->setBlockColor(currentTetromino->getPixmap(), _i, _j);
             }
         }

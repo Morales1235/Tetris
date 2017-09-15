@@ -9,10 +9,10 @@ Floor::Floor(QWidget * parent):
 void Floor::resetMatrix()
 {
     for (int i = 0; i < matrix.size(); i++)
-        matrix[i].fill(nullptr);
+        resetMatrixRow(i);
 }
 
-void Floor::addItemToMatrix(int i, int j)
+void Floor::addBlockToMatrix(int i, int j)
 {
     matrix[i][j] = std::move(std::shared_ptr<QLabel> (new QLabel(parent)));
     matrix[i][j]->move(QPoint(10 + blockSize.width() * j, -10 + blockSize.height() * i));
@@ -27,6 +27,24 @@ void Floor::setBlockColor(const QPixmap * pixmap, int i, int j)
 std::array<std::array<std::shared_ptr<QLabel>, 10>, 15> Floor::getMatrix()
 {
     return matrix;
+}
+
+bool Floor::isRowFull(int i)
+{
+    int blockCounter = 0;
+    for (auto block: matrix[i])
+    {
+        if (block)
+            blockCounter++;
+    }
+    if (blockCounter == 10)
+        return true;
+    else return false;
+}
+
+void Floor::resetMatrixRow(int i)
+{
+    matrix[i].fill(nullptr);
 }
 
 
