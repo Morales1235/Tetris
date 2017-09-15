@@ -42,9 +42,8 @@ public:
 
 private slots:
     void setNextTetromino();    /// \brief sets which tetromino will be next in game
-    void rotateRight();
-    void rotateLeft();
-    void on_pushButton_clicked();
+    void rotateRight();         /// \brief rotates current tetroimno right
+    void rotateLeft();          /// \brief rotates current tetroimno left
     void startGame();       /// \brief starts the game
     void movingDownLogic();      /// \brief executing to move down tetromino
     void moveTetrominoDown();   /// \brief moves current tetromino down
@@ -53,8 +52,7 @@ private slots:
     bool isPossibleMove(int di, int dj);  /// \brief checks if is possible move on matrix by di dj
     void addTetrominoToFloor();                /// \brief adds current tetromino to matrix of floor
     void gameOver();                /// \brief execute when playground os full of tetrominos
-
-    void on_addButton_clicked();
+    void addPointToScore();                /// \brief add one point to score
 
     void on_startButton_clicked();
 
@@ -66,6 +64,7 @@ private:
     //std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
     int moveInterval;    /// \param moveInterval interval of moving down
     std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor(this));
+    unsigned int score;    /// \param score how much points the player gained
     QVector<std::shared_ptr<Tetromino> > tetrominos;
 };
 

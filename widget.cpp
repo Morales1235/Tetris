@@ -114,11 +114,6 @@ void Widget::rotateLeft()
     }
 }
 
-void Widget::on_pushButton_clicked()
-{
-    currentTetromino->move<int>(0, 40);
-}
-
 void Widget::startGame()
 {
     /*
@@ -130,6 +125,7 @@ void Widget::startGame()
     */
     /////Without vector: tetrominos:
     int moveInterval = 1000;
+    score = 0;
     myFloor->resetMatrix();
     setNextTetromino();
     setCurrentTetromino();
@@ -161,12 +157,15 @@ void Widget::hardDrop()
 
 void Widget::removeFullRows()
 {
-    std::cout << myFloor->getMatrix().size() << std::endl;
     int begin = (currentTetromino->getPos().y() - 30) / blockSize.height() + 1;
     for (int i = begin; (i < (begin + 4)) && (i < myFloor->getMatrix().size()); i++)
     {
         if (myFloor->isRowFull(i))
+        {
             myFloor->resetMatrixRow(i);
+            //func in myfloor
+            addPointToScore();
+        }
     }
 }
 
@@ -212,20 +211,12 @@ void Widget::gameOver()
     QMessageBox::information(this, "Game over", "You finished the game with: ", QDialogButtonBox::Close);
 }
 
-void Widget::on_addButton_clicked()
+void Widget::addPointToScore()
 {
-    if (isPossibleMove(0, 0)) addTetrominoToFloor();
-    for (int i = 0; i < myFloor->getMatrix().size(); i++)
-    {
-        for (int j = 0; j < myFloor->getMatrix()[i].size(); j++)
-        {
-            std::cout << bool(myFloor->getMatrix()[i][j]) << " ";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-    setCurrentTetromino();
+    score += 1;
+    ui->scorePointsLabel->setText(QString::number(score));
 }
+
 
 void Widget::on_startButton_clicked()
 {
