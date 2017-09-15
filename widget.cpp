@@ -109,12 +109,18 @@ void Widget::rotateLeft()
 
 void Widget::startGame()
 {
-    int moveInterval = 1000;
-    score = 0;
+    setInitValues();
     myFloor->resetMatrix();
     setNextTetromino();
     setCurrentTetromino();
     movingTimer->start(moveInterval);
+}
+
+void Widget::setInitValues()
+{
+    moveInterval = 1000;
+    ui->scorePointsLabel->setText(QString::number(score =0));
+
 }
 
 void Widget::movingDownLogic()
@@ -193,7 +199,7 @@ void Widget::addTetrominoToFloor()
 void Widget::gameOver()
 {
     movingTimer->stop();
-    QMessageBox::information(this, "Game over", "You finished the game with: ", QDialogButtonBox::Close);
+    QMessageBox::information(this, "Game over", "You finished the game with: " + QString::number(score) + " points", QDialogButtonBox::Close);
 }
 
 void Widget::addPointToScore()

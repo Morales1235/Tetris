@@ -28,23 +28,12 @@ public:
     void keyReleaseEvent(QKeyEvent * event);
     void setCurrentTetromino(); /// \brief sets which of tetrominos is current in the game
 
-    /*
-    std::unordered_map<std::string, QPixmap> colors = {
-            { "lightBlue",  QPixmap("./graphics/light_blue.jpg") },
-            { "darkBlue",   QPixmap("./graphics/dark_blue.jpg") },
-            { "orange",     QPixmap("./graphics/orange.jpg") },
-            { "yellow",     QPixmap("./graphics/yellow.jpg") },
-            { "green",      QPixmap("./graphics/green.jpg") },
-            { "purple",     QPixmap("./graphics/purple.jpg") },
-            { "red",        QPixmap("./graphics/red.jpg") }
-        };
-    */
-
 private slots:
     void setNextTetromino();    /// \brief sets which tetromino will be next in game
     void rotateRight();         /// \brief rotates current tetroimno right
     void rotateLeft();          /// \brief rotates current tetroimno left
     void startGame();       /// \brief starts the game
+    void setInitValues();   /// \brief sets values as timer, score to initial
     void movingDownLogic();      /// \brief executing to move down tetromino
     void moveTetrominoDown();   /// \brief moves current tetromino down
     void hardDrop();        /// \brief tetromino fall to the floor
