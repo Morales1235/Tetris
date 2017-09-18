@@ -12,10 +12,6 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background);
 
-    //for (int i = 0; i < floorMatrix.size(); i++)
-    //    floorMatrix[i].fill(0);
-
-
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
     connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
 
@@ -144,6 +140,7 @@ void Widget::hardDrop()
 {
     while (isPossibleMove(1, 0))
         movingDownLogic();
+    movingDownLogic();      //!It makes add tetromino to floor when is fallen
 }
 
 void Widget::removeFullRows()
@@ -214,17 +211,3 @@ void Widget::on_startButton_clicked()
     startGame();
 }
 
-
-
-void Widget::on_matrixButton_clicked()
-{
-    for (auto row: myFloor->getMatrix())
-    {
-        for (auto element: row)
-            if (element)
-                std::cout << 1 << " ";
-        else std::cout << 0 << " ";
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
-}

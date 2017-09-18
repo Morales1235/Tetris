@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "widget.h"
 
-QPoint nextPoint = QPoint(400, 100);
+QPoint nextPoint = QPoint(420, 100);
 QPoint startPoint = QPoint(130, -10);
 QSize blockSize = QSize(40, 40);
 

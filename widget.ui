@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>620</width>
     <height>600</height>
    </rect>
   </property>
@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>hereIsBackGroundImage</string>
    </property>
   </widget>
   <widget class="Line" name="line">
@@ -190,17 +190,22 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="matrixButton">
+  <widget class="QLabel" name="nextTextLabel">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>460</y>
-     <width>85</width>
-     <height>29</height>
+     <x>470</x>
+     <y>60</y>
+     <width>81</width>
+     <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>show matrix</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>

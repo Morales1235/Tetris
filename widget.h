@@ -45,8 +45,6 @@ private slots:
 
     void on_startButton_clicked();
 
-    void on_matrixButton_clicked();
-
 private:
     Ui::Widget *ui;
     std::unique_ptr<Tetromino> currentTetromino = nullptr; /// \param currentTetromino a tetromino currently in playground
