@@ -74,16 +74,6 @@ QPoint Tetromino::getPos()
     return pos;
 }
 
-void Tetromino::squaresInit(QWidget *parent)
-{
-    for (int i = 0; i < blocks; i++)
-    {
-        try {squares.push_back(std::shared_ptr<QLabel> (new QLabel(parent)));}
-        catch (std::bad_alloc & e) {std::cout << e.what() << " in squaresInit" << std::endl;}
-        squares[i]->resize(blockSize);
-    }
-}
-
 myMatrix Tetromino::getMatrix()
 {
     return matrix;
@@ -155,7 +145,6 @@ const QPixmap *Tetromino::getPixmap()
 
 Tetromino Tetromino::operator =(const Tetromino & other)
 {
-    //delete parent;
     parent = new QWidget;
     parent = other.parent;
     matrix = other.matrix;
@@ -175,6 +164,17 @@ myMatrix Tetromino::operator= (const myMatrix & newMatrix)
         {
             matrix[i][j] = newMatrix[i][j];
         }
+    }
+    return matrix;
+}
+
+void Tetromino::squaresInit(QWidget *parent)
+{
+    for (int i = 0; i < blocks; i++)
+    {
+        try {squares.push_back(std::shared_ptr<QLabel> (new QLabel(parent)));}
+        catch (std::bad_alloc & e) {std::cout << e.what() << " in squaresInit" << std::endl;}
+        squares[i]->resize(blockSize);
     }
 }
 

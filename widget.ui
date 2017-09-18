@@ -146,8 +146,8 @@
   <widget class="QPushButton" name="startButton">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>530</y>
+     <x>480</x>
+     <y>450</y>
      <width>85</width>
      <height>29</height>
     </rect>
@@ -206,6 +206,32 @@
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="highscoresButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>490</y>
+     <width>85</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Highscores</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exitButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>530</y>
+     <width>85</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exit</string>
    </property>
   </widget>
  </widget>

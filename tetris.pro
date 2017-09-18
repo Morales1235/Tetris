@@ -27,11 +27,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         widget.cpp \
     floor.cpp \
-    tetromino.cpp
+    tetromino.cpp \
+    namedialog.cpp
 
 HEADERS  += widget.h \
     ui_widget.h \
     floor.h \
-    tetromino.h
+    tetromino.h \
+    namedialog.h
 
-FORMS    += widget.ui
+FORMS    += widget.ui \
+    namedialog.ui
+
+DISTFILES += \
+    highscores.txt

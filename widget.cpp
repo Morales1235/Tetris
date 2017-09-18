@@ -12,6 +12,8 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background);
 
+    scoresFile = std::unique_ptr<QFile> (new QFile("highscores.txt"));
+
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
     connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
 
@@ -54,11 +56,36 @@ void Widget::keyPressEvent(QKeyEvent * event)
     }
 }
 
-void Widget::keyReleaseEvent(QKeyEvent *event)
+void Widget::startGame()
 {
-    switch (event->key())
+    setInitValues();
+    myFloor->resetMatrix();
+    setNextTetromino();
+    setCurrentTetromino();
+    movingTimer->start(moveInterval);
+}
+
+void Widget::setInitValues()
+{
+    try {setPlayerName();}
+    catch (std::string err)
     {
+        std::cout << std::string("Error: ") << err << std::endl;
+        startGame();
     }
+    moveInterval = 1000;
+    ui->scorePointsLabel->setText(QString::number(score =0));
+}
+
+void Widget::setPlayerName()
+{
+    playerName = std::move(std::unique_ptr<QString> (new QString(QInputDialog::getText(this, "Introduce yourself", "Your Name: "))));
+    if (playerName->length() <= 0) throw std::string("Name didn't read");
+}
+
+void Widget::setNextTetromino()
+{
+    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
 }
 
 void Widget::setCurrentTetromino()
@@ -68,9 +95,22 @@ void Widget::setCurrentTetromino()
     setNextTetromino();
 }
 
-void Widget::setNextTetromino()
+bool Widget::isPossibleMove(int di, int dj)
 {
-    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
+    int _i, _j;
+    for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
+    {
+        for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
+        {
+            _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + di + 1;  //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
+            _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j + dj;
+            if ((currentTetromino->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
+                return false;
+            else if (currentTetromino->getMatrix()[i][j] && myFloor->getMatrix()[_i][_j])     //!Checks if tetromino will be on the other tetromino
+                return false;
+        }
+    }
+    return true;
 }
 
 void Widget::rotateRight()
@@ -103,22 +143,6 @@ void Widget::rotateLeft()
     }
 }
 
-void Widget::startGame()
-{
-    setInitValues();
-    myFloor->resetMatrix();
-    setNextTetromino();
-    setCurrentTetromino();
-    movingTimer->start(moveInterval);
-}
-
-void Widget::setInitValues()
-{
-    moveInterval = 1000;
-    ui->scorePointsLabel->setText(QString::number(score =0));
-
-}
-
 void Widget::movingDownLogic()
 {
     if (!isPossibleMove(0, 0)) gameOver();
@@ -143,38 +167,6 @@ void Widget::hardDrop()
     movingDownLogic();      //!It makes add tetromino to floor when is fallen
 }
 
-void Widget::removeFullRows()
-{
-    int begin = (currentTetromino->getPos().y() - 30) / blockSize.height() + 1;
-    for (int i = begin; (i < (begin + 4)) && (i < myFloor->getMatrix().size()); i++)
-    {
-        if (myFloor->isRowFull(i))
-        {
-            myFloor->resetMatrixRow(i);
-            myFloor->moveDownBlocks(i);
-            addPointToScore();
-        }
-    }
-}
-
-bool Widget::isPossibleMove(int di, int dj)
-{
-    int _i, _j;
-    for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
-    {
-        for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
-        {
-            _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + di + 1;  //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
-            _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j + dj;
-            if ((currentTetromino->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
-                return false;
-            else if (currentTetromino->getMatrix()[i][j] && myFloor->getMatrix()[_i][_j])     //!Checks if tetromino will be on the other tetromino
-                return false;
-        }
-    }
-    return true;
-}
-
 void Widget::addTetrominoToFloor()
 {
     int _i, _j;
@@ -193,10 +185,18 @@ void Widget::addTetrominoToFloor()
     }
 }
 
-void Widget::gameOver()
+void Widget::removeFullRows()
 {
-    movingTimer->stop();
-    QMessageBox::information(this, "Game over", "You finished the game with: " + QString::number(score) + " points", QDialogButtonBox::Close);
+    int begin = (currentTetromino->getPos().y() - 30) / blockSize.height() + 1;
+    for (int i = begin; (i < (begin + 4)) && (i < myFloor->getMatrix().size()); i++)
+    {
+        if (myFloor->isRowFull(i))
+        {
+            myFloor->resetMatrixRow(i);
+            myFloor->moveDownBlocks(i);
+            addPointToScore();
+        }
+    }
 }
 
 void Widget::addPointToScore()
@@ -205,9 +205,37 @@ void Widget::addPointToScore()
     ui->scorePointsLabel->setText(QString::number(score));
 }
 
+void Widget::gameOver()
+{
+    saveScore();
+    movingTimer->stop();
+    QMessageBox::information(this, "Game over", "You finished the game with: " + QString::number(score) + " points", QDialogButtonBox::Close);
+}
+
+void Widget::saveScore()
+{
+    if (scoresFile->open(QFile::WriteOnly))
+    {
+        QTextStream outStream(scoresFile.get());
+        outStream << score;
+        outStream << QString(" ; ");
+        outStream << *playerName;
+    }
+    else std::cout << "Could not write the score." << std::endl;
+    scoresFile->close();
+}
 
 void Widget::on_startButton_clicked()
 {
     startGame();
 }
 
+void Widget::on_highscoresButton_clicked()
+{
+}
+
+
+void Widget::on_exitButton_clicked()
+{
+    QCoreApplication::exit();
+}

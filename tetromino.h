@@ -27,7 +27,6 @@ public:
     Tetromino(const Tetromino &other);
     ~Tetromino();
 
-    //methods
     template<class T>
     void move(T x, T y)     /// \brief mvoes the tetromino by the x and y
     {
@@ -65,13 +64,9 @@ public:
     Tetromino operator =(const Tetromino &other);            /// \brief assigment operator for block
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
 
-    //members
-
 protected:
-    //methods
     void squaresInit(QWidget * parent); /// \brief adds squares to QVector and sets it size
 
-    //members
     QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
