@@ -1,1 +1,3 @@
-2;asdada
+
+0 ; llala
+1 ; drugi

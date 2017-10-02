@@ -214,10 +214,10 @@ void Widget::gameOver()
 
 void Widget::saveScore()
 {
-    if (scoresFile->open(QFile::WriteOnly))
+    if (scoresFile->open(QIODevice::Append | QFile::WriteOnly))
     {
         QTextStream outStream(scoresFile.get());
-        outStream << score;
+        outStream << "\n" << score;
         outStream << QString(" ; ");
         outStream << *playerName;
     }
