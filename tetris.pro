@@ -39,5 +39,4 @@ HEADERS  += widget.h \
 FORMS    += widget.ui \
     namedialog.ui
 
-DISTFILES += \
-    highscores.txt
+DISTFILES +=

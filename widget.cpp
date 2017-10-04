@@ -12,7 +12,7 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background);
 
-    scoresFile = std::unique_ptr<QFile> (new QFile("highscores.txt"));
+    scoresFile = std::unique_ptr<QFile> (new QFile("highscores"));
 
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
     connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
@@ -67,12 +67,7 @@ void Widget::startGame()
 
 void Widget::setInitValues()
 {
-    try {setPlayerName();}
-    catch (std::string err)
-    {
-        std::cout << std::string("Error: ") << err << std::endl;
-        startGame();
-    }
+    setPlayerName();
     moveInterval = 1000;
     ui->scorePointsLabel->setText(QString::number(score =0));
 }
@@ -80,7 +75,8 @@ void Widget::setInitValues()
 void Widget::setPlayerName()
 {
     playerName = std::move(std::unique_ptr<QString> (new QString(QInputDialog::getText(this, "Introduce yourself", "Your Name: "))));
-    if (playerName->length() <= 0) throw std::string("Name didn't read");
+    if (playerName->length() <= 0)
+        playerName = std::move(std::unique_ptr<QString> (new QString("Unnamed")));
 }
 
 void Widget::setNextTetromino()

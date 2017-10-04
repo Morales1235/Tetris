@@ -51,3 +51,4 @@ target_wrapper.*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+highscores.txt
