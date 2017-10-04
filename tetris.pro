@@ -28,15 +28,15 @@ SOURCES += main.cpp\
         widget.cpp \
     floor.cpp \
     tetromino.cpp \
-    namedialog.cpp
+    highscoreddialog.cpp
 
 HEADERS  += widget.h \
     ui_widget.h \
     floor.h \
     tetromino.h \
-    namedialog.h
+    highscoreddialog.h
 
 FORMS    += widget.ui \
-    namedialog.ui
+    highscoreddialog.ui
 
 DISTFILES +=

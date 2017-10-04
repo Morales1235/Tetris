@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NameDialog</class>
- <widget class="QDialog" name="NameDialog">
+ <class>HighScoredDialog</class>
+ <widget class="QDialog" name="HighScoredDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
-    <height>100</height>
+    <width>240</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,40 +16,17 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>20</y>
-     <width>81</width>
-     <height>241</height>
+     <x>10</x>
+     <y>270</y>
+     <width>221</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Vertical</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QKeySequenceEdit" name="nameInput">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>50</y>
-     <width>181</width>
-     <height>29</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="nameTextLabel">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>91</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Insert Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <set>QDialogButtonBox::Close</set>
    </property>
   </widget>
  </widget>
@@ -58,7 +35,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>NameDialog</receiver>
+   <receiver>HighScoredDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -74,7 +51,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>NameDialog</receiver>
+   <receiver>HighScoredDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

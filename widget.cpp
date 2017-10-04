@@ -214,7 +214,7 @@ void Widget::saveScore()
     {
         QTextStream outStream(scoresFile.get());
         outStream << "\n" << score;
-        outStream << QString(" ; ");
+        outStream << QString(";");
         outStream << *playerName;
     }
     else std::cout << "Could not write the score." << std::endl;
@@ -228,10 +228,58 @@ void Widget::on_startButton_clicked()
 
 void Widget::on_highscoresButton_clicked()
 {
+    std::cout <<"on button";
+    readHighscores();
+
+    //HighScoredDialog highScoresDialog(highscores, this);
+    //highScoresDialog.show();
+/*
+    for (QMultiMap<unsigned int, QString>::iterator it = highscores->end() - 1; it != highscores->end() - 6; it--)
+    {
+        qDebug() << it.key();
+        qDebug() << it.value();
+    }
+    */
 }
 
+void Widget::readHighscores()
+{
+    if (scoresFile->open(QFile::ReadOnly))
+    {
+        parseScoresFile();
+    }
+    scoresFile->close();
+}
+
+void Widget::parseScoresFile()
+{
+    QStringList line;
+    QString _score;
+    QTextStream inStream(scoresFile.get());
+    std::shared_ptr<QMultiMap<int, QString> > highscores (new QMultiMap<int, QString>);
+
+    while (!inStream.atEnd())
+    {
+        int i = 0;
+        qDebug() << i++;
+        _score = inStream.readLine();
+        if (!_score.isEmpty())
+        {
+            line = _score.split(';');
+            highscores->insert(line.first().toInt(), line.back());
+            qDebug() << highscores->last();
+            qDebug() << QString::number(highscores->lastKey());
+        }
+    }
+}
 
 void Widget::on_exitButton_clicked()
 {
     QCoreApplication::exit();
+}
+
+void Widget::on_pushButton_clicked()
+{
+
+    std::cout <<"on button";
 }

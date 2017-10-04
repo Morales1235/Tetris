@@ -6,11 +6,13 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QDialogButtonBox>
-#include <QVBoxLayout>
+#include <QInputDialog>
 #include <QMenuBar>
 #include <QTextStream>
 #include <QFile>
-#include "namedialog.h"
+#include <QMultiMap>
+#include <QDebug>
+#include "highscoreddialog.h"
 #include "tetromino.h"
 #include "floor.h"
 
@@ -48,12 +50,16 @@ private slots:
     void addPointToScore();                /// \brief add one point to score
     void gameOver();                    /// \brief executed when game ends - tetrominos are on top
     void saveScore();                   /// \brief saves the score to highscore file
+    void readHighscores();                   /// \brief read high scores from file
+    void parseScoresFile();                 /// \brief parses the score file to insert in highscores
 
     void on_startButton_clicked();
 
     void on_highscoresButton_clicked();
 
     void on_exitButton_clicked();
+
+    void on_pushButton_clicked();
 
 signals:
 
