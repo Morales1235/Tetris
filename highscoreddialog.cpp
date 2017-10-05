@@ -3,7 +3,6 @@
 
 HighScoredDialog::HighScoredDialog(pHighscores highscores, QWidget *parent) :
     QDialog(parent),
-    parent(parent),
     highscores(highscores),
     ui(new Ui::HighScoredDialog)
 {
@@ -29,9 +28,6 @@ HighScoredDialog::HighScoredDialog(pHighscores highscores, QWidget *parent) :
 
     mainVBoxLayout->addWidget(ui->buttonBox);
     initLabels();
-
-    //myLayout->setGeometry(QRect(QPoint(0, 0), QSize(this->size().width(), this->size().height() - ui->buttonBox->height() - 100)));
-
 }
 
 HighScoredDialog::~HighScoredDialog()

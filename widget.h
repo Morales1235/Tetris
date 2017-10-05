@@ -58,8 +58,6 @@ private slots:
 
     void on_exitButton_clicked();
 
-    void on_pushButton_clicked();
-
 signals:
 
 
@@ -68,7 +66,6 @@ private:
     std::unique_ptr<Tetromino> currentTetromino = nullptr; /// \param currentTetromino a tetromino currently in playground
     std::unique_ptr<Tetromino> nextTetromino = nullptr;   /// \param nextTetromino pointer to tetromino displaying as next tetromino
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval
-    //std::array<std::array<bool, 10>, 15> floorMatrix;   /// \param floorMatrix is matrix representing fallen tetrominos
     int moveInterval;    /// \param moveInterval interval of moving down
     std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor(this));
     std::unique_ptr<QString> playerName;     /// \param playerName name of the player

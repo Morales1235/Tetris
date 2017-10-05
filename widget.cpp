@@ -234,14 +234,6 @@ void Widget::on_highscoresButton_clicked()
         HighScoredDialog * highScoresDialog = new HighScoredDialog(readHighscores(), this);
         highScoresDialog->show();
     }
-
-/*
-    for (QMultiMap<unsigned int, QString>::iterator it = highscores->end() - 1; it != highscores->end() - 6; it--)
-    {
-        qDebug() << it.key();
-        qDebug() << it.value();
-    }
-    */
     scoresFile->close();
 }
 
@@ -260,8 +252,6 @@ pHighscores Widget::readHighscores()
         {
             line = _score.split(';');
             highscores->insert(line.first().toInt(), line.last());
-            qDebug() << highscores->last();
-            qDebug() << QString::number(highscores->lastKey());
         }
     }
     return highscores;
@@ -270,10 +260,4 @@ pHighscores Widget::readHighscores()
 void Widget::on_exitButton_clicked()
 {
     QCoreApplication::exit();
-}
-
-void Widget::on_pushButton_clicked()
-{
-
-    std::cout <<"on button";
 }

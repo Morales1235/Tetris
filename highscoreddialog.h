@@ -28,7 +28,6 @@ private:
 
     void initLabels();      /// \brief declaration of labels
 
-    QWidget * parent;
     QGridLayout * myLayout;
 
     QVBoxLayout * mainVBoxLayout;
@@ -37,18 +36,6 @@ private:
     QHBoxLayout * hBoxLayout;
 
     pHighscores highscores;
-
-    QLabel * score1;
-    QLabel * score2;
-    QLabel * score3;
-    QLabel * score4;
-    QLabel * score5;
-
-    QLabel * player1;
-    QLabel * player2;
-    QLabel * player3;
-    QLabel * player$;
-    QLabel * player5;
 };
 
 #endif // HIGHSCOREDDIALOG_H
