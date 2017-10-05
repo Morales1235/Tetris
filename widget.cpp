@@ -12,7 +12,7 @@ Widget::Widget(QWidget *parent) :
     QPixmap background("./graphics/background.jpg");
     ui->backgroundLabel->setPixmap(background);
 
-    scoresFile = std::unique_ptr<QFile> (new QFile("highscores"));
+    scoresFile = new QFile("highscores");
 
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
     connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
@@ -212,7 +212,7 @@ void Widget::saveScore()
 {
     if (scoresFile->open(QIODevice::Append | QFile::WriteOnly))
     {
-        QTextStream outStream(scoresFile.get());
+        QTextStream outStream(scoresFile);
         outStream << "\n" << score;
         outStream << QString(";");
         outStream << *playerName;
@@ -228,11 +228,13 @@ void Widget::on_startButton_clicked()
 
 void Widget::on_highscoresButton_clicked()
 {
-    std::cout <<"on button";
-    readHighscores();
 
-    //HighScoredDialog highScoresDialog(highscores, this);
-    //highScoresDialog.show();
+    if (scoresFile->open(QFile::ReadOnly))
+    {
+        HighScoredDialog * highScoresDialog = new HighScoredDialog(readHighscores(), this);
+        highScoresDialog->show();
+    }
+
 /*
     for (QMultiMap<unsigned int, QString>::iterator it = highscores->end() - 1; it != highscores->end() - 6; it--)
     {
@@ -240,37 +242,29 @@ void Widget::on_highscoresButton_clicked()
         qDebug() << it.value();
     }
     */
-}
-
-void Widget::readHighscores()
-{
-    if (scoresFile->open(QFile::ReadOnly))
-    {
-        parseScoresFile();
-    }
     scoresFile->close();
 }
 
-void Widget::parseScoresFile()
+
+pHighscores Widget::readHighscores()
 {
     QStringList line;
     QString _score;
-    QTextStream inStream(scoresFile.get());
-    std::shared_ptr<QMultiMap<int, QString> > highscores (new QMultiMap<int, QString>);
+    QTextStream inStream(scoresFile);
+    pHighscores highscores (new QMultiMap<int, QString>);
 
     while (!inStream.atEnd())
     {
-        int i = 0;
-        qDebug() << i++;
         _score = inStream.readLine();
         if (!_score.isEmpty())
         {
             line = _score.split(';');
-            highscores->insert(line.first().toInt(), line.back());
+            highscores->insert(line.first().toInt(), line.last());
             qDebug() << highscores->last();
             qDebug() << QString::number(highscores->lastKey());
         }
     }
+    return highscores;
 }
 
 void Widget::on_exitButton_clicked()

@@ -1,18 +1,36 @@
 #include "highscoreddialog.h"
 #include "ui_highscoreddialog.h"
 
-HighScoredDialog::HighScoredDialog(std::shared_ptr<QMultiMap<unsigned int, QString> > highscores, QWidget *parent) :
+HighScoredDialog::HighScoredDialog(pHighscores highscores, QWidget *parent) :
     QDialog(parent),
     parent(parent),
-    scores(highscores),
+    highscores(highscores),
     ui(new Ui::HighScoredDialog)
 {
     ui->setupUi(this);
 
-    //myLayout = new QGridLayout(parent);
-    //this->setLayout(myLayout);
 
-    //initLabels();
+    myLayout = new QGridLayout;
+    mainVBoxLayout = new QVBoxLayout;
+    lVBoxLayout = new QVBoxLayout;
+    rVBoxLayout = new QVBoxLayout;
+    hBoxLayout = new QHBoxLayout;
+
+    this->setLayout(mainVBoxLayout);
+
+    mainVBoxLayout->addLayout(hBoxLayout);
+    mainVBoxLayout->addLayout(myLayout);
+
+    hBoxLayout->addLayout(lVBoxLayout);
+    hBoxLayout->addLayout(rVBoxLayout);
+
+    myLayout->addWidget(ui->buttonBox);
+
+
+    mainVBoxLayout->addWidget(ui->buttonBox);
+    initLabels();
+
+    //myLayout->setGeometry(QRect(QPoint(0, 0), QSize(this->size().width(), this->size().height() - ui->buttonBox->height() - 100)));
 
 }
 
@@ -24,11 +42,10 @@ HighScoredDialog::~HighScoredDialog()
 
 void HighScoredDialog::initLabels()
 {
-    //myLayout->addWidget((new QLabel(scores->end().value())), 0, 0, Qt::AlignRight);
-    std::unique_ptr<QLabel> score1 (new QLabel("Hi", parent));
-    //QLabel * score1 = (new QLabel("Hi"));
-    score1->setObjectName("score1");
-    myLayout->addWidget(score1.get(), 0, 0, Qt::AlignRight);
-    score1->show();
+    for (QMultiMap<int, QString> :: iterator it = highscores->end() -1; it != highscores->end() - 6; it--)
+    {
+        lVBoxLayout->addWidget(new QLabel(QString::number(it.key())), 0, Qt::AlignRight);
+        rVBoxLayout->addWidget(new QLabel(it.value()));
+    }
 }
 

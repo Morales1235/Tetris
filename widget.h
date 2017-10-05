@@ -50,8 +50,7 @@ private slots:
     void addPointToScore();                /// \brief add one point to score
     void gameOver();                    /// \brief executed when game ends - tetrominos are on top
     void saveScore();                   /// \brief saves the score to highscore file
-    void readHighscores();                   /// \brief read high scores from file
-    void parseScoresFile();                 /// \brief parses the score file to insert in highscores
+    pHighscores readHighscores();                   /// \brief read high scores from file
 
     void on_startButton_clicked();
 
@@ -74,7 +73,7 @@ private:
     std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor(this));
     std::unique_ptr<QString> playerName;     /// \param playerName name of the player
     unsigned int score;    /// \param score how much points the player gained
-    std::unique_ptr<QFile> scoresFile; /// \file to save scores
+    QFile * scoresFile; /// \file to save scores
 };
 
 #endif // WIDGET_H
