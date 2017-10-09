@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>240</width>
-    <height>320</height>
+    <height>210</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>270</y>
+     <y>160</y>
      <width>221</width>
      <height>41</height>
     </rect>
@@ -28,17 +28,6 @@
    <property name="standardButtons">
     <set>QDialogButtonBox::Close</set>
    </property>
-  </widget>
-  <widget class="QWidget" name="gridLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>221</width>
-     <height>241</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="mainLayout"/>
   </widget>
  </widget>
  <resources/>

@@ -9,7 +9,7 @@ HighScoredDialog::HighScoredDialog(pHighscores highscores, QWidget *parent) :
     ui->setupUi(this);
 
 
-    myLayout = new QGridLayout;
+    buttonLayout = new QGridLayout;
     mainVBoxLayout = new QVBoxLayout;
     lVBoxLayout = new QVBoxLayout;
     rVBoxLayout = new QVBoxLayout;
@@ -18,12 +18,12 @@ HighScoredDialog::HighScoredDialog(pHighscores highscores, QWidget *parent) :
     this->setLayout(mainVBoxLayout);
 
     mainVBoxLayout->addLayout(hBoxLayout);
-    mainVBoxLayout->addLayout(myLayout);
+    mainVBoxLayout->addLayout(buttonLayout);
 
     hBoxLayout->addLayout(lVBoxLayout);
     hBoxLayout->addLayout(rVBoxLayout);
 
-    myLayout->addWidget(ui->buttonBox);
+    buttonLayout->addWidget(ui->buttonBox);
 
 
     mainVBoxLayout->addWidget(ui->buttonBox);

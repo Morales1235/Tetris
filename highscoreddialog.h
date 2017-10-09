@@ -28,12 +28,11 @@ private:
 
     void initLabels();      /// \brief declaration of labels
 
-    QGridLayout * myLayout;
-
-    QVBoxLayout * mainVBoxLayout;
-    QVBoxLayout * lVBoxLayout;
-    QVBoxLayout * rVBoxLayout;
-    QHBoxLayout * hBoxLayout;
+    QGridLayout * buttonLayout;         /// \param myLayout stores the button
+    QVBoxLayout * mainVBoxLayout;   /// \param mainVBoxLayout is layout separating button from scores
+    QHBoxLayout * hBoxLayout;       /// \param hBoxLayout separates points from names
+    QVBoxLayout * lVBoxLayout;      /// \param lVBoxLayout stores points of scores
+    QVBoxLayout * rVBoxLayout;      /// \param RVBoxLayout stores playre's name's
 
     pHighscores highscores;
 };
