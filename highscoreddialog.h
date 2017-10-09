@@ -27,6 +27,8 @@ private:
     Ui::HighScoredDialog *ui;
 
     void initLabels();      /// \brief declaration of labels
+    void fillEmptyScores(); /// \brief fills highscores with empty scores if number of scores is less than displaying scores
+    void addScoresToWindow(); /// \brief displays QLabels with scores
 
     QGridLayout * buttonLayout;         /// \param myLayout stores the button
     QVBoxLayout * mainVBoxLayout;   /// \param mainVBoxLayout is layout separating button from scores
@@ -34,7 +36,7 @@ private:
     QVBoxLayout * lVBoxLayout;      /// \param lVBoxLayout stores points of scores
     QVBoxLayout * rVBoxLayout;      /// \param RVBoxLayout stores playre's name's
 
-    pHighscores highscores;
+    pHighscores highscores;         /// \param highscores stores the high scores: points and names
 };
 
 #endif // HIGHSCOREDDIALOG_H

@@ -141,8 +141,10 @@ void Widget::rotateLeft()
 
 void Widget::movingDownLogic()
 {
-    if (!isPossibleMove(0, 0)) gameOver();
-    else if (isPossibleMove(1, 0)) moveTetrominoDown();
+    if (!isPossibleMove(0, 0))
+        gameOver();
+    else if (isPossibleMove(1, 0))
+        moveTetrominoDown();
     else
     {
         addTetrominoToFloor();

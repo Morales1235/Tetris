@@ -31,7 +31,6 @@ SOURCES += main.cpp\
     highscoreddialog.cpp
 
 HEADERS  += widget.h \
-    ui_widget.h \
     floor.h \
     tetromino.h \
     highscoreddialog.h

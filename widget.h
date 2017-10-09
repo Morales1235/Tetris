@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QMultiMap>
 #include <QDebug>
+#include <QTime>
 #include "highscoreddialog.h"
 #include "tetromino.h"
 #include "floor.h"
