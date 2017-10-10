@@ -14,13 +14,13 @@ namespace Ui {
 class HighScoredDialog;
 }
 
-class HighScoredDialog : public QDialog
+class HighScoresDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit HighScoredDialog(pHighscores highscores, QWidget *parent = 0);
-    ~HighScoredDialog();
+    explicit HighScoresDialog(pHighscores highscores, QWidget *parent = 0);
+    ~HighScoresDialog();
 
 
 private:

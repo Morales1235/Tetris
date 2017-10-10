@@ -1,7 +1,7 @@
-#include "highscoreddialog.h"
+#include "highscoresdialog.h"
 #include "ui_highscoreddialog.h"
 
-HighScoredDialog::HighScoredDialog(pHighscores highscores, QWidget *parent) :
+HighScoresDialog::HighScoresDialog(pHighscores highscores, QWidget *parent) :
     QDialog(parent),
     highscores(highscores),
     ui(new Ui::HighScoredDialog)
@@ -30,13 +30,13 @@ HighScoredDialog::HighScoredDialog(pHighscores highscores, QWidget *parent) :
     initLabels();
 }
 
-HighScoredDialog::~HighScoredDialog()
+HighScoresDialog::~HighScoresDialog()
 {
     delete ui;
 }
 
 
-void HighScoredDialog::initLabels()
+void HighScoresDialog::initLabels()
 {
     lVBoxLayout->addWidget(new QLabel("Points"), 0, Qt::AlignRight);
     rVBoxLayout->addWidget(new QLabel("Name"));
@@ -45,13 +45,13 @@ void HighScoredDialog::initLabels()
     addScoresToWindow();
 }
 
-void HighScoredDialog::fillEmptyScores()
+void HighScoresDialog::fillEmptyScores()
 {
     for (int i = highscores->size(); i < 6; i++)
         highscores->insert(0, "Nobody");
 }
 
-void HighScoredDialog::addScoresToWindow()
+void HighScoresDialog::addScoresToWindow()
 {
     for (QMultiMap<int, QString> :: iterator it = highscores->end() -1; it != highscores->end() - 6; it--)
     {

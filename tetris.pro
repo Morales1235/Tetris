@@ -28,12 +28,12 @@ SOURCES += main.cpp\
         widget.cpp \
     floor.cpp \
     tetromino.cpp \
-    highscoreddialog.cpp
+    highscoresdialog.cpp
 
 HEADERS  += widget.h \
     floor.h \
     tetromino.h \
-    highscoreddialog.h
+    highscoresdialog.h
 
 FORMS    += widget.ui \
     highscoreddialog.ui

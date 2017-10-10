@@ -13,7 +13,7 @@
 #include <QMultiMap>
 #include <QDebug>
 #include <QTime>
-#include "highscoreddialog.h"
+#include "highscoresdialog.h"
 #include "tetromino.h"
 #include "floor.h"
 
@@ -72,6 +72,7 @@ private:
     std::unique_ptr<QString> playerName;     /// \param playerName name of the player
     unsigned int score;    /// \param score how much points the player gained
     QFile * scoresFile; /// \file to save scores
+    std::unique_ptr<HighScoresDialog> highScoresDialog; /// \param highScoresDialog Dialog windows showing the high scores
 };
 
 #endif // WIDGET_H

@@ -16,7 +16,7 @@ Widget::Widget(QWidget *parent) :
 
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
     connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
-
+    connect(ui->highscoresButton, SIGNAL(clicked(bool)), movingTimer.get(), SLOT(stop()));
 }
 
 Widget::~Widget()
@@ -233,9 +233,10 @@ void Widget::on_highscoresButton_clicked()
 
     if (scoresFile->open(QFile::ReadOnly))
     {
-        HighScoredDialog * highScoresDialog = new HighScoredDialog(readHighscores(), this);
+        highScoresDialog = std::move(std::unique_ptr<HighScoresDialog> (new HighScoresDialog(readHighscores(), this)));
+        connect(highScoresDialog.get(), SIGNAL(rejected()), movingTimer.get(), SLOT(start()));
         highScoresDialog->show();
-    }
+    } else QMessageBox::information(this, "Highscores", "No scores");
     scoresFile->close();
 }
 
