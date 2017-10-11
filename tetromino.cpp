@@ -58,15 +58,27 @@ Tetromino::~Tetromino()
     squares.clear();
 }
 
-void Tetromino::move(QPoint & point)
+void Tetromino::move(int x, int y)
 {
-    move(point.x(), point.y());
+    pos += QPoint(int(x), int(y));
+    int i = 0;
+    for (unsigned int m = 0; m < getMatrix().size(); m++)
+    {
+        for (unsigned int n = 0; n < getMatrix()[m].size(); n++)
+        {
+            if (getMatrix()[m][n])
+            {
+                squares[i]->move(pos + QPoint(n, m) * blockSize.width());
+                i++;
+            }
+        }
+    }
 }
 
-void Tetromino::setPosition(QPoint &point)
+void Tetromino::setPosition(QPoint & point)
 {
     pos = QPoint(0, 0);
-    move(point);
+    move(point.x(), point.y());
 }
 
 QPoint Tetromino::getPos()

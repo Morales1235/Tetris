@@ -27,31 +27,8 @@ public:
     Tetromino(const Tetromino &other);
     ~Tetromino();
 
-    template<class T>
-    void move(T x, T y)     /// \brief mvoes the tetromino by the x and y
-    {
-        pos += QPoint(int(x), int(y));
-        int i = 0;
-        for (unsigned int m = 0; m < getMatrix().size(); m++)
-        {
-            for (unsigned int n = 0; n < getMatrix()[m].size(); n++)
-            {
-                if (getMatrix()[m][n])
-                {
-                    squares[i]->move(pos + QPoint(n, m) * blockSize.width());
-                    i++;
-                }
-            }
-        }
-    }
-    void move(QPoint & point);    /// \brief mvoes the tetromino by the point
-    template<class T>
-    void setPosition(T x, T y)      /// \brief sets position of tetromino
-    {
-        pos = QPoint(0, 0);
-        move(x, y);
-    }
-    void setPosition(QPoint & point);   /// \brief moves the tetromino to the point
+    void move(int x, int y);    /// \brief mvoes the tetromino by the point
+    void setPosition(QPoint &point);   /// \brief moves the tetromino to the point
     QPoint getPos();                     /// \return the position of tetromino
     myMatrix getMatrix(); /// \brief returns matrix representing tetromino
     void transponse();      /// \brief transposing the matrix of tetromino

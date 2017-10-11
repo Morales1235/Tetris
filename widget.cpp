@@ -30,10 +30,10 @@ void Widget::keyPressEvent(QKeyEvent * event)
 {
         switch (event->key()) {
         case Qt::Key_A:
-            if (isPossibleMove(0, -1)) currentTetromino->move<int>(-blockSize.width(), 0);
+            if (isPossibleMove(0, -1)) currentTetromino->move(-blockSize.width(), 0);
             break;
         case Qt::Key_D:
-            if (isPossibleMove(0, 1)) currentTetromino->move<int>(blockSize.width(), 0);
+            if (isPossibleMove(0, 1)) currentTetromino->move(blockSize.width(), 0);
             break;
         case Qt::Key_E:
             if (currentTetromino->getShapeNumber() != 4) { //!Fourth tetromino is O, it should't be rotating in 5x5 matrix
