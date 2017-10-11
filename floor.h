@@ -7,7 +7,6 @@
 #include <QLabel>
 #include <memory>
 
-//extern std::unordered_map<std::string, QPixmap> colors;
 extern QSize blockSize;
 
 class Floor
@@ -23,8 +22,8 @@ public:
     void moveDownBlocks(int endRow);                /// \brief move down blocks that are over the endRow
 
 private:
-    void moveDownMatrix(int endRow);            /// \brief move down elements are over endWor
-    void moveDownPixmaps(int endRow);           /// \brief
+    void moveDownPixmaps(int endRow);           /// \brief move down pixmaps of tetrominos
+    void moveDownMatrix(int endRow);            /// \brief move down elements are over end row
     std::array<std::array<std::shared_ptr<QLabel>, 10>, 15> matrix;   /// \param floorMatrix is matrix representing fallen tetrominos
     QWidget * parent;
 };
