@@ -52,3 +52,10 @@ target_wrapper.*
 CMakeLists.txt.user*
 
 highscores.txt
+
+#Doxygen
+
+*doxygen*
+html/
+latex/
+tetris.conf

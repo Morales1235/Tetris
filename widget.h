@@ -52,6 +52,7 @@ private slots:
     void gameOver();                    /// \brief executed when game ends - tetrominos are on top
     void saveScore();                   /// \brief saves the score to highscore file
     pHighscores readHighscores();                   /// \brief read high scores from file
+    void startTimerAfterCloseHighScores();          /// \brief start moving timer after closing highscores window
 
     void on_startButton_clicked();
 
@@ -68,6 +69,7 @@ private:
     std::unique_ptr<Tetromino> nextTetromino = nullptr;   /// \param nextTetromino pointer to tetromino displaying as next tetromino
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval
     int moveInterval;    /// \param moveInterval interval of moving down
+    bool gameFinished = false;
     std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor(this));
     std::unique_ptr<QString> playerName;     /// \param playerName name of the player
     unsigned int score;    /// \param score how much points the player gained

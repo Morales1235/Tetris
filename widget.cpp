@@ -69,6 +69,7 @@ void Widget::setInitValues()
 {
     setPlayerName();
     moveInterval = 1000;
+    gameFinished = false;
     ui->scorePointsLabel->setText(QString::number(score =0));
 }
 
@@ -206,6 +207,7 @@ void Widget::addPointToScore()
 void Widget::gameOver()
 {
     saveScore();
+    gameFinished = true;
     movingTimer->stop();
     QMessageBox::information(this, "Game over", "You finished the game with: " + QString::number(score) + " points", QDialogButtonBox::Close);
 }
@@ -234,7 +236,7 @@ void Widget::on_highscoresButton_clicked()
     if (scoresFile->open(QFile::ReadOnly))
     {
         highScoresDialog = std::move(std::unique_ptr<HighScoresDialog> (new HighScoresDialog(readHighscores(), this)));
-        connect(highScoresDialog.get(), SIGNAL(rejected()), movingTimer.get(), SLOT(start()));
+        startTimerAfterCloseHighScores();
         highScoresDialog->show();
     } else QMessageBox::information(this, "Highscores", "No scores");
     scoresFile->close();
@@ -258,6 +260,12 @@ pHighscores Widget::readHighscores()
         }
     }
     return highscores;
+}
+
+void Widget::startTimerAfterCloseHighScores()
+{
+    if (!gameFinished)
+        connect(highScoresDialog.get(), SIGNAL(rejected()), movingTimer.get(), SLOT(start()));
 }
 
 void Widget::on_exitButton_clicked()
