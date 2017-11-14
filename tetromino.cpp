@@ -46,7 +46,7 @@ Tetromino::Tetromino(QWidget *parent, QPoint &position, int shapeNumber):
 }
 
 Tetromino::Tetromino(const Tetromino &other):    //!parent are the same for all tetrominos
-matrix(other.matrix), pos(other.pos), shapeNumber(other.shapeNumber), blocks(other.blocks)
+matrix(other.matrix), pos(other.pos), shapeNumber(other.shapeNumber)
 {
     parent = new QWidget;
     parent = other.parent;
@@ -164,7 +164,6 @@ Tetromino Tetromino::operator =(const Tetromino & other)
     squaresInit(parent);
     pos = other.pos;
     shapeNumber = other.shapeNumber;
-    blocks = other.blocks;
     return * this;
 }
 
@@ -182,7 +181,7 @@ myMatrix Tetromino::operator= (const myMatrix & newMatrix)
 
 void Tetromino::squaresInit(QWidget *parent)
 {
-    for (int i = 0; i < blocks; i++)
+    for (int i = 0; i < 4; i++)
     {
         try {squares.push_back(std::shared_ptr<QLabel> (new QLabel(parent)));}
         catch (std::bad_alloc & e) {std::cout << e.what() << " in squaresInit" << std::endl;}

@@ -48,7 +48,6 @@ protected:
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
     int shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
-    int blocks = 4;                 /// \param blocks is number of blocks in tetromino
     QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
 
