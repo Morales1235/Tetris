@@ -19,7 +19,6 @@
 
 extern QPoint startPoint;
 extern QPoint nextPoint;
-extern int loss(int, int);
 
 namespace Ui {
 class Widget;

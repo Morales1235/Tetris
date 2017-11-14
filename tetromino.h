@@ -46,7 +46,6 @@ public:
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
     void verticalReflection();        /// \brief Reflects the matrix by vertical axis
     int getShapeNumber();                  /// \return the number of the shape(matrix)
-    void removeSquares();                   /// \brief clean blocks in tetromino
     const QPixmap * getPixmap();                    /// \return the color of tetromino as pixmap
 
     Tetromino operator =(const Tetromino &other);            /// \brief assigment operator for block

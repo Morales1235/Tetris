@@ -70,7 +70,7 @@ void Widget::setInitValues()
     setPlayerName();
     moveInterval = 1000;
     gameFinished = false;
-    ui->scorePointsLabel->setText(QString::number(score =0));
+    ui->scorePointsLabel->setText(QString::number(score = 0));
 }
 
 void Widget::setPlayerName()
@@ -82,7 +82,7 @@ void Widget::setPlayerName()
 
 void Widget::setNextTetromino()
 {
-    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint)));//, loss(1, 7))));
+    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint)));
 }
 
 void Widget::setCurrentTetromino()
@@ -118,9 +118,9 @@ void Widget::rotateRight()
         currentTetromino->transponse();
         return;
     }
-    if (currentTetromino->getShapeNumber() != 1)
+    if (currentTetromino->getShapeNumber() != 1)     //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
     {
-        currentTetromino->verticalReflection(); //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
+        currentTetromino->verticalReflection();
         if (!isPossibleMove(0, 0)) currentTetromino->verticalReflection();
     }
 }
@@ -168,17 +168,17 @@ void Widget::hardDrop()
 
 void Widget::addTetrominoToFloor()
 {
-    int _i, _j;
+    int _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + 1; //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
+    int _j = (currentTetromino->getPos().x() - 10) / blockSize.width();
+
     for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
     {
         for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
         {
             if (currentTetromino->getMatrix()[i][j])
             {
-                _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + 1; //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
-                _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j;
-                myFloor->addBlockToMatrix(_i, _j); //!Position of block and 'i' means in what point on floor matrix is tetromino
-                myFloor->setBlockColor(currentTetromino->getPixmap(), _i, _j);
+                myFloor->addBlockToMatrix(_i + i, _j + j); //!Position of block and 'i' means in what point on floor matrix is tetromino
+                myFloor->setBlockColor(currentTetromino->getPixmap(), _i + i, _j + j);
             }
         }
     }

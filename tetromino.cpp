@@ -146,11 +146,6 @@ int Tetromino::getShapeNumber()
 }
 
 
-void Tetromino::removeSquares()
-{
-    for (auto s: squares) s->clear();
-}
-
 const QPixmap *Tetromino::getPixmap()
 {
     return squares.last()->pixmap();
