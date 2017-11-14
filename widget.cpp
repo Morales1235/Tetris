@@ -82,7 +82,7 @@ void Widget::setPlayerName()
 
 void Widget::setNextTetromino()
 {
-    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, loss(1, 7))));
+    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint)));//, loss(1, 7))));
 }
 
 void Widget::setCurrentTetromino()

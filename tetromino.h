@@ -19,11 +19,22 @@ typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to 
                                                             //!They are 5x5 to fit all matrixes - biggest (I) has 4
                                                             //!But it also gives 3x3 tetrominos posibility to rotate around its middle square
 
+enum shapes
+{
+    LIGHT_BLUE = 1,
+    DARK_BLUE,
+    ORANGE,
+    YELLOW,
+    GREEN,
+    PURPLE,
+    RED
+};
+
 class Tetromino
 {
 public:
     Tetromino();
-    Tetromino(QWidget * parent, QPoint & position, int shapeNumber);
+    Tetromino(QWidget * parent, QPoint & position);
     Tetromino(const Tetromino &other);
     ~Tetromino();
 
@@ -47,7 +58,7 @@ protected:
     QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
-    int shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
+    shapes shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
     QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
 
