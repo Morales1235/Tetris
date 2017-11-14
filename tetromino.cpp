@@ -62,15 +62,16 @@ Tetromino::~Tetromino()
 void Tetromino::move(int x, int y)
 {
     pos += QPoint(int(x), int(y));
-    int i = 0;
+    QVector<std::shared_ptr<QLabel> >::iterator it = squares.begin();
+
     for (unsigned int m = 0; m < getMatrix().size(); m++)
     {
         for (unsigned int n = 0; n < getMatrix()[m].size(); n++)
         {
             if (getMatrix()[m][n])
             {
-                squares[i]->move(pos + QPoint(n, m) * blockSize.width());
-                i++;
+                it->get()->move(pos + QPoint(n, m) * blockSize.width());
+                it++;
             }
         }
     }
@@ -181,7 +182,7 @@ void Tetromino::squaresInit(QWidget *parent)
     {
         try {squares.push_back(std::shared_ptr<QLabel> (new QLabel(parent)));}
         catch (std::bad_alloc & e) {std::cout << e.what() << " in squaresInit" << std::endl;}
-        squares[i]->resize(blockSize);
+        squares.last()->resize(blockSize);
     }
 }
 
