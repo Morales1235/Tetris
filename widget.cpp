@@ -99,8 +99,8 @@ bool Widget::isPossibleMove(int di, int dj)
     {
         for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
         {
-            _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + i + di + 1;  //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
-            _j = (currentTetromino->getPos().x() - 10) / blockSize.width() + j + dj;
+            _i = currentTetromino->getPosAtMatrix().y() + i + di + 1;  //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
+            _j = currentTetromino->getPosAtMatrix().x() + j + dj;
             if ((currentTetromino->getMatrix()[i][j]) && (_i >= myFloor->getMatrix().size() || _j >= myFloor->getMatrix()[_i].size() || _j < 0))   //!Checks if tetromino wants move outside the playground
                 return false;
             else if (currentTetromino->getMatrix()[i][j] && myFloor->getMatrix()[_i][_j])     //!Checks if tetromino will be on the other tetromino
@@ -168,25 +168,21 @@ void Widget::hardDrop()
 
 void Widget::addTetrominoToFloor()
 {
-    int _i = (currentTetromino->getPos().y() - 30) / blockSize.height() + 1; //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
-    int _j = (currentTetromino->getPos().x() - 10) / blockSize.width();
+    int _i = currentTetromino->getPosAtMatrix().y() + 1; //!Plus one is because floormatrix begins at -1, because tetromino matrix is over the playground when its begin to move
+    int _j = currentTetromino->getPosAtMatrix().x();
 
     for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
-    {
         for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
-        {
             if (currentTetromino->getMatrix()[i][j])
             {
-                myFloor->addBlockToMatrix(_i + i, _j + j); //!Position of block and 'i' means in what point on floor matrix is tetromino
-                myFloor->setBlockColor(currentTetromino->getPixmap(), _i + i, _j + j);
+                myFloor->addBlockToMatrix(i + _i, j + _j); //!Position of block and 'i' means in what point on floor matrix is tetromino
+                myFloor->setBlockColor(currentTetromino->getPixmap(), i + _i, j + _j);
             }
-        }
-    }
 }
 
 void Widget::removeFullRows()
 {
-    int begin = (currentTetromino->getPos().y() - 30) / blockSize.height() + 1;
+    int begin = currentTetromino->getPosAtMatrix().y() + 1;
     for (int i = begin; (i < (begin + 4)) && (i < myFloor->getMatrix().size()); i++)
     {
         if (myFloor->isRowFull(i))

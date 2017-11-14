@@ -75,6 +75,7 @@ void Tetromino::move(int x, int y)
             }
         }
     }
+
 }
 
 void Tetromino::setPosition(QPoint & point)
@@ -83,9 +84,9 @@ void Tetromino::setPosition(QPoint & point)
     move(point.x(), point.y());
 }
 
-QPoint Tetromino::getPos()
+QPoint Tetromino::getPosAtMatrix()
 {
-    return pos;
+    return QPoint( (pos.x() - 10) / blockSize.width(), (pos.y() - 30) / blockSize.height());
 }
 
 myMatrix Tetromino::getMatrix()

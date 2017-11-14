@@ -40,7 +40,7 @@ public:
 
     void move(int x, int y);    /// \brief mvoes the tetromino by the point
     void setPosition(QPoint &point);   /// \brief moves the tetromino to the point
-    QPoint getPos();                     /// \return the position of tetromino
+    QPoint getPosAtMatrix();                     /// \return the position of tetromino
     myMatrix getMatrix(); /// \brief returns matrix representing tetromino
     void transponse();      /// \brief transposing the matrix of tetromino
     void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
