@@ -36,12 +36,12 @@ void Widget::keyPressEvent(QKeyEvent * event)
             if (isPossibleMove(0, 1)) currentTetromino->move(blockSize.width(), 0);
             break;
         case Qt::Key_E:
-            if (currentTetromino->getShapeNumber() != 4) { //!Fourth tetromino is O, it should't be rotating in 5x5 matrix
+            if (currentTetromino->getShapeNumber() != YELLOW) { //!Fourth tetromino is O, it should't be rotating in 5x5 matrix
                 rotateRight();
             }
             break;
         case Qt::Key_Q:
-            if (currentTetromino->getShapeNumber() != 4) {
+            if (currentTetromino->getShapeNumber() != YELLOW) {
                 rotateLeft();
             }
             break;
@@ -118,7 +118,7 @@ void Widget::rotateRight()
         currentTetromino->transponse();
         return;
     }
-    if (currentTetromino->getShapeNumber() != 1)     //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
+    if (currentTetromino->getShapeNumber() != LIGHT_BLUE)     //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
     {
         currentTetromino->verticalReflection();
         if (!isPossibleMove(0, 0)) currentTetromino->verticalReflection();
@@ -133,7 +133,7 @@ void Widget::rotateLeft()
         currentTetromino->transponse();
         return;
     }
-    if (currentTetromino->getShapeNumber() != 1)
+    if (currentTetromino->getShapeNumber() != LIGHT_BLUE)
     {
         currentTetromino->horizontalReflection();
         if (!isPossibleMove(0, 0)) currentTetromino->horizontalReflection();

@@ -9,7 +9,13 @@ Tetromino::Tetromino(QWidget *parent, QPoint &position):
     parent(parent), shapeNumber(shapeNumber)
 {
     squaresInit(parent);
-    shapeNumber = static_cast<shapes> (rand() % RED + 1);
+    shapeNumber = rand() % 7;
+
+    shapes = Shapes::getInstance();
+    for (auto s: squares) s->setPixmap(shapes->getPixmap(shapeNumber));
+    matrix = shapes->getMatrix(shapeNumber);
+
+    /*
     switch (shapeNumber) {
     case LIGHT_BLUE:
         matrix = matrix_I;
@@ -42,6 +48,7 @@ Tetromino::Tetromino(QWidget *parent, QPoint &position):
     default:
         break;
     }
+    */
     for (auto s: squares) s->show();
     setPosition(position);
 }

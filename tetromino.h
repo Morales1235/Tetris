@@ -10,25 +10,10 @@
 #include <iostream>
 #include <typeinfo>
 #include <memory>
-#include <unordered_map>
+#include "shapes.h"
+//#include <unordered_map>
 
 extern QSize blockSize;
-
-typedef std::array<std::array<bool, 5>, 5> myMatrix;        //!Matrixes used to represent each tetromino
-                                                            //!Which matrix must be the same, because of definition of objects... blah
-                                                            //!They are 5x5 to fit all matrixes - biggest (I) has 4
-                                                            //!But it also gives 3x3 tetrominos posibility to rotate around its middle square
-
-enum shapes
-{
-    LIGHT_BLUE = 1,
-    DARK_BLUE,
-    ORANGE,
-    YELLOW,
-    GREEN,
-    PURPLE,
-    RED
-};
 
 class Tetromino
 {
@@ -48,7 +33,7 @@ public:
     int getShapeNumber();                  /// \return the number of the shape(matrix)
     const QPixmap * getPixmap();                    /// \return the color of tetromino as pixmap
 
-    Tetromino operator =(const Tetromino &other);            /// \brief assigment operator for block
+    Tetromino operator = (const Tetromino &other);            /// \brief assigment operator for block
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
 
 protected:
@@ -57,51 +42,11 @@ protected:
     QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
-    shapes shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
+    Shapes * shapes;                    /// \param stores matrixes and colors for blocks
+    int shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
     QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
 
-    myMatrix matrix_I = {{{{0, 0, 0, 0, 0}},
-                          {{1, 1, 1, 1, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}}}};
-
-    myMatrix matrix_J = {{{{0, 0, 0, 0, 0}},
-                          {{0, 1, 0, 0, 0}},
-                          {{0, 1, 1, 1, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}}}};
-
-    myMatrix matrix_L = {{{{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 1, 0}},
-                          {{0, 1, 1, 1, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}}}};
-
-    myMatrix matrix_O = {{{{0, 0, 0, 0, 0}},
-                          {{0, 1, 1, 0, 0}},
-                          {{0, 1, 1, 0, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}}}};
-
-    myMatrix matrix_S = {{{{0, 0, 0, 0, 0}},
-                          {{0, 0, 1, 1, 0}},
-                          {{0, 1, 1, 0, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}}}};
-
-    myMatrix matrix_T = {{{{0, 0, 0, 0, 0}},
-                          {{0, 0, 1, 0, 0}},
-                          {{0, 1, 1, 1, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}}}};
-
-    myMatrix matrix_Z = {{{{0, 0, 0, 0, 0}},
-                          {{0, 1, 1, 0, 0}},
-                          {{0, 0, 1, 1, 0}},
-                          {{0, 0, 0, 0, 0}},
-                          {{0, 0, 0, 0, 0}}}};
 };
 
 
