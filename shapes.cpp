@@ -31,33 +31,6 @@ Shapes *Shapes::getInstance()
 myMatrix Shapes::getMatrix(int number)
 {
     return matrixes[number];
-    /*
-    switch (number) {
-    case LIGHT_BLUE:
-        return std::pair <myMatrix, QPixmap> (matrix_I, *lightBluePixmap.get());
-        break;
-    case DARK_BLUE:
-        return std::pair <myMatrix, QPixmap> (matrix_J, *darkBluePixmap.get());
-        break;
-    case ORANGE:
-        return std::pair <myMatrix, QPixmap> (matrix_L, *orangePixmap.get());
-        break;
-    case YELLOW:
-        return std::pair <myMatrix, QPixmap> (matrix_O, *yellowPixmap.get());
-        break;
-    case GREEN:
-        return std::pair <myMatrix, QPixmap> (matrix_S, *greenPixmap.get());
-        break;
-    case PURPLE:
-        return std::pair <myMatrix, QPixmap> (matrix_T, *purplePixmap.get());
-        break;
-    case RED:
-        return std::pair <myMatrix, QPixmap> (matrix_Z, *redPixmap.get());
-        break;
-    default:
-        break;
-    }
-    */
 }
 
 QPixmap Shapes::getPixmap(int number)

@@ -14,6 +14,7 @@ Widget::Widget(QWidget *parent) :
 
     scoresFile = new QFile("highscores");
 
+    shapes = Shapes::getInstance();
     movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
     connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
     connect(ui->highscoresButton, SIGNAL(clicked(bool)), movingTimer.get(), SLOT(stop()));
@@ -82,7 +83,7 @@ void Widget::setPlayerName()
 
 void Widget::setNextTetromino()
 {
-    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint)));
+    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, shapes)));
 }
 
 void Widget::setCurrentTetromino()
@@ -174,10 +175,7 @@ void Widget::addTetrominoToFloor()
     for (unsigned int i = 0; i < currentTetromino->getMatrix().size(); i++)
         for (unsigned int j = 0; j < currentTetromino->getMatrix()[i].size(); j++)
             if (currentTetromino->getMatrix()[i][j])
-            {
-                myFloor->addBlockToMatrix(i + _i, j + _j); //!Position of block and 'i' means in what point on floor matrix is tetromino
-                myFloor->setBlockColor(currentTetromino->getPixmap(), i + _i, j + _j);
-            }
+                myFloor->addBlockToMatrix(i + _i, j + _j, currentTetromino->getPixmap()); //!Position of block and 'i' means in what point on floor matrix is tetromino
 }
 
 void Widget::removeFullRows()

@@ -64,6 +64,7 @@ signals:
 
 private:
     Ui::Widget *ui;
+    Shapes * shapes;                    /// \param stores matrixes and colors for blocks
     std::unique_ptr<Tetromino> currentTetromino = nullptr; /// \param currentTetromino a tetromino currently in playground
     std::unique_ptr<Tetromino> nextTetromino = nullptr;   /// \param nextTetromino pointer to tetromino displaying as next tetromino
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval

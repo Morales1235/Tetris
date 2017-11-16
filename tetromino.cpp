@@ -5,50 +5,15 @@ Tetromino::Tetromino()
 {
 }
 
-Tetromino::Tetromino(QWidget *parent, QPoint &position):
+Tetromino::Tetromino(QWidget *parent, QPoint &position, Shapes * shapes):
     parent(parent), shapeNumber(shapeNumber)
 {
     squaresInit(parent);
     shapeNumber = rand() % 7;
 
-    shapes = Shapes::getInstance();
     for (auto s: squares) s->setPixmap(shapes->getPixmap(shapeNumber));
     matrix = shapes->getMatrix(shapeNumber);
 
-    /*
-    switch (shapeNumber) {
-    case LIGHT_BLUE:
-        matrix = matrix_I;
-        for (auto s: squares) s->setPixmap(QPixmap("./graphics/light_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-        break;
-    case DARK_BLUE:
-        matrix = matrix_J;
-        for (auto s: squares) s->setPixmap(QPixmap("./graphics/dark_blue.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-        break;
-    case ORANGE:
-        matrix = matrix_L;
-        for (auto s: squares) s->setPixmap(QPixmap("./graphics/orange.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-        break;
-    case YELLOW:
-        matrix = matrix_O;
-        for (auto s: squares) s->setPixmap(QPixmap("./graphics/yellow.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-        break;
-    case GREEN:
-        matrix = matrix_S;
-        for (auto s: squares) s->setPixmap(QPixmap("./graphics/green.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-        break;
-    case PURPLE:
-        matrix = matrix_T;
-        for (auto s: squares) s->setPixmap(QPixmap("./graphics/purple.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-        break;
-    case RED:
-        matrix = matrix_Z;
-        for (auto s: squares) s->setPixmap(QPixmap("./graphics/red.jpg").scaled(blockSize, Qt::KeepAspectRatio));
-        break;
-    default:
-        break;
-    }
-    */
     for (auto s: squares) s->show();
     setPosition(position);
 }

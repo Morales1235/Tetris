@@ -17,14 +17,10 @@ void Floor::resetMatrixRow(int i)
     matrix[i].fill(nullptr);
 }
 
-void Floor::addBlockToMatrix(int i, int j)
+void Floor::addBlockToMatrix(int i, int j, const QPixmap * pixmap)
 {
-    matrix[i][j] = std::move(std::shared_ptr<QLabel> (new QLabel(parent)));
+    matrix[i][j] = std::shared_ptr <QLabel> (new QLabel(parent));
     matrix[i][j]->move(QPoint(10 + blockSize.width() * j, -10 + blockSize.height() * i));
-}
-
-void Floor::setBlockColor(const QPixmap * pixmap, int i, int j)
-{
     matrix[i][j]->setPixmap(*pixmap);
     matrix[i][j]->show();
 }

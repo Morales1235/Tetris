@@ -19,7 +19,7 @@ class Tetromino
 {
 public:
     Tetromino();
-    Tetromino(QWidget * parent, QPoint & position);
+    Tetromino(QWidget * parent, QPoint & position, Shapes * shapes);
     Tetromino(const Tetromino &other);
     ~Tetromino();
 
@@ -42,7 +42,6 @@ protected:
     QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino
     QPoint pos;                         /// \param pos position of left top corner of matrix representing tetromino
-    Shapes * shapes;                    /// \param stores matrixes and colors for blocks
     int shapeNumber;              /// \param shapeNumber choosing which matrix represents shapeNumber
     QVector<std::shared_ptr<QLabel> > squares;       /// \param squares represents every square in tetromino
 
