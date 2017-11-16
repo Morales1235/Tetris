@@ -32,15 +32,7 @@ std::array<std::array<std::shared_ptr<QLabel>, 10>, 15> Floor::getMatrix()
 
 bool Floor::isRowFull(int i)
 {
-    int blockCounter = 0;
-    for (auto block: matrix[i])
-    {
-        if (block)
-            blockCounter++;
-    }
-    if (blockCounter == 10)
-        return true;
-    return false;
+    return std::all_of(matrix[i].cbegin(), matrix[i].cend(), [] (std::shared_ptr <QLabel> j){return j != nullptr;});
 }
 
 void Floor::moveDownBlocks(int endRow)
@@ -53,13 +45,11 @@ void Floor::moveDownPixmaps(int endRow)
 {
     for (int i = endRow - 1; i > 0; i--)
     {
-
         for (int j = 0; j < matrix[i].size(); j++)
         {
             if (matrix[i][j])
                 matrix[i][j]->move(j * blockSize.width() + 10, (i + 1) * blockSize.height() - 10);
         }
-
     }
 }
 

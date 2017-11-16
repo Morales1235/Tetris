@@ -34,7 +34,8 @@ Tetromino::~Tetromino()
 void Tetromino::move(int x, int y)
 {
     pos += QPoint(int(x), int(y));
-    QVector<std::shared_ptr<QLabel> >::iterator it = squares.begin();
+    //QVector<std::shared_ptr<QLabel> >::iterator it = squares.begin();
+    auto it = squares.begin();
 
     for (unsigned int m = 0; m < getMatrix().size(); m++)
     {
