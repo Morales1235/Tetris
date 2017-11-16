@@ -41,3 +41,4 @@ FORMS    += widget.ui \
     highscoreddialog.ui
 
 DISTFILES +=
+

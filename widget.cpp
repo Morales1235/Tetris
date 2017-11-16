@@ -15,7 +15,7 @@ Widget::Widget(QWidget *parent) :
     scoresFile = new QFile("highscores");
 
     shapes = Shapes::getInstance();
-    movingTimer = std::move(std::unique_ptr<QTimer> (new QTimer(this)));
+    movingTimer = std::unique_ptr<QTimer> (new QTimer(this));
     connect(movingTimer.get(), SIGNAL(timeout()), this, SLOT(movingDownLogic()));
     connect(ui->highscoresButton, SIGNAL(clicked(bool)), movingTimer.get(), SLOT(stop()));
 }
@@ -76,14 +76,14 @@ void Widget::setInitValues()
 
 void Widget::setPlayerName()
 {
-    playerName = std::move(std::unique_ptr<QString> (new QString(QInputDialog::getText(this, "Introduce yourself", "Your Name: "))));
+    playerName = std::unique_ptr<QString> (new QString(QInputDialog::getText(this, "Introduce yourself", "Your Name: ")));
     if (playerName->length() <= 0)
-        playerName = std::move(std::unique_ptr<QString> (new QString("Unnamed")));
+        playerName = std::unique_ptr<QString> (new QString("Unnamed"));
 }
 
 void Widget::setNextTetromino()
 {
-    nextTetromino = std::move(std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, shapes)));
+    nextTetromino = std::unique_ptr<Tetromino> (new Tetromino(this, nextPoint, shapes));
 }
 
 void Widget::setCurrentTetromino()
@@ -229,7 +229,7 @@ void Widget::on_highscoresButton_clicked()
 
     if (scoresFile->open(QFile::ReadOnly))
     {
-        highScoresDialog = std::move(std::unique_ptr<HighScoresDialog> (new HighScoresDialog(readHighscores(), this)));
+        highScoresDialog = std::unique_ptr<HighScoresDialog> (new HighScoresDialog(readHighscores(), this));
         startTimerAfterCloseHighScores();
         highScoresDialog->show();
     } else QMessageBox::information(this, "Highscores", "No scores");
