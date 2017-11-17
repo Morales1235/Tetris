@@ -113,32 +113,16 @@ bool Widget::isPossibleMove(int di, int dj)
 
 void Widget::rotateRight()
 {
-    currentTetromino->transponse();
+    currentTetromino->rotateRight();
     if (!isPossibleMove(0, 0))
-    {
-        currentTetromino->transponse();
-        return;
-    }
-    if (currentTetromino->getShapeNumber() != LIGHT_BLUE)     //!Don't know why I tetromino is breaking every second rotate. Transponse is enough for that block
-    {
-        currentTetromino->verticalReflection();
-        if (!isPossibleMove(0, 0)) currentTetromino->verticalReflection();
-    }
+        currentTetromino->rotateLeft();
 }
 
 void Widget::rotateLeft()
 {
-    currentTetromino->transponse();
+    currentTetromino->rotateLeft();
     if (!isPossibleMove(0, 0))
-    {
-        currentTetromino->transponse();
-        return;
-    }
-    if (currentTetromino->getShapeNumber() != LIGHT_BLUE)
-    {
-        currentTetromino->horizontalReflection();
-        if (!isPossibleMove(0, 0)) currentTetromino->horizontalReflection();
-    }
+        currentTetromino->rotateRight();
 }
 
 void Widget::movingDownLogic()

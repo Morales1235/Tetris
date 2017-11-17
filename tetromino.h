@@ -27,17 +27,19 @@ public:
     void setPosition(QPoint &point);   /// \brief moves the tetromino to the point
     QPoint getPosAtMatrix();                     /// \return the position of tetromino
     myMatrix getMatrix(); /// \brief returns matrix representing tetromino
-    void transponse();      /// \brief transposing the matrix of tetromino
-    void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
-    void verticalReflection();        /// \brief Reflects the matrix by vertical axis
     int getShapeNumber();                  /// \return the number of the shape(matrix)
     const QPixmap * getPixmap();                    /// \return the color of tetromino as pixmap
+    void rotateRight();                         /// \brief rotates the tetromino right
+    void rotateLeft();                         /// \brief rotates the tetromino left
 
     Tetromino operator = (const Tetromino &other);            /// \brief assigment operator for block
     myMatrix operator = (const myMatrix & );    /// \brief change the matrix representing tetromino
 
 protected:
     void squaresInit(QWidget * parent); /// \brief adds squares to QVector and sets it size
+    void transponse();      /// \brief transposing the matrix of tetromino
+    void horizontalReflection();        /// \brief Reflects the matrix by horizontal axis
+    void verticalReflection();        /// \brief Reflects the matrix by vertical axis
 
     QWidget * parent;
     myMatrix matrix = {{{{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}, {{0, 0, 0, 0, 0}}}}; /// \param matrix represents the shapeNumber of tetromino

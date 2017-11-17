@@ -11,10 +11,12 @@ Tetromino::Tetromino(QWidget *parent, QPoint &position, Shapes * shapes):
     squaresInit(parent);
     shapeNumber = rand() % 7;
 
-    for (auto s: squares) s->setPixmap(shapes->getPixmap(shapeNumber));
     matrix = shapes->getMatrix(shapeNumber);
-
-    for (auto s: squares) s->show();
+    for (auto s: squares)
+    {
+        s->setPixmap(shapes->getPixmap(shapeNumber));
+        s->show();
+    }
     setPosition(position);
 }
 
@@ -34,7 +36,6 @@ Tetromino::~Tetromino()
 void Tetromino::move(int x, int y)
 {
     pos += QPoint(int(x), int(y));
-    //QVector<std::shared_ptr<QLabel> >::iterator it = squares.begin();
     auto it = squares.begin();
 
     for (unsigned int m = 0; m < getMatrix().size(); m++)
@@ -124,6 +125,20 @@ int Tetromino::getShapeNumber()
 const QPixmap *Tetromino::getPixmap()
 {
     return squares.last()->pixmap();
+}
+
+void Tetromino::rotateRight()
+{
+    transponse();
+    if (shapeNumber != LIGHT_BLUE)
+        verticalReflection();
+}
+
+void Tetromino::rotateLeft()
+{
+    transponse();
+    if (shapeNumber != LIGHT_BLUE)
+        horizontalReflection();
 }
 
 Tetromino Tetromino::operator =(const Tetromino & other)
