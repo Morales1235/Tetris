@@ -11,7 +11,6 @@
 #include <typeinfo>
 #include <memory>
 #include "shapes.h"
-//#include <unordered_map>
 
 extern QSize blockSize;
 

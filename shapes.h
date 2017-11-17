@@ -22,11 +22,13 @@ private:
     Shapes();
     Shapes(Shapes const &);
     void operator = (Shapes const &);
-    static Shapes * instance;
+    static Shapes * instance;           /// \param instance instance of singleton
 
     std::vector <myMatrix> matrixes;    /// \param matrixes stores all 7 matrixes
     QVector <QPixmap> pixmaps;          /// \param pixmap sotres all 7 pixmaps
 
+    ///Matrixes representing shapes
+    ///
     myMatrix matrix_I = {{{{0, 0, 0, 0, 0}},
                           {{1, 1, 1, 1, 0}},
                           {{0, 0, 0, 0, 0}},
