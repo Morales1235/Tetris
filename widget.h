@@ -69,12 +69,12 @@ private:
     std::unique_ptr<Tetromino> nextTetromino = nullptr;   /// \param nextTetromino pointer to tetromino displaying as next tetromino
     std::unique_ptr<QTimer> movingTimer; /// \brief timer to moving down interval
     int moveInterval;    /// \param moveInterval interval of moving down
-    bool gameFinished = false;
+    bool gameFinished = true;
     std::unique_ptr<Floor> myFloor = std::unique_ptr<Floor>(new Floor(this));
     std::unique_ptr<QString> playerName;     /// \param playerName name of the player
     unsigned int score;    /// \param score how much points the player gained
     QFile * scoresFile; /// \file to save scores
-    std::unique_ptr<HighScoresDialog> highScoresDialog; /// \param highScoresDialog Dialog windows showing the high scores
+    HighScoresDialog * highScoresDialog; /// \param highScoresDialog Dialog windows showing the high scores
 };
 
 #endif // WIDGET_H

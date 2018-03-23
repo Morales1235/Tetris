@@ -7,21 +7,21 @@ HighScoresDialog::HighScoresDialog(pHighscores highscores, QWidget *parent) :
     ui(new Ui::HighScoredDialog)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
 
+    buttonLayout = new QGridLayout;
+    mainVBoxLayout = new QVBoxLayout;
+    lVBoxLayout = new QVBoxLayout;
+    rVBoxLayout = new QVBoxLayout;
+    hBoxLayout = new QHBoxLayout;
 
-    buttonLayout = std::unique_ptr <QGridLayout> (new QGridLayout);
-    mainVBoxLayout = std::unique_ptr <QVBoxLayout> (new QVBoxLayout);
-    lVBoxLayout = std::unique_ptr <QVBoxLayout> (new QVBoxLayout);
-    rVBoxLayout = std::unique_ptr <QVBoxLayout> (new QVBoxLayout);
-    hBoxLayout = std::unique_ptr <QHBoxLayout> (new QHBoxLayout);
+    this->setLayout(mainVBoxLayout);
 
-    this->setLayout(mainVBoxLayout.get());
+    mainVBoxLayout->addLayout(hBoxLayout);
+    mainVBoxLayout->addLayout(buttonLayout);
 
-    mainVBoxLayout->addLayout(hBoxLayout.get());
-    mainVBoxLayout->addLayout(buttonLayout.get());
-
-    hBoxLayout->addLayout(lVBoxLayout.get());
-    hBoxLayout->addLayout(rVBoxLayout.get());
+    hBoxLayout->addLayout(lVBoxLayout);
+    hBoxLayout->addLayout(rVBoxLayout);
 
     buttonLayout->addWidget(ui->buttonBox);
 

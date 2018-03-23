@@ -30,11 +30,11 @@ private:
     void fillEmptyScores(); /// \brief fills highscores with empty scores if number of scores is less than displaying scores
     void addScoresToWindow(); /// \brief displays QLabels with scores
 
-    std::unique_ptr <QGridLayout> buttonLayout;         /// \param myLayout stores the button
-    std::unique_ptr <QVBoxLayout> mainVBoxLayout;   /// \param mainVBoxLayout is layout separating button from scores
-    std::unique_ptr <QHBoxLayout> hBoxLayout;       /// \param hBoxLayout separates points from names
-    std::unique_ptr <QVBoxLayout> lVBoxLayout;      /// \param lVBoxLayout stores points of scores
-    std::unique_ptr <QVBoxLayout> rVBoxLayout;      /// \param RVBoxLayout stores playre's name's
+    QGridLayout * buttonLayout;         /// \param myLayout stores the button
+    QVBoxLayout * mainVBoxLayout;   /// \param mainVBoxLayout is layout separating button from scores
+    QHBoxLayout * hBoxLayout;       /// \param hBoxLayout separates points from names
+    QVBoxLayout * lVBoxLayout;      /// \param lVBoxLayout stores points of scores
+    QVBoxLayout * rVBoxLayout;      /// \param RVBoxLayout stores playre's name's
 
     pHighscores highscores;         /// \param highscores stores the high scores: points and names
 };

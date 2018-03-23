@@ -213,7 +213,7 @@ void Widget::on_highscoresButton_clicked()
 
     if (scoresFile->open(QFile::ReadOnly))
     {
-        highScoresDialog = std::unique_ptr<HighScoresDialog> (new HighScoresDialog(readHighscores(), this));
+        highScoresDialog = new HighScoresDialog(readHighscores(), this);
         startTimerAfterCloseHighScores();
         highScoresDialog->show();
     } else QMessageBox::information(this, "Highscores", "No scores");
@@ -243,7 +243,7 @@ pHighscores Widget::readHighscores()
 void Widget::startTimerAfterCloseHighScores()
 {
     if (!gameFinished)
-        connect(highScoresDialog.get(), SIGNAL(rejected()), movingTimer.get(), SLOT(start()));
+        connect(highScoresDialog, SIGNAL(rejected()), movingTimer.get(), SLOT(start()));
 }
 
 void Widget::on_exitButton_clicked()
